@@ -27,7 +27,7 @@
         button:hover {
             background-color: #0056b3;
         }
-        .result-box {
+        .input-box {
             width: 80%;
             margin: 10px auto;
             padding: 10px;
@@ -36,14 +36,17 @@
             box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
             text-align: left;
         }
-        .result-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .result-content {
-            padding: 5px;
+        .input-box input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            font-size: 16px;
+            border-radius: 5px;
             border: 1px solid #ccc;
             background-color: #f9f9f9;
+        }
+        footer {
+            margin-top: 20px;
         }
     </style>
     <script>
@@ -59,15 +62,15 @@
                 const data = await response.json();
                 
                 if (data.values) {
-                    let content = '';
-                    const selectedCells = data.values[0]; // Assuming the data is in the first row
-                    selectedCells.forEach((cell, index) => {
-                        content += `<div class="result-box">
-                                        <div class="result-title">Cell ${String.fromCharCode(65 + index)}3</div>
-                                        <div class="result-content">${cell}</div>
-                                      </div>`;
-                    });
-                    document.getElementById('sheetData').innerHTML = content;
+                    const cells = data.values[0]; // Data from the first row (A3 to R3)
+
+                    // Populate the text boxes with data from specific cells
+                    document.getElementById('cellA3').value = cells[0] || '';
+                    document.getElementById('cellJ3').value = cells[9] || '';
+                    document.getElementById('cellK3').value = cells[10] || '';
+                    document.getElementById('cellP3').value = cells[15] || '';
+                    document.getElementById('cellQ3').value = cells[16] || '';
+                    document.getElementById('cellR3').value = cells[17] || '';
                 } else {
                     document.getElementById('sheetData').innerHTML = '<p>No data available in the specified range.</p>';
                 }
@@ -81,7 +84,31 @@
 <body onload="fetchSheetData()">
     <h2>ZETT - Volov BEV Trial - Sutco</h2>
     <button onclick="fetchSheetData()">Refresh Data</button>
-    <div id="sheetData"></div>
+
+    <div class="input-box">
+        <label for="cellA3">Cell A3:</label>
+        <input type="text" id="cellA3" readonly>
+    </div>
+    <div class="input-box">
+        <label for="cellJ3">Cell J3:</label>
+        <input type="text" id="cellJ3" readonly>
+    </div>
+    <div class="input-box">
+        <label for="cellK3">Cell K3:</label>
+        <input type="text" id="cellK3" readonly>
+    </div>
+    <div class="input-box">
+        <label for="cellP3">Cell P3:</label>
+        <input type="text" id="cellP3" readonly>
+    </div>
+    <div class="input-box">
+        <label for="cellQ3">Cell Q3:</label>
+        <input type="text" id="cellQ3" readonly>
+    </div>
+    <div class="input-box">
+        <label for="cellR3">Cell R3:</label>
+        <input type="text" id="cellR3" readonly>
+    </div>
 
     <footer>
         <p>View source on <a href="https://github.com/YOUR_GITHUB_USERNAME/google-sheets-results" target="_blank">GitHub</a></p>
