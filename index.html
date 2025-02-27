@@ -1,46 +1,161 @@
-<div>
-    <h2>ZETT - Volvo BEV Trial - Sutco</h2>
-    <button onclick="fetchSheetData()">Refresh Data</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZETT - Volov BEV Trial - Sutco</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .input-container {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
+        }
+        .image-container {
+            margin-right: 30px;
+            flex-basis: 30%;
+        }
+        .image-container img {
+            width: 100%;
+            max-width: 300px; /* Adjust based on the size you want */
+            height: auto;
+            border-radius: 8px;
+        }
+        .input-box {
+            margin-bottom: 20px;
+            text-align: left;
+            width: 250px;
+            margin-right: 20px;
+        }
+        .input-box label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .input-box input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+        .footer-image-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .footer-image-container img {
+            width: 80%; /* Adjust to fit your layout */
+            max-width: 500px; /* Ensure it does not get too large */
+            height: auto;
+            border-radius: 8px;
+        }
+    </style>
+    <script>
+        async function fetchSheetData() {
+            const apiKey = 'AIzaSyC8f4hfYHPD8ZjffE2BlmCbEAmkgVJQsOQ'; // Replace with your API Key
+            const sheetId = '1Tw-3NfzRG7JhzLsjLBfrRF__Plo4BZS8RWRa-csbiH4'; // Your sheet ID
+            const range = 'VolvoBEV!A3:R3'; // Specify the range of cells to fetch
+            
+            const url = https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey};
 
-    <div class="input-container">
-        <!-- Image Container on the Left -->
-        <div class="image-container">
-            <img src="https://drive.google.com/uc?export=view&id=1hMIK_K7_qGJw8fHh9gRG_ns82jKHUaC4" alt="Volvo BEV Route">
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.values) {
+                    const cells = data.values[0]; // Data from the first row (A3 to R3)
+
+                    // Populate the text boxes with data from specific cells
+                    document.getElementById('cellA3').value = cells[0] || '';
+                    document.getElementById('cellJ3').value = cells[9] || '';
+                    document.getElementById('cellK3').value = cells[10] || '';
+                    document.getElementById('cellP3').value = cells[15] || '';
+                    document.getElementById('cellQ3').value = cells[16] || '';
+                    document.getElementById('cellR3').value = cells[17] || '';
+                } else {
+                    document.getElementById('sheetData').innerHTML = '<p>No data available in the specified range.</p>';
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                document.getElementById('sheetData').innerHTML = '<p style="color: red;">Failed to load data. Please check your API key and sheet access settings.</p>';
+            }
+        }
+    </script>
+</head>
+<body onload="fetchSheetData()">
+    <div>
+        <h2>ZETT - Volvo BEV Trial - Sutco</h2>
+        <button onclick="fetchSheetData()">Refresh Data</button>
+
+        <div class="input-container">
+            <!-- Image Container on the Left -->
+            <div class="image-container">
+                <img src="https://drive.google.com/uc?export=view&id=1hMIK_K7_qGJw8fHh9gRG_ns82jKHUaC4" alt="Volvo BEV Route">
+            </div>
+
+            <!-- Text Input Boxes on the Right -->
+            <div>
+                <div class="input-box">
+                    <label for="CellA3">Operating Days:</label>
+                    <input type="text" id="cellA3" readonly>
+                </div>
+                <div class="input-box">
+                    <label for="cellJ3">Total Net Loads (Kg):</label>
+                    <input type="text" id="cellJ3" readonly>
+                </div>
+                <div class="input-box">
+                    <label for="cellK3">Total Operating Mileage (Km):</label>
+                    <input type="text" id="cellK3" readonly>
+                </div>
+                <div class="input-box">
+                    <label for="cellP3">Average Fuel Consumption Rate (kWh/Km):</label>
+                    <input type="text" id="cellP3" readonly>
+                </div>
+                <div class="input-box">
+                    <label for="cellQ3">Average Energy Efficiency (CAD$/Km):</label>
+                    <input type="text" id="cellQ3" readonly>
+                </div>
+                <div class="input-box">
+                    <label for="cellR3">CO2 Emission Reduction (Kg):</label>
+                    <input type="text" id="cellR3" readonly>
+                </div>
+            </div>
         </div>
 
-        <!-- Text Input Boxes on the Right -->
-        <div>
-            <div class="input-box">
-                <label for="CellA3">Operating Days:</label>
-                <input type="text" id="cellA3" readonly>
-            </div>
-            <div class="input-box">
-                <label for="cellJ3">Total Net Loads (Kg):</label>
-                <input type="text" id="cellJ3" readonly>
-            </div>
-            <div class="input-box">
-                <label for="cellK3">Total Operating Mileage (Km):</label>
-                <input type="text" id="cellK3" readonly>
-            </div>
-            <div class="input-box">
-                <label for="cellP3">Average Fuel Consumption Rate (kWh/Km):</label>
-                <input type="text" id="cellP3" readonly>
-            </div>
-            <div class="input-box">
-                <label for="cellQ3">Average Energy Efficiency (CAD$/Km):</label>
-                <input type="text" id="cellQ3" readonly>
-            </div>
-            <div class="input-box">
-                <label for="cellR3">CO2 Emission Reduction (Kg):</label>
-                <input type="text" id="cellR3" readonly>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer with Image -->
-    <footer>
+        <!-- Footer with Image -->
         <div class="footer-image-container">
             <img src="https://drive.google.com/uc?export=view&id=1ClNmK34TkT5PXcl8ANIoQKp_hcv6-4Tp" alt="Footer Image">
         </div>
-    </footer>
-</div>
+    </div>
+</body>
+</html>
