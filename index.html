@@ -46,30 +46,40 @@
             background-color: #f9f9f9;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script>
         async function fetchSheetData() {
             const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQaIZtqERHUgRT_SV9fxjPChru74minTmBsmc1NxA8Iz_4LYHVf7O0cJkAwhYmI6S-oMuhrNBJ6EZYL/pub?output=csv';
-            
+            const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+            const fullUrl = proxyUrl + url;
+
             try {
-                const response = await fetch(url);
+                const response = await fetch(fullUrl);
                 const csvText = await response.text();
-                const rows = csvText.split("\n").map(row => row.split(","));
-                
-                let content = '';
-                const selectedRows = [2, 10, 15, 16, 17]; // Adjust this to the rows corresponding to A3, K3, P3, Q3, R3
-                
-                selectedRows.forEach(rowIndex => {
-                    if (rows[rowIndex]) {
-                        content += '<div class="result-box">';
-                        rows[0].forEach((header, index) => {
-                            content += `<div class="result-title">${header}</div>`;
-                            content += `<div class="result-content">${rows[rowIndex][index]}</div>`;
+                Papa.parse(csvText, {
+                    complete: function(results) {
+                        const rows = results.data;
+                        let content = '';
+                        const selectedRows = [2, 10, 15, 16, 17]; // Adjust for A3, K3, P3, Q3, R3
+
+                        selectedRows.forEach(rowIndex => {
+                            if (rows[rowIndex]) {
+                                content += '<div class="result-box">';
+                                rows[0].forEach((header, index) => {
+                                    content += `<div class="result-title">${header}</div>`;
+                                    content += `<div class="result-content">${rows[rowIndex][index]}</div>`;
+                                });
+                                content += '</div>';
+                            }
                         });
-                        content += '</div>';
+
+                        document.getElementById('sheetData').innerHTML = content;
+                    },
+                    error: function(error) {
+                        console.error('Error parsing CSV:', error);
+                        document.getElementById('sheetData').innerHTML = '<p style="color: red;">Failed to parse CSV data. Please check your CSV format.</p>';
                     }
                 });
-                
-                document.getElementById('sheetData').innerHTML = content;
             } catch (error) {
                 console.error('Error fetching data:', error);
                 document.getElementById('sheetData').innerHTML = '<p style="color: red;">Failed to load data. Please check your API settings.</p>';
@@ -81,7 +91,7 @@
     <h2>ZETT - Volov BEV Trial - Sutco</h2>
     <button onclick="fetchSheetData()">Refresh Data</button>
     <div id="sheetData"></div>
-    
+
     <footer>
         <p>View source on <a href="https://github.com/YOUR_GITHUB_USERNAME/google-sheets-results" target="_blank">GitHub</a></p>
     </footer>
