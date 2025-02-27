@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZETT - Volov BEV Trial - Sutco</title>
+    <title>ZETT - Volvo BEV Trial - Sutco</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -86,7 +86,7 @@
             const sheetId = '1Tw-3NfzRG7JhzLsjLBfrRF__Plo4BZS8RWRa-csbiH4'; // Your sheet ID
             const range = 'VolvoBEV!A3:R3'; // Specify the range of cells to fetch
             
-            const url = https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey};
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
 
             try {
                 const response = await fetch(url);
