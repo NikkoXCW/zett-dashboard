@@ -53,7 +53,7 @@
         async function fetchSheetData() {
             const apiKey = 'AIzaSyC8f4hfYHPD8ZjffE2BlmCbEAmkgVJQsOQ'; // Replace with your API Key
             const sheetId = '1Tw-3NfzRG7JhzLsjLBfrRF__Plo4BZS8RWRa-csbiH4'; // Your sheet ID
-            const range = 'VolvoBEV!A3:R3'; // Specify the range of cells to fetch
+            const range = 'VolvoBEV!A:R'; // Specify the range of cells to fetch
             
             const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
 
@@ -62,7 +62,7 @@
                 const data = await response.json();
                 
                 if (data.values) {
-                    const cells = data.values[0]; // Data from the first row (A3 to R3)
+                    const cells = data.values[2]; // Data from the first row (A3 to R3)
 
                     // Populate the text boxes with data from specific cells
                     document.getElementById('cellA3').value = cells[0] || '';
