@@ -46,43 +46,34 @@
             background-color: #f9f9f9;
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script>
         async function fetchSheetData() {
-            const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQaIZtqERHUgRT_SV9fxjPChru74minTmBsmc1NxA8Iz_4LYHVf7O0cJkAwhYmI6S-oMuhrNBJ6EZYL/pub?output=csv';
-            const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-            const fullUrl = proxyUrl + url;
+            const apiKey = 'AIzaSyC8f4hfYHPD8ZjffE2BlmCbEAmkgVJQsOQ'; // Replace with your API Key
+            const sheetId = '1Tw-3NfzRG7JhzLsjLBfrRF__Plo4BZS8RWRa-csbiH4'; // Your sheet ID
+            const range = 'Sheet1!A3:R3'; // Specify the range of cells to fetch
+            
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
 
             try {
-                const response = await fetch(fullUrl);
-                const csvText = await response.text();
-                Papa.parse(csvText, {
-                    complete: function(results) {
-                        const rows = results.data;
-                        let content = '';
-                        const selectedRows = [2, 10, 15, 16, 17]; // Adjust for A3, K3, P3, Q3, R3
-
-                        selectedRows.forEach(rowIndex => {
-                            if (rows[rowIndex]) {
-                                content += '<div class="result-box">';
-                                rows[0].forEach((header, index) => {
-                                    content += `<div class="result-title">${header}</div>`;
-                                    content += `<div class="result-content">${rows[rowIndex][index]}</div>`;
-                                });
-                                content += '</div>';
-                            }
-                        });
-
-                        document.getElementById('sheetData').innerHTML = content;
-                    },
-                    error: function(error) {
-                        console.error('Error parsing CSV:', error);
-                        document.getElementById('sheetData').innerHTML = '<p style="color: red;">Failed to parse CSV data. Please check your CSV format.</p>';
-                    }
-                });
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.values) {
+                    let content = '';
+                    const selectedCells = data.values[0]; // Assuming the data is in the first row
+                    selectedCells.forEach((cell, index) => {
+                        content += `<div class="result-box">
+                                        <div class="result-title">Cell ${String.fromCharCode(65 + index)}3</div>
+                                        <div class="result-content">${cell}</div>
+                                      </div>`;
+                    });
+                    document.getElementById('sheetData').innerHTML = content;
+                } else {
+                    document.getElementById('sheetData').innerHTML = '<p>No data available in the specified range.</p>';
+                }
             } catch (error) {
                 console.error('Error fetching data:', error);
-                document.getElementById('sheetData').innerHTML = '<p style="color: red;">Failed to load data. Please check your API settings.</p>';
+                document.getElementById('sheetData').innerHTML = '<p style="color: red;">Failed to load data. Please check your API key and sheet access settings.</p>';
             }
         }
     </script>
