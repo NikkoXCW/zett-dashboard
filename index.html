@@ -27,23 +27,38 @@
         button:hover {
             background-color: #0056b3;
         }
+        .input-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
         .input-box {
-            width: 80%;
-            margin: 10px auto;
-            padding: 10px;
-            background: white;
-            border: 1px solid #ddd;
-            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            margin-right: 20px;
             text-align: left;
+            margin-bottom: 10px;
         }
         .input-box input {
-            width: 100%;
+            width: 250px;
             padding: 10px;
             margin: 5px 0;
             font-size: 16px;
             border-radius: 5px;
             border: 1px solid #ccc;
             background-color: #f9f9f9;
+        }
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 20px;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            max-height: 200px; /* Optional, adjust the maximum height */
+            border-radius: 8px;
         }
         footer {
             margin-top: 20px;
@@ -85,29 +100,37 @@
     <h2>ZETT - Volov BEV Trial - Sutco</h2>
     <button onclick="fetchSheetData()">Refresh Data</button>
 
-    <div class="input-box">
-        <label for="CellA3">Operating Days:</label>
-        <input type="text" id="cellA3" readonly>
-    </div>
-    <div class="input-box">
-        <label for="cellJ3">Total Net Loads (Kg):</label>
-        <input type="text" id="cellJ3" readonly>
-    </div>
-    <div class="input-box">
-        <label for="cellK3">Total Operating Mileage (Km):</label>
-        <input type="text" id="cellK3" readonly>
-    </div>
-    <div class="input-box">
-        <label for="cellP3">Average Fuel Consuption Rate (kWh/Km):</label>
-        <input type="text" id="cellP3" readonly>
-    </div>
-    <div class="input-box">
-        <label for="cellQ3">Average Energy Efficiency (CAD$/Km):</label>
-        <input type="text" id="cellQ3" readonly>
-    </div>
-    <div class="input-box">
-        <label for="cellR3">CO2 Emission Reduction (Kg):</label>
-        <input type="text" id="cellR3" readonly>
+    <!-- Input Containers with a single image next to all boxes -->
+    <div class="input-container">
+        <div class="input-box">
+            <label for="CellA3">Operating Days:</label>
+            <input type="text" id="cellA3" readonly>
+        </div>
+        <div class="input-box">
+            <label for="cellJ3">Total Net Loads (Kg):</label>
+            <input type="text" id="cellJ3" readonly>
+        </div>
+        <div class="input-box">
+            <label for="cellK3">Total Operating Mileage (Km):</label>
+            <input type="text" id="cellK3" readonly>
+        </div>
+        <div class="input-box">
+            <label for="cellP3">Average Fuel Consumption Rate (kWh/Km):</label>
+            <input type="text" id="cellP3" readonly>
+        </div>
+        <div class="input-box">
+            <label for="cellQ3">Average Energy Efficiency (CAD$/Km):</label>
+            <input type="text" id="cellQ3" readonly>
+        </div>
+        <div class="input-box">
+            <label for="cellR3">CO2 Emission Reduction (Kg):</label>
+            <input type="text" id="cellR3" readonly>
+        </div>
+
+        <!-- Image Container -->
+        <div class="image-container">
+            <img src="https://drive.google.com/file/d/1hMIK_K7_qGJw8fHh9gRG_ns82jKHUaC4/view?usp=drive_link" alt="Image Next to Textboxes">
+        </div>
     </div>
 
     <footer>
