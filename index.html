@@ -77,7 +77,15 @@
             font-weight: bold;
             color: #333;
         }
+        /* Increase space only between the first and second value boxes */
+        .value-container .value-box:nth-child(1) {
+            margin-bottom: 40px; /* Increased space between Trial Operation and Operating Days */
+        }
 
+        /* Maintain the default margin for the rest of the value boxes */
+        .value-container .value-box:nth-child(2) {
+            margin-bottom: 20px; /* Keep the original margin for Operating Days */
+        }
         @media (max-width: 768px) {
             .input-container {
                 flex-direction: column;
