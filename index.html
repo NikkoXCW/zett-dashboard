@@ -19,19 +19,6 @@
             color: #333;
             margin-bottom: 20px;
         }
-        button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
         .input-container {
             display: flex;
             align-items: flex-start;
@@ -45,7 +32,7 @@
         }
         .image-container img {
             width: 100%;
-            max-width: 300px; /* Adjust based on the size you want */
+            max-width: 300px;
             height: auto;
             border-radius: 8px;
         }
@@ -74,17 +61,17 @@
             text-align: center;
         }
         .footer-image-container img {
-            width: 80%; /* Adjust to fit your layout */
-            max-width: 500px; /* Ensure it does not get too large */
+            width: 80%;
+            max-width: 500px;
             height: auto;
             border-radius: 8px;
         }
     </style>
     <script>
         async function fetchSheetData() {
-            const apiKey = 'AIzaSyC8f4hfYHPD8ZjffE2BlmCbEAmkgVJQsOQ'; // Replace with your API Key
-            const sheetId = '1Tw-3NfzRG7JhzLsjLBfrRF__Plo4BZS8RWRa-csbiH4'; // Your sheet ID
-            const range = 'VolvoBEV!A3:R3'; // Specify the range of cells to fetch
+            const apiKey = 'AIzaSyC8f4hfYHPD8ZjffE2BlmCbEAmkgVJQsOQ';
+            const sheetId = '1Tw-3NfzRG7JhzLsjLBfrRF__Plo4BZS8RWRa-csbiH4';
+            const range = 'VolvoBEV!A3:R3';
             
             const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
 
@@ -93,9 +80,7 @@
                 const data = await response.json();
                 
                 if (data.values) {
-                    const cells = data.values[0]; // Data from the first row (A3 to R3)
-
-                    // Populate the text boxes with data from specific cells
+                    const cells = data.values[0];
                     document.getElementById('cellA3').value = cells[0] || '';
                     document.getElementById('cellJ3').value = cells[9] || '';
                     document.getElementById('cellK3').value = cells[10] || '';
@@ -115,10 +100,7 @@
 <body onload="fetchSheetData()">
     <div>
         <h2>ZETT - Volvo BEV Trial - Sutco</h2>
-        <button onclick="fetchSheetData()">Refresh Data</button>
-
         <div class="input-container">
-            <!-- Image Container with Three Images -->
             <div class="image-container">
                 <img src="https://drive.google.com/uc?export=view&id=1eeSKHl0H5a2dM54ZwQ3nc9biubaGpGJO" alt="Image 1">
             </div>
@@ -128,8 +110,6 @@
             <div class="image-container">
                 <img src="https://drive.google.com/uc?export=view&id=1b21WXo7GKgh1ACBtJe4gQTpFc4a2a-uQ" alt="Image 3">
             </div>
-
-            <!-- Text Input Boxes on the Right -->
             <div>
                 <div class="input-box">
                     <label for="CellA3">Operating Days:</label>
@@ -157,8 +137,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Footer with Image -->
         <div class="footer-image-container">
             <img src="https://drive.google.com/uc?export=view&id=1ClNmK34TkT5PXcl8ANIoQKp_hcv6-4Tp" alt="Footer Image">
         </div>
