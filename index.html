@@ -42,17 +42,17 @@
             border-radius: 8px;
             margin-bottom: 15px; /* Space between images */
         }
-        .input-box {
+        .value-box {
             margin-bottom: 20px;
             text-align: left;
             width: 250px;
         }
-        .input-box label {
+        .value-box label {
             display: block;
             font-weight: bold;
             margin-bottom: 5px;
         }
-        .input-box input {
+        .value-box span {
             width: 100%;
             padding: 10px;
             margin: 5px 0;
@@ -60,6 +60,7 @@
             border-radius: 5px;
             border: 1px solid #ccc;
             background-color: #f9f9f9;
+            display: block;
         }
         .footer-container {
             margin-top: 20px;
@@ -81,7 +82,7 @@
                 flex-basis: 100%; /* Take up full width on small screens */
                 margin-bottom: 20px;
             }
-            .input-box {
+            .value-box {
                 width: 90%; /* Make input boxes more flexible */
                 max-width: 350px; /* Limit max width */
             }
@@ -101,12 +102,12 @@
                 
                 if (data.values) {
                     const cells = data.values[0];
-                    document.getElementById('cellA3').value = cells[0] || '';
-                    document.getElementById('cellJ3').value = cells[9] || '';
-                    document.getElementById('cellK3').value = cells[10] || '';
-                    document.getElementById('cellP3').value = cells[15] || '';
-                    document.getElementById('cellQ3').value = cells[16] || '';
-                    document.getElementById('cellR3').value = cells[17] || '';
+                    document.getElementById('cellA3').innerText = cells[0] || '';
+                    document.getElementById('cellJ3').innerText = cells[9] || '';
+                    document.getElementById('cellK3').innerText = cells[10] || '';
+                    document.getElementById('cellP3').innerText = cells[15] || '';
+                    document.getElementById('cellQ3').innerText = cells[16] || '';
+                    document.getElementById('cellR3').innerText = cells[17] || '';
                 } else {
                     document.getElementById('sheetData').innerHTML = '<p>No data available in the specified range.</p>';
                 }
@@ -129,29 +130,29 @@
                 <img src="https://drive.google.com/thumbnail?id=1b21WXo7GKgh1ACBtJe4gQTpFc4a2a-uQ" alt="Image 3">
             </div>
             <div>
-                <div class="input-box">
+                <div class="value-box">
                     <label for="CellA3">Operating Days:</label>
-                    <input type="text" id="cellA3" readonly>
+                    <span id="cellA3">Loading...</span>
                 </div>
-                <div class="input-box">
+                <div class="value-box">
                     <label for="cellJ3">Total Net Loads (Kg):</label>
-                    <input type="text" id="cellJ3" readonly>
+                    <span id="cellJ3">Loading...</span>
                 </div>
-                <div class="input-box">
+                <div class="value-box">
                     <label for="cellK3">Total Operating Mileage (Km):</label>
-                    <input type="text" id="cellK3" readonly>
+                    <span id="cellK3">Loading...</span>
                 </div>
-                <div class="input-box">
+                <div class="value-box">
                     <label for="cellP3">Average Fuel Consumption Rate (kWh/Km):</label>
-                    <input type="text" id="cellP3" readonly>
+                    <span id="cellP3">Loading...</span>
                 </div>
-                <div class="input-box">
+                <div class="value-box">
                     <label for="cellQ3">Average Energy Efficiency (CAD$/Km):</label>
-                    <input type="text" id="cellQ3" readonly>
+                    <span id="cellQ3">Loading...</span>
                 </div>
-                <div class="input-box">
+                <div class="value-box">
                     <label for="cellR3">CO2 Emission Reduction (Kg):</label>
-                    <input type="text" id="cellR3" readonly>
+                    <span id="cellR3">Loading...</span>
                 </div>
             </div>
         </div>
