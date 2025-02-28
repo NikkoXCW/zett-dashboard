@@ -36,6 +36,11 @@
             flex-direction: column; /* Stack images vertically */
             align-items: center;
         }
+        .image-1, .image-3 {
+            width: 80%;  /* Set the width of Image 1 and Image 3 to 80% */
+            max-width: 250px; /* Limit max width */
+            height: auto;  /* Keep aspect ratio */
+        }
         .image-container img {
             width: 100%;
             max-width: 300px;
@@ -75,10 +80,8 @@
 
         /* New positioning for the date box */
         .value-box.date-box {
-            position: absolute;
-            top: 20px;
-            right: 20px;
             width: 250px;
+            margin: 10px auto 20px;
             text-align: left;
         }
 
@@ -103,13 +106,13 @@
             const apiKey = 'AIzaSyC8f4hfYHPD8ZjffE2BlmCbEAmkgVJQsOQ';
             const sheetId = '1Tw-3NfzRG7JhzLsjLBfrRF__Plo4BZS8RWRa-csbiH4';
             const range = 'VolvoBEV!A3:R3';
-            
+
             const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
 
             try {
                 const response = await fetch(url);
                 const data = await response.json();
-                
+
                 if (data.values) {
                     const cells = data.values[0];
                     document.getElementById('cellA3').innerText = cells[0] || '';
@@ -118,7 +121,9 @@
                     document.getElementById('cellP3').innerText = cells[15] || '';
                     document.getElementById('cellQ3').innerText = cells[16] || '';
                     document.getElementById('cellR3').innerText = cells[17] || '';
-                    document.getElementById('trialStartDate').innerText = cells[1] || '';  // Assuming the date is in cell B3
+                    
+                    // Set trial start date (from sheet or fallback to Jan 29, 2025)
+                    document.getElementById('trialStartDate').innerText = cells[1] || 'January 29, 2025';
                 } else {
                     document.getElementById('sheetData').innerHTML = '<p>No data available in the specified range.</p>';
                 }
@@ -136,9 +141,9 @@
         <h2>ZETT - Volvo BEV Trial - Sutco</h2>
         <div class="input-container">
             <div class="image-container">
-                <img src="https://drive.google.com/thumbnail?id=1eeSKHl0H5a2dM54ZwQ3nc9biubaGpGJO" alt="Image 1">
+                <img class="image-1" src="https://drive.google.com/thumbnail?id=1eeSKHl0H5a2dM54ZwQ3nc9biubaGpGJO" alt="Image 1">
                 <img src="https://drive.google.com/thumbnail?id=1q2q-6c4mJbOdYS4WvpH-waOlMGdOzTmp" alt="Image 2">
-                <img src="https://drive.google.com/thumbnail?id=1b21WXo7GKgh1ACBtJe4gQTpFc4a2a-uQ" alt="Image 3">
+                <img class="image-3" src="https://drive.google.com/thumbnail?id=1b21WXo7GKgh1ACBtJe4gQTpFc4a2a-uQ" alt="Image 3">
             </div>
             <div>
                 <div class="value-box">
@@ -170,7 +175,7 @@
         <!-- New Trial Operation Starting Date positioned at the top-right -->
         <div class="value-box date-box">
             <label for="trialStartDate">Trial Operation Starting Date:</label>
-            <span id="trialStartDate">Jan 29, 2025</span>
+            <span id="trialStartDate">January 29, 2025</span>
         </div>
         <div class="footer-container">
             <div class="footer-text">AMTA, Industry Advancement - 2025</div>
