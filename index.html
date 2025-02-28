@@ -1,4 +1,4 @@
-r<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,16 +15,16 @@ r<!DOCTYPE html>
             padding: 20px;
             text-align: center;
             margin: 0;
-            position: relative;
+            flex-direction: column;
         }
         h2 {
             color: #333;
-            margin-bottom: 100px;
+            margin-bottom: 50px;
         }
-        .input-container {
+        .content-container {
             display: flex;
             justify-content: space-between;
-            align-items: stretch;
+            align-items: center;
             max-width: 1200px;
             width: 100%;
             gap: 20px;
@@ -32,46 +32,46 @@ r<!DOCTYPE html>
         .image-container {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
             gap: 10px;
             flex-basis: 30%;
-            height: 100%;
         }
-        .image-1, .image-3 {
+        .left-image {
             width: 100%;
+            max-width: 250px;
+            height: auto;
+        }
+        .right-images {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+        .right-images img {
             max-width: 150px;
             height: auto;
         }
-      .image-2 {
-            width: 100%; 
-            max-width: 150px; 
-            height: auto;
-        }  
         .value-container {
-            flex-basis: 70%; /* Adjusted to take more space */
-            text-align: left;
+            flex-basis: 40%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .value-box {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
             width: 100%;
+            max-width: 400px;
+            margin-bottom: 15px;
             align-items: center;
         }
         .value-box label {
             font-weight: bold;
-            width: auto;
             text-align: left;
             white-space: nowrap;
         }
         .value-box span {
-            width: 50%;
-            padding: 10px;
             font-size: 18px;
             font-weight: bold;
-            border: none;
-            background-color: transparent;
-            display: block;
             text-align: right;
         }
         .footer-container {
@@ -83,104 +83,43 @@ r<!DOCTYPE html>
             font-weight: bold;
             color: #333;
         }
-
-        /* Responsive Design: Stack images and input fields on smaller screens */
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .input-container {
+            .content-container {
                 flex-direction: column;
                 align-items: center;
             }
-            .image-container {
-                flex-basis: 100%;
-                margin-bottom: 20px;
+            .right-images {
+                align-items: center;
             }
             .value-container {
-                flex-basis: 100%;
-                margin-bottom: 20px;
                 text-align: center;
-            }
-            .value-box {
-                width: 90%;
-                max-width: 350px;
             }
         }
     </style>
-    <script>
-        async function fetchSheetData() {
-            const apiKey = 'AIzaSyC8f4hfYHPD8ZjffE2BlmCbEAmkgVJQsOQ';
-            const sheetId = '1Tw-3NfzRG7JhzLsjLBfrRF__Plo4BZS8RWRa-csbiH4';
-            const range = 'VolvoBEV!A3:R3';
-
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
-
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-
-                if (data.values) {
-                    const cells = data.values[0];
-                    document.getElementById('cellA3').innerText = cells[0] || '';
-                    document.getElementById('cellJ3').innerText = cells[9] || '';
-                    document.getElementById('cellK3').innerText = cells[10] || '';
-                    document.getElementById('cellP3').innerText = cells[15] || '';
-                    document.getElementById('cellQ3').innerText = cells[16] || '';
-                    document.getElementById('cellR3').innerText = cells[17] || '';
-                    document.getElementById('trialStartDate').innerText = cells[1] || 'January 29, 2025';
-                } else {
-                    document.getElementById('sheetData').innerHTML = '<p>No data available in the specified range.</p>';
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                document.getElementById('sheetData').innerHTML = '<p style="color: red;">Failed to load data. Please check your API key and sheet access settings.</p>';
-            }
-        }
-
-        setInterval(fetchSheetData, 30000);
-    </script>
 </head>
-<body onload="fetchSheetData()">
-    <div>
-        <h2>ZETT - Volvo BEV Trial - Sutco</h2>
-        <div class="input-container">
-            <div class="image-container">
-                <img class="image-1" src="https://drive.google.com/thumbnail?id=1eeSKHl0H5a2dM54ZwQ3nc9biubaGpGJO" alt="Image 1">
-                <img class="image-2" src="https://drive.google.com/thumbnail?id=1q2q-6c4mJbOdYS4WvpH-waOlMGdOzTmp" alt="Image 2">
-                <img class="image-3" src="https://drive.google.com/thumbnail?id=1b21WXo7GKgh1ACBtJe4gQTpFc4a2a-uQ" alt="Image 3">
-            </div>
-            <div class="value-container">
-                <div class="value-box">
-                    <label for="trialStartDate">Trial Operation Starting Date:</label>
-                    <span id="trialStartDate">January 29, 2025</span>
-                </div>
-                <div class="value-box">
-                    <label for="cellA3">Operating Days:</label>
-                    <span id="cellA3">Loading...</span>
-                </div>
-                <div class="value-box">
-                    <label for="cellJ3">Total Net Loads (Kg):</label>
-                    <span id="cellJ3">Loading...</span>
-                </div>
-                <div class="value-box">
-                    <label for="cellK3">Total Operating Mileage (Km):</label>
-                    <span id="cellK3">Loading...</span>
-                </div>
-                <div class="value-box">
-                    <label for="cellP3">Average Fuel Consumption Rate (kWh/Km):</label>
-                    <span id="cellP3">Loading...</span>
-                </div>
-                <div class="value-box">
-                    <label for="cellQ3">Average Energy Efficiency (CAD$/Km):</label>
-                    <span id="cellQ3">Loading...</span>
-                </div>
-                <div class="value-box">
-                    <label for="cellR3">CO2 Emission Reduction (Kg):</label>
-                    <span id="cellR3">Loading...</span>
-                </div>
-            </div>
+<body>
+    <h2>ZETT - Volvo BEV Trial - Sutco</h2>
+    <div class="content-container">
+        <div class="image-container">
+            <img class="left-image" src="https://drive.google.com/thumbnail?id=1q2q-6c4mJbOdYS4WvpH-waOlMGdOzTmp" alt="Image 2">
         </div>
-        <div class="footer-container">
-            <div class="footer-text">AMTA, Industry Advancement - 2025</div>
+        <div class="value-container">
+            <div class="value-box"><label>Trial Start Date:</label> <span id="trialStartDate">January 29, 2025</span></div>
+            <div class="value-box"><label>Operating Days:</label> <span id="cellA3">Loading...</span></div>
+            <div class="value-box"><label>Total Net Loads (Kg):</label> <span id="cellJ3">Loading...</span></div>
+            <div class="value-box"><label>Total Operating Mileage (Km):</label> <span id="cellK3">Loading...</span></div>
+            <div class="value-box"><label>Avg Fuel Consumption (kWh/Km):</label> <span id="cellP3">Loading...</span></div>
+            <div class="value-box"><label>Avg Energy Efficiency (CAD$/Km):</label> <span id="cellQ3">Loading...</span></div>
+            <div class="value-box"><label>CO2 Emission Reduction (Kg):</label> <span id="cellR3">Loading...</span></div>
         </div>
+        <div class="right-images">
+            <img src="https://drive.google.com/thumbnail?id=1eeSKHl0H5a2dM54ZwQ3nc9biubaGpGJO" alt="Image 1">
+            <img src="https://drive.google.com/thumbnail?id=1b21WXo7GKgh1ACBtJe4gQTpFc4a2a-uQ" alt="Image 3">
+        </div>
+    </div>
+    <div class="footer-container">
+        <div class="footer-text">AMTA, Industry Advancement - 2025</div>
     </div>
 </body>
 </html>
