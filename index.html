@@ -15,6 +15,7 @@
             padding: 20px;
             text-align: center;
             margin: 0;
+            position: relative; /* Ensure absolute positioning works inside body */
         }
         h2 {
             color: #333;
@@ -72,6 +73,15 @@
             color: #333;
         }
 
+        /* New positioning for the date box */
+        .value-box.date-box {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 250px;
+            text-align: left;
+        }
+
         /* Responsive Design: Stack images and input fields on smaller screens */
         @media (max-width: 768px) {
             .input-container {
@@ -108,6 +118,7 @@
                     document.getElementById('cellP3').innerText = cells[15] || '';
                     document.getElementById('cellQ3').innerText = cells[16] || '';
                     document.getElementById('cellR3').innerText = cells[17] || '';
+                    document.getElementById('trialStartDate').innerText = cells[1] || '';  // Assuming the date is in cell B3
                 } else {
                     document.getElementById('sheetData').innerHTML = '<p>No data available in the specified range.</p>';
                 }
@@ -155,6 +166,11 @@
                     <span id="cellR3">Loading...</span>
                 </div>
             </div>
+        </div>
+        <!-- New Trial Operation Starting Date positioned at the top-right -->
+        <div class="value-box date-box">
+            <label for="trialStartDate">Trial Operation Starting Date:</label>
+            <span id="trialStartDate">Jan 29, 2025</span>
         </div>
         <div class="footer-container">
             <div class="footer-text">AMTA, Industry Advancement - 2025</div>
