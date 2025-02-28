@@ -72,6 +72,22 @@
         #trialStartDate {
             color: black;
         }
+        /* Spinner CSS */
+        .spin {
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #485926;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Keyframe for spinning animation */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
         .footer-container {
             margin-top: 80px;
             text-align: center;
@@ -159,27 +175,27 @@
                 </div>
                 <div class="value-box">
                     <label for="cellA3">Operating Days:</label>
-                    <span id="cellA3">Loading...</span>
+                    <span id="cellA3"><div class="spin"></span>
                 </div>
                 <div class="value-box">
                     <label for="cellJ3">Total Net Loads (Kg):</label>
-                    <span id="cellJ3">Loading...</span>
+                    <span id="cellJ3"><div class="spin"></span>
                 </div>
                 <div class="value-box">
                     <label for="cellK3">Total Operating Mileage (Km):</label>
-                    <span id="cellK3">Loading...</span>
+                    <span id="cellK3"><div class="spin"></span>
                 </div>
                 <div class="value-box">
                     <label for="cellP3">Average Fuel Consumption Rate (kWh/Km):</label>
-                    <span id="cellP3">Loading...</span>
+                    <span id="cellP3"><div class="spin"></span>
                 </div>
                 <div class="value-box">
                     <label for="cellQ3">Average Energy Efficiency (CAD$/Km):</label>
-                    <span id="cellQ3">Loading...</span>
+                    <span id="cellQ3"><div class="spin"></span>
                 </div>
                 <div class="value-box">
                     <label for="cellR3">CO2 Emission Reduction (Kg):</label>
-                    <span id="cellR3">Loading...</span>
+                    <span id="cellR3"><div class="spin"></span>
                 </div>
             </div>
             <div class="image-right">
