@@ -15,64 +15,57 @@
             padding: 20px;
             text-align: center;
             margin: 0;
-            flex-direction: column;
+            position: relative;
         }
         h2 {
             color: #333;
-            margin-bottom: 50px;
+            margin-bottom: 100px;
         }
-        .content-container {
+        .input-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
             max-width: 1200px;
             width: 100%;
             gap: 20px;
-            flex-wrap: wrap;
         }
-        .image-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            flex-basis: 30%;
-        }
-        .left-image {
-            width: 100%;
-            max-width: 250px;
-            height: auto;
-        }
-        .right-images {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 20px;
-        }
-        .right-images img {
-            max-width: 150px;
-            height: auto;
-        }
-        .value-container {
-            flex-basis: 30%;
+        .image-left, .image-right {
             display: flex;
             flex-direction: column;
             align-items: center;
+            gap: 10px;
+        }
+        .image-left {
+            flex-basis: 15%;
+        }
+        .image-right {
+            flex-basis: 15%;
+        }
+        .value-container {
+            flex-basis: 70%;
+            text-align: left;
         }
         .value-box {
             display: flex;
             justify-content: space-between;
+            margin-bottom: 20px;
             width: 100%;
-            max-width: 400px;
-            margin-bottom: 15px;
             align-items: center;
         }
         .value-box label {
             font-weight: bold;
+            width: auto;
             text-align: left;
             white-space: nowrap;
         }
         .value-box span {
+            width: 50%;
+            padding: 10px;
             font-size: 18px;
             font-weight: bold;
+            border: none;
+            background-color: transparent;
+            display: block;
             text-align: right;
         }
         .footer-container {
@@ -84,17 +77,23 @@
             font-weight: bold;
             color: #333;
         }
-        /* Responsive Design */
+
         @media (max-width: 768px) {
-            .content-container {
+            .input-container {
                 flex-direction: column;
                 align-items: center;
             }
-            .right-images {
-                align-items: center;
+            .image-left, .image-right {
+                flex-basis: 100%;
+                margin-bottom: 20px;
             }
             .value-container {
+                flex-basis: 100%;
                 text-align: center;
+            }
+            .value-box {
+                width: 90%;
+                max-width: 350px;
             }
         }
     </style>
@@ -127,53 +126,55 @@
                 document.getElementById('sheetData').innerHTML = '<p style="color: red;">Failed to load data. Please check your API key and sheet access settings.</p>';
             }
         }
-        fetchSheetData();
+
         setInterval(fetchSheetData, 30000);
     </script>
 </head>
-<body>
-    <h2>ZETT - Volvo BEV Trial - Sutco</h2>
-    <div class="content-container">
-        <div class="image-container">
-            <img class="left-image" src="https://drive.google.com/thumbnail?id=1q2q-6c4mJbOdYS4WvpH-waOlMGdOzTmp" alt="Image 2">
+<body onload="fetchSheetData()">
+    <div>
+        <h2>ZETT - Volvo BEV Trial - Sutco</h2>
+        <div class="input-container">
+            <div class="image-left">
+                <img class="image-2" src="https://drive.google.com/thumbnail?id=1q2q-6c4mJbOdYS4WvpH-waOlMGdOzTmp" alt="Image 2">
+            </div>
+            <div class="value-container">
+                <div class="value-box">
+                    <label for="trialStartDate">Trial Operation Starting Date:</label>
+                    <span id="trialStartDate">January 29, 2025</span>
+                </div>
+                <div class="value-box">
+                    <label for="cellA3">Operating Days:</label>
+                    <span id="cellA3">Loading...</span>
+                </div>
+                <div class="value-box">
+                    <label for="cellJ3">Total Net Loads (Kg):</label>
+                    <span id="cellJ3">Loading...</span>
+                </div>
+                <div class="value-box">
+                    <label for="cellK3">Total Operating Mileage (Km):</label>
+                    <span id="cellK3">Loading...</span>
+                </div>
+                <div class="value-box">
+                    <label for="cellP3">Average Fuel Consumption Rate (kWh/Km):</label>
+                    <span id="cellP3">Loading...</span>
+                </div>
+                <div class="value-box">
+                    <label for="cellQ3">Average Energy Efficiency (CAD$/Km):</label>
+                    <span id="cellQ3">Loading...</span>
+                </div>
+                <div class="value-box">
+                    <label for="cellR3">CO2 Emission Reduction (Kg):</label>
+                    <span id="cellR3">Loading...</span>
+                </div>
+            </div>
+            <div class="image-right">
+                <img class="image-1" src="https://drive.google.com/thumbnail?id=1eeSKHl0H5a2dM54ZwQ3nc9biubaGpGJO" alt="Image 1">
+                <img class="image-3" src="https://drive.google.com/thumbnail?id=1b21WXo7GKgh1ACBtJe4gQTpFc4a2a-uQ" alt="Image 3">
+            </div>
         </div>
-        <div class="right-images">
-            <img src="https://drive.google.com/thumbnail?id=1eeSKHl0H5a2dM54ZwQ3nc9biubaGpGJO" alt="Image 1">
-            <img src="https://drive.google.com/thumbnail?id=1b21WXo7GKgh1ACBtJe4gQTpFc4a2a-uQ" alt="Image 3">
+        <div class="footer-container">
+            <div class="footer-text">AMTA, Industry Advancement - 2025</div>
         </div>
-    </div>
-    <div class="value-container">
-        <div class="value-box">
-            <label for="trialStartDate">Trial Operation Starting Date:</label>
-            <span id="trialStartDate">January 29, 2025</span>
-        </div>
-        <div class="value-box">
-            <label for="cellA3">Operating Days:</label>
-            <span id="cellA3">Loading...</span>
-        </div>
-        <div class="value-box">
-            <label for="cellJ3">Total Net Loads (Kg):</label>
-            <span id="cellJ3">Loading...</span>
-        </div>
-        <div class="value-box">
-            <label for="cellK3">Total Operating Mileage (Km):</label>
-            <span id="cellK3">Loading...</span>
-        </div>
-        <div class="value-box">
-            <label for="cellP3">Average Fuel Consumption Rate (kWh/Km):</label>
-            <span id="cellP3">Loading...</span>
-        </div>
-        <div class="value-box">
-            <label for="cellQ3">Average Energy Efficiency (CAD$/Km):</label>
-            <span id="cellQ3">Loading...</span>
-        </div>
-        <div class="value-box">
-            <label for="cellR3">CO2 Emission Reduction (Kg):</label>
-            <span id="cellR3">Loading...</span>
-        </div>
-    </div>
-    <div class="footer-container">
-        <div class="footer-text">AMTA, Industry Advancement - 2025</div>
     </div>
 </body>
 </html>
