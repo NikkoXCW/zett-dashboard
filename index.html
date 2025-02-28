@@ -15,7 +15,7 @@
             padding: 20px;
             text-align: center;
             margin: 0;
-            position: relative; /* Ensure absolute positioning works inside body */
+            position: relative;
         }
         h2 {
             color: #333;
@@ -28,25 +28,29 @@
             max-width: 1200px;
             width: 100%;
             flex-wrap: wrap;
-            gap: 20px; /* Add space between columns */
+            gap: 20px;
         }
         .image-container {
-            flex-basis: 40%; /* Take up 40% of the container */
+            flex-basis: 40%;
             display: flex;
-            flex-direction: column; /* Stack images vertically */
+            flex-direction: column;
             align-items: flex-start;
         }
         .image-1, .image-3 {
-            width: 70%;  /* Set the width of Image 1 and Image 3 to 70% */
-            max-width: 250px; /* Limit max width */
-            height: auto;  /* Keep aspect ratio */
+            width: 70%;
+            max-width: 250px;
+            height: auto;
         }
         .image-container img {
             width: 100%;
             max-width: 300px;
             height: auto;
             border-radius: 8px;
-            margin-bottom: 15px; /* Space between images */
+            margin-bottom: 15px;
+        }
+        .value-container {
+            flex-basis: 50%; /* Adjusted to take more space */
+            text-align: left;
         }
         .value-box {
             margin-bottom: 20px;
@@ -84,12 +88,17 @@
                 align-items: center;
             }
             .image-container {
-                flex-basis: 100%; /* Take up full width on small screens */
+                flex-basis: 100%;
                 margin-bottom: 20px;
             }
+            .value-container {
+                flex-basis: 100%;
+                margin-bottom: 20px;
+                text-align: center;
+            }
             .value-box {
-                width: 90%; /* Make input boxes more flexible */
-                max-width: 350px; /* Limit max width */
+                width: 90%;
+                max-width: 350px;
             }
         }
     </style>
@@ -113,8 +122,6 @@
                     document.getElementById('cellP3').innerText = cells[15] || '';
                     document.getElementById('cellQ3').innerText = cells[16] || '';
                     document.getElementById('cellR3').innerText = cells[17] || '';
-                    
-                    // Set trial start date (from sheet or fallback to Jan 29, 2025)
                     document.getElementById('trialStartDate').innerText = cells[1] || 'January 29, 2025';
                 } else {
                     document.getElementById('sheetData').innerHTML = '<p>No data available in the specified range.</p>';
@@ -125,7 +132,7 @@
             }
         }
 
-        setInterval(fetchSheetData, 30000); // Automatically refresh data every 30 seconds
+        setInterval(fetchSheetData, 30000);
     </script>
 </head>
 <body onload="fetchSheetData()">
@@ -137,13 +144,13 @@
                 <img class="image-2" src="https://drive.google.com/thumbnail?id=1q2q-6c4mJbOdYS4WvpH-waOlMGdOzTmp" alt="Image 2">
                 <img class="image-3" src="https://drive.google.com/thumbnail?id=1b21WXo7GKgh1ACBtJe4gQTpFc4a2a-uQ" alt="Image 3">
             </div>
+            <div class="value-container">
                 <div class="value-box">
-                <label for="trialStartDate">Trial Operation Starting Date:</label>
-                <span id="trialStartDate">January 29, 2025</span>
-            </div>
-            <div>
+                    <label for="trialStartDate">Trial Operation Starting Date:</label>
+                    <span id="trialStartDate">January 29, 2025</span>
+                </div>
                 <div class="value-box">
-                    <label for="CellA3">Operating Days:</label>
+                    <label for="cellA3">Operating Days:</label>
                     <span id="cellA3">Loading...</span>
                 </div>
                 <div class="value-box">
@@ -168,8 +175,6 @@
                 </div>
             </div>
         </div>
-        <!-- New Trial Operation Starting Date positioned at the top-right -->
-
         <div class="footer-container">
             <div class="footer-text">AMTA, Industry Advancement - 2025</div>
         </div>
