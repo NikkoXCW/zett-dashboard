@@ -21,17 +21,17 @@
         }
         .input-container {
             display: flex;
+            justify-content: space-between;
             align-items: flex-start;
-            justify-content: center;
-            flex-wrap: wrap;
             max-width: 1200px;
+            width: 100%;
         }
         .image-container {
-            margin-bottom: 20px; /* Space between images */
-            flex-basis: 100%; /* Full width for images */
+            flex-basis: 40%; /* Take up 40% of the container */
             display: flex;
             flex-direction: column; /* Stack images vertically */
             align-items: center;
+            margin-right: 20px;
         }
         .image-container img {
             width: 100%;
@@ -44,7 +44,6 @@
             margin-bottom: 20px;
             text-align: left;
             width: 250px;
-            margin-right: 20px;
         }
         .input-box label {
             display: block;
@@ -60,7 +59,7 @@
             border: 1px solid #ccc;
             background-color: #f9f9f9;
         }
-        .footer-image-container {
+        .footer-container {
             margin-top: 20px;
             text-align: center;
         }
