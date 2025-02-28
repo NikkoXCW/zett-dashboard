@@ -162,7 +162,25 @@
             }
         }
 
-        setInterval(fetchSheetData, 30000);
+        // Function to calculate the time to the next midnight
+        function getTimeUntilNextMidnight() {
+            const now = new Date();
+            const nextMidnight = new Date(now);
+            nextMidnight.setHours(24, 0, 0, 0); // Set to 12:00 AM (midnight) of the next day
+            return nextMidnight.getTime() - now.getTime(); // Time difference in milliseconds
+        }
+    
+        // Function to set the fetch interval based on next midnight
+        function scheduleDailyUpdate() {
+            const timeUntilMidnight = getTimeUntilNextMidnight();
+            setTimeout(() => {
+                fetchSheetData();  // Fetch data at midnight
+                scheduleDailyUpdate();  // Schedule next update for the next day
+            }, timeUntilMidnight);
+        }
+    
+        // Start the daily fetch schedule
+    scheduleDailyUpdate();
     </script>
 </head>
 <body onload="fetchSheetData()">
