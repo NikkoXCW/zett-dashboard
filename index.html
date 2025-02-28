@@ -14,6 +14,7 @@
             height: 100vh;
             padding: 20px;
             text-align: center;
+            margin: 0;
         }
         h2 {
             color: #333;
@@ -25,13 +26,14 @@
             align-items: flex-start;
             max-width: 1200px;
             width: 100%;
+            flex-wrap: wrap;
+            gap: 20px; /* Add space between columns */
         }
         .image-container {
             flex-basis: 40%; /* Take up 40% of the container */
             display: flex;
             flex-direction: column; /* Stack images vertically */
             align-items: center;
-            margin-right: 20px;
         }
         .image-container img {
             width: 100%;
@@ -67,6 +69,22 @@
             font-size: 24px;
             font-weight: bold;
             color: #333;
+        }
+
+        /* Responsive Design: Stack images and input fields on smaller screens */
+        @media (max-width: 768px) {
+            .input-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .image-container {
+                flex-basis: 100%; /* Take up full width on small screens */
+                margin-bottom: 20px;
+            }
+            .input-box {
+                width: 90%; /* Make input boxes more flexible */
+                max-width: 350px; /* Limit max width */
+            }
         }
     </style>
     <script>
