@@ -126,7 +126,7 @@
                 document.getElementById('sheetData').innerHTML = '<p style="color: red;">Failed to load data. Please check your API key and sheet access settings.</p>';
             }
         }
-
+        fetchSheetData()
         setInterval(fetchSheetData, 30000);
     </script>
 </head>
@@ -136,38 +136,39 @@
         <div class="image-container">
             <img class="left-image" src="https://drive.google.com/thumbnail?id=1q2q-6c4mJbOdYS4WvpH-waOlMGdOzTmp" alt="Image 2">
         </div>
-            <div class="value-container">
-                <div class="value-box">
-                    <label for="trialStartDate">Trial Operation Starting Date:</label>
-                    <span id="trialStartDate">January 29, 2025</span>
-                </div>
-                <div class="value-box">
-                    <label for="cellA3">Operating Days:</label>
-                    <span id="cellA3">Loading...</span>
-                </div>
-                <div class="value-box">
-                    <label for="cellJ3">Total Net Loads (Kg):</label>
-                    <span id="cellJ3">Loading...</span>
-                </div>
-                <div class="value-box">
-                    <label for="cellK3">Total Operating Mileage (Km):</label>
-                    <span id="cellK3">Loading...</span>
-                </div>
-                <div class="value-box">
-                    <label for="cellP3">Average Fuel Consumption Rate (kWh/Km):</label>
-                    <span id="cellP3">Loading...</span>
-                </div>
-                <div class="value-box">
-                    <label for="cellQ3">Average Energy Efficiency (CAD$/Km):</label>
-                    <span id="cellQ3">Loading...</span>
-                </div>
-                <div class="value-box">
-                    <label for="cellR3">CO2 Emission Reduction (Kg):</label>
-                    <span id="cellR3">Loading...</span>
-                </div>
         <div class="right-images">
             <img src="https://drive.google.com/thumbnail?id=1eeSKHl0H5a2dM54ZwQ3nc9biubaGpGJO" alt="Image 1">
             <img src="https://drive.google.com/thumbnail?id=1b21WXo7GKgh1ACBtJe4gQTpFc4a2a-uQ" alt="Image 3">
+        </div>
+    </div>
+    <div class="value-container">
+        <div class="value-box">
+            <label for="trialStartDate">Trial Operation Starting Date:</label>
+            <span id="trialStartDate">January 29, 2025</span>
+        </div>
+        <div class="value-box">
+            <label for="cellA3">Operating Days:</label>
+            <span id="cellA3">Loading...</span>
+        </div>
+        <div class="value-box">
+            <label for="cellJ3">Total Net Loads (Kg):</label>
+            <span id="cellJ3">Loading...</span>
+        </div>
+        <div class="value-box">
+            <label for="cellK3">Total Operating Mileage (Km):</label>
+            <span id="cellK3">Loading...</span>
+        </div>
+        <div class="value-box">
+            <label for="cellP3">Average Fuel Consumption Rate (kWh/Km):</label>
+            <span id="cellP3">Loading...</span>
+        </div>
+        <div class="value-box">
+            <label for="cellQ3">Average Energy Efficiency (CAD$/Km):</label>
+            <span id="cellQ3">Loading...</span>
+        </div>
+        <div class="value-box">
+            <label for="cellR3">CO2 Emission Reduction (Kg):</label>
+            <span id="cellR3">Loading...</span>
         </div>
     </div>
     <div class="footer-container">
