@@ -82,6 +82,7 @@
         
         let sheetData = [];
         let valueBoxData = [];
+        let trendChart = null; // Track the chart instance
         
         // Fetch value box data
         async function fetchValueBoxData() {
@@ -145,20 +146,11 @@
                 tableHeader.appendChild(th);
             });
 
-            // Log the data to debug the values in column K
-            console.log('Data:', data);
-        
             // Filter the data to only include rows where column K (index 10) has a non-empty value
             const filteredData = data.filter(row => {
                 const columnKValue = row[10];
-                console.log(`Column K Value: ${columnKValue}`); // Log the value of column K for each row
-        
-                // Check if column K has a valid value (non-empty, non-null, and not NaN)
                 return columnKValue && columnKValue.trim() !== "" && !isNaN(columnKValue);
             });
-        
-            // Log the filtered data to debug
-            console.log('Filtered Data:', filteredData);
 
             // Render table rows with only the selected columns
             filteredData.forEach(row => {
@@ -192,8 +184,12 @@
             chartContainer.style.display = "block";
 
             const columnIndex = columnNames.indexOf(column);
-
             if (columnIndex === -1) return; // Handle invalid column index
+
+            // Destroy the previous chart if it exists
+            if (trendChart) {
+                trendChart.destroy();
+            }
 
             // Collecting data for the trend chart (Y values)
             const trendData = sheetData.map(row => {
@@ -204,7 +200,8 @@
             // Collecting dates for the X axis
             const dates = sheetData.map(row => row[0]); // Dates are in the first column
 
-            const chart = new Chart(chartCanvas, {
+            // Create a new chart
+            trendChart = new Chart(chartCanvas, {
                 type: 'line',
                 data: {
                     labels: dates.slice(0, trendData.length), // Slice to match the number of trend data points
@@ -218,7 +215,7 @@
                 options: {
                     responsive: true,
                     scales: {
-                        x: { type: 'category' }, // Set the X-axis to be based on categorical data (dates)
+                        x: { type: 'category' },
                         y: { beginAtZero: true }
                     }
                 }
