@@ -271,7 +271,12 @@
 
         // Close the trend chart popup
         function closeChart() {
-            document.getElementById("chartPopup").style.display = "none";
+            const chartContainer = document.getElementById("chartPopup");
+            chartContainer.style.display = "none";
+            
+            if (trendChart) {
+                trendChart.destroy(); // Destroy the chart when closing the popup
+            }
         }
 
         // Fetch both value box and table data
