@@ -209,12 +209,25 @@
         function filterData() {
             const startDate = document.getElementById('startDate').value;
             const endDate = document.getElementById('endDate').value;
-
-            const filteredData = Data.filter(row => {
-                const columnKValue = row[0]; 
-                return typeof columnKValue !== "undefined" && columnKValue !== "" && !isNaN(columnKValue);
+        
+            if (!startDate || !endDate) {
+                alert("Please select both start and end dates.");
+                return;
+            }
+        
+            const filteredData = sheetData.filter(row => {
+                const rowDate = row[0]; // Assuming the first column contains the date
+        
+                if (!rowDate) return false; // Skip empty dates
+        
+                // Convert date string to Date object
+                const rowDateObj = new Date(rowDate);
+                const startDateObj = new Date(startDate);
+                const endDateObj = new Date(endDate);
+        
+                return rowDateObj >= startDateObj && rowDateObj <= endDateObj;
             });
-
+        
             renderTable(filteredData);
         }
 
@@ -231,7 +244,7 @@
 
             // Collecting data for the trend chart (Y values)
             const trendData = sheetData.map(row => {
-                const value = parseFloat([row[sheetColumnIndex]]);
+                const value = parseFloat(row[sheetColumnIndex]);
                 return isNaN(value) ? null : value; // Return null for invalid numbers
             }).filter(value => value !== null); // Filter out null values
 
