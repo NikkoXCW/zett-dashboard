@@ -64,7 +64,6 @@
     </div>
     <table>
         <thead>
-            <tr id="tableHeader"></tr>
         </thead>
         <tbody id="tableBody"></tbody>
     </table>
@@ -161,7 +160,7 @@
             console.log('Filtered Data:', filteredData);
 
             // Render table rows with only the selected columns
-            data.forEach(row => {
+            filteredData.forEach(row => {
                 const tr = document.createElement("tr");
                 selectedColumns.forEach(colIndex => {
                     const td = document.createElement("td");
