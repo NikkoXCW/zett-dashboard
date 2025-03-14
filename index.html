@@ -10,10 +10,10 @@
         .container { display: flex; justify-content: space-between; align-items: center; margin: 20px auto; max-width: 1200px; }
 
         /* Left Image Container */
-        .image-container-left { flex: 0 0 150px; /* Increased gap between value container and left images */ }
+        .image-container-left { flex: 0 0 150px; }
 
         /* Right Image Containers */
-        .image-container-right { display: flex; flex-direction: column; gap: 20px; /* Stack images vertically */ }
+        .image-container-right { display: flex; flex-direction: column; gap: 20px; }
 
         .image-container-right img { width: 100px; height: 100px; }
 
@@ -178,23 +178,8 @@
                 tableHeader.appendChild(th);
             });
 
-            // Log the data to debug the values in column K
-            console.log('Data:', data);
-        
-            // Filter the data to only include rows where column K (index 10) has a non-empty value
-            const filteredData = data.filter(row => {
-                const columnKValue = row[10];
-                console.log(`Column K Value: ${columnKValue}`); // Log the value of column K for each row
-        
-                // Check if column K has a valid value (non-empty, non-null, and not NaN)
-                return columnKValue && columnKValue.trim() !== "" && !isNaN(columnKValue);
-            });
-        
-            // Log the filtered data to debug
-            console.log('Filtered Data:', filteredData);
-
             // Render table rows with only the selected columns
-            filteredData.forEach(row => {
+            data.forEach(row => {
                 const tr = document.createElement("tr");
                 selectedColumns.forEach(colIndex => {
                     const td = document.createElement("td");
@@ -203,19 +188,6 @@
                 });
                 tableBody.appendChild(tr);
             });
-        }
-
-        // Function to filter the data based on date range
-        function filterData() {
-            const startDate = document.getElementById('startDate').value;
-            const endDate = document.getElementById('endDate').value;
-
-            const filteredData = sheetData.filter(row => {
-                const rowDate = new Date(row[0]); // Assuming the first column contains the date
-                return (!startDate || rowDate >= new Date(startDate)) && (!endDate || rowDate <= new Date(endDate));
-            });
-
-            renderTable(filteredData);
         }
 
         let trendChart;
@@ -235,10 +207,6 @@
             // Collecting dates for the X axis
             const dates = sheetData.map(row => row[0]); // Dates are in the first column
 
-            // Find the min and max values for dynamic scaling
-            const minValue = Math.min(...trendData);
-            const maxValue = Math.max(...trendData);
-
             // Create a new chart
             trendChart = new Chart(chartCanvas, {
                 type: 'line',
@@ -256,12 +224,10 @@
                     scales: {
                         x: { type: 'category' },
                         y: {
-                            beginAtZero: false, // Start the y-axis at the minimum value
-                            min: minValue * 0.95, // 5% below the minimum value
-                            max: maxValue * 1.05, // 5% above the maximum value
+                            beginAtZero: false,
                             ticks: {
-                                suggestedMin: minValue * 0.95, // Optional, for better control
-                                suggestedMax: maxValue * 1.05 // Optional, for better control
+                                suggestedMin: Math.min(...trendData) * 0.95,
+                                suggestedMax: Math.max(...trendData) * 1.05
                             }
                         }
                     }
