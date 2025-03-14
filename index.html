@@ -85,7 +85,7 @@
         
         // Fetch value box data
         async function fetchValueBoxData() {
-            const url = https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${valueBoxRange}?key=${apiKey};
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${valueBoxRange}?key=${apiKey}`;
             try {
                 const response = await fetch(url);
                 const data = await response.json();
@@ -100,7 +100,7 @@
 
         // Fetch table data
         async function fetchTableData() {
-            const url = https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${tableRange}?key=${apiKey};
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${tableRange}?key=${apiKey}`;
             try {
                 const response = await fetch(url);
                 const data = await response.json();
