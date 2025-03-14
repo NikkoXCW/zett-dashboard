@@ -164,8 +164,7 @@
 
             const filteredData = sheetData.filter(row => {
                 const rowDate = new Date(row[0]); // Assuming the first column contains the date
-                const mileage = parseFloat(row[10]);
-                return (!startDate || rowDate >= new Date(startDate)) && (!endDate || rowDate <= new Date(endDate)) && !isNaN(Mileage) && Mileage > 0;
+                return (!startDate || rowDate >= new Date(startDate)) && (!endDate || rowDate <= new Date(endDate));
             });
 
             renderTable(filteredData);
