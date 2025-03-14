@@ -145,7 +145,7 @@
                 tableHeader.appendChild(th);
             });
 
-            const filteredData = data.filter(row => row[10] && row[10].trim() !== "");
+            const filteredData = data.filter(row => row[10] && row[10] !== "" && row[10] !== null);
 
             // Render table rows with only the selected columns
             data.forEach(row => {
