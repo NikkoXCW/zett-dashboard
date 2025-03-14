@@ -85,7 +85,7 @@
         
         // Fetch value box data
         async function fetchValueBoxData() {
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${valueBoxRange}?key=${apiKey}`;
+            const url = https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${valueBoxRange}?key=${apiKey};
             try {
                 const response = await fetch(url);
                 const data = await response.json();
@@ -100,7 +100,7 @@
 
         // Fetch table data
         async function fetchTableData() {
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${tableRange}?key=${apiKey}`;
+            const url = https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${tableRange}?key=${apiKey};
             try {
                 const response = await fetch(url);
                 const data = await response.json();
@@ -133,6 +133,9 @@
             const tableBody = document.getElementById("tableBody");
             tableHeader.innerHTML = '';
             tableBody.innerHTML = '';
+
+            // Define the columns to display
+            const columns = ["Date", "Operating Days", "Total Net Loads", "Total Mileage", "Column L", "Column M", "Column N", "Column O", "Avg Consumption", "Energy Efficiency 1", "Energy Efficiency 2", "CO2 Reduction"];
 
             // Create table headers based on selected columns
             columns.forEach(col => {
