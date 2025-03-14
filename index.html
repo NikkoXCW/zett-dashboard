@@ -145,7 +145,20 @@
                 tableHeader.appendChild(th);
             });
 
-            const filteredData = data.filter(row => row[10] && row[10] !== "" && row[10] !== null);
+            // Log the data to debug the values in column K
+            console.log('Data:', data);
+        
+            // Filter the data to only include rows where column K (index 10) has a non-empty value
+            const filteredData = data.filter(row => {
+                const columnKValue = row[10];
+                console.log(`Column K Value: ${columnKValue}`); // Log the value of column K for each row
+        
+                // Check if column K has a valid value (non-empty, non-null, and not NaN)
+                return columnKValue && columnKValue.trim() !== "" && !isNaN(columnKValue);
+            });
+        
+            // Log the filtered data to debug
+            console.log('Filtered Data:', filteredData);
 
             // Render table rows with only the selected columns
             data.forEach(row => {
