@@ -244,9 +244,18 @@
 
             // Collecting data for the trend chart (Y values)
             const trendData = sheetData.map(row => {
-                const value = parseFloat(row[sheetColumnIndex]);
-                return isNaN(value) ? null : value; // Return null for invalid numbers
-            }).filter(value => value !== null); // Filter out null values
+                let rawValue = row[selectedColumns[columnIndex]];
+                console.log("Raw Value from Sheet:", rawValue);
+            
+                if (rawValue) {
+                    rawValue = rawValue.replace(/[^0-9.-]/g, ''); // Remove "$", "," or any non-numeric characters
+                }
+            
+                const value = parseFloat(rawValue);
+                console.log("Parsed Value:", value);
+            
+                return isNaN(value) ? null : value;
+            }).filter(value => value !== null); // Remove invalid values
 
             // Collecting dates for the X axis
             const dates = sheetData.map(row => row[0]); // Dates are in the first column
