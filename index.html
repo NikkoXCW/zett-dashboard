@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -239,46 +239,46 @@
             const chartCanvas = document.getElementById("trendChart");
             chartContainer.style.display = "block";
 
-             // Use selectedColumns to correctly reference sheetData indices
+            // Use selectedColumns to correctly reference sheetData indices
             const sheetColumnIndex = selectedColumns[columnIndex];
 
             // Collecting data for the trend chart (Y values)
-            const trendData = sheetData.map(row => {
-                let rawValue = row[selectedColumns[columnIndex]];
-                console.log("Raw Value from Sheet:", rawValue);
-            
+            const trendData = [];
+            const validDates = [];
+
+            sheetData.forEach(row => {
+                let rawValue = row[sheetColumnIndex];
                 if (rawValue) {
                     rawValue = rawValue.replace(/[^0-9.-]/g, ''); // Remove "$", "," or any non-numeric characters
                 }
-            
+
                 const value = parseFloat(rawValue);
-                console.log("Parsed Value:", value);
-            
-                return isNaN(value) ? null : value;
-            }).filter(value => value !== null); // Remove invalid values
+
+                if (!isNaN(value)) {
+                    trendData.push(value);
+                    validDates.push(row[0]); // Corresponding date for the valid value
+                }
+            });
 
             if (trendData.length === 0) {
-            alert("No valid data for this column.");
-            closeChart();
-            return;
+                alert("No valid data for this column.");
+                closeChart();
+                return;
             }
-
-            // Collecting dates for the X axis
-            const dates = sheetData.map(row => row[0]); // Dates are in the first column
 
             // Find the min and max values for dynamic scaling
             const minValue = Math.min(...trendData);
             const maxValue = Math.max(...trendData);
 
             if (trendChart) {
-            trendChart.destroy();
+                trendChart.destroy();
             }
 
             // Create a new chart
             trendChart = new Chart(chartCanvas, {
                 type: 'line',
                 data: {
-                    labels: dates.slice(0, trendData.length), // Slice to match the number of trend data points
+                    labels: validDates, // Use filtered valid dates
                     datasets: [{
                         label: columnNames[columnIndex],
                         data: trendData,
@@ -304,19 +304,16 @@
             });
         }
 
-        // Close the trend chart popup
+        // Close the chart popup
         function closeChart() {
-            const chartContainer = document.getElementById("chartPopup");
-            chartContainer.style.display = "none";
-            
-            if (trendChart) {
-                trendChart.destroy(); // Destroy the chart when closing the popup
-            }
+            document.getElementById("chartPopup").style.display = "none";
         }
 
-        // Fetch both value box and table data
-        fetchValueBoxData();
-        fetchTableData();
+        // Fetch the data when the page loads
+        window.onload = function() {
+            fetchValueBoxData();
+            fetchTableData();
+        };
     </script>
 </body>
 </html>
