@@ -174,7 +174,7 @@
             columnNames.forEach((col, index) => {
                 const th = document.createElement("th");
                 th.innerText = col;
-                th.onclick = () => showTrend(col);
+                th.onclick = () => showTrend(index); // Pass the column index
                 tableHeader.appendChild(th);
             });
 
@@ -221,18 +221,10 @@
         let trendChart;
 
         // Function to show the trend chart when a column header is clicked
-        function showTrend(column) {
+        function showTrend(columnIndex) {
             const chartContainer = document.getElementById("chartPopup");
             const chartCanvas = document.getElementById("trendChart");
             chartContainer.style.display = "block";
-
-            const columnIndex = columnNames.indexOf(column);
-            if (columnIndex === -1) return; // Handle invalid column index
-
-            // Destroy the previous chart if it exists
-            if (trendChart) {
-                trendChart.destroy();
-            }
 
             // Collecting data for the trend chart (Y values)
             const trendData = sheetData.map(row => {
@@ -253,7 +245,7 @@
                 data: {
                     labels: dates.slice(0, trendData.length), // Slice to match the number of trend data points
                     datasets: [{
-                        label: column,
+                        label: columnNames[columnIndex],
                         data: trendData,
                         borderColor: 'rgba(75, 192, 192, 1)',
                         fill: false,
