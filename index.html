@@ -228,7 +228,7 @@
 
             // Collecting data for the trend chart (Y values)
             const trendData = sheetData.map(row => {
-                const value = parseFloat([selectedColumns[columnIndex]]);
+                const value = parseFloat([row[columnIndex]]);
                 return isNaN(value) ? null : value; // Return null for invalid numbers
             }).filter(value => value !== null); // Filter out null values
 
