@@ -130,6 +130,50 @@
             });
         }
         
+        function filterData() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            
+            const filteredData = sheetData.filter(row => {
+                const rowDate = new Date(row[0]); // Assuming the first column contains the date
+                return (!startDate || rowDate >= new Date(startDate)) && (!endDate || rowDate <= new Date(endDate));
+            });
+            
+            renderTable(filteredData);
+        }
+
+        function showTrend(column) {
+            const chartContainer = document.getElementById("chartPopup");
+            const chartCanvas = document.getElementById("trendChart");
+            chartContainer.style.display = "block";
+            
+            // Collecting data for the trend chart
+            const trendData = sheetData.map(row => row[columns.indexOf(column)]);
+            const chart = new Chart(chartCanvas, {
+                type: 'line',
+                data: {
+                    labels: sheetData.map(row => row[0]), // Assuming the first column is the date
+                    datasets: [{
+                        label: column,
+                        data: trendData,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        fill: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: { type: 'category' },
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        function closeChart() {
+            document.getElementById("chartPopup").style.display = "none";
+        }
+
         fetchSheetData();
     </script>
 </body>
