@@ -152,6 +152,7 @@
                     document.getElementById('cellP3').innerText = cells[15] || '';
                     document.getElementById('cellQ3').innerText = cells[16] || '';
                     document.getElementById('cellR3').innerText = cells[17] || '';
+                    document.getElementById('cellS3').innerText = cells[18] || '';
                     document.getElementById('trialStartDate').innerText = cells[1] || 'January 29, 2025';
                 } else {
                     document.getElementById('sheetData').innerHTML = '<p>No data available in the specified range.</p>';
@@ -212,8 +213,12 @@
                     <span id="cellP3"><div class="spin"></div></span>
                 </div>
                 <div class="value-box">
-                    <label for="cellQ3">Average Energy Efficiency (CAD$/Km):</label>
+                    <label for="cellQ3">Average Energy Efficiency 1 (CAD$/Km):</label>
                     <span id="cellQ3"><div class="spin"></div></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellQ3">Average Energy Efficiency 2 (CAD$/Km):</label>
+                    <span id="cellS3"><div class="spin"></div></span>
                 </div>
                 <div class="value-box">
                     <label for="cellR3">CO2 Emission Reduction (Kg):</label>
