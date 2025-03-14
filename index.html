@@ -75,24 +75,40 @@
     <script>
         const apiKey = 'AIzaSyC8f4hfYHPD8ZjffE2BlmCbEAmkgVJQsOQ';
         const sheetId = '1Tw-3NfzRG7JhzLsjLBfrRF__Plo4BZS8RWRa-csbiH4';
-        const range = 'VolvoBEV!A3:AB';
+        const valueBoxRange = 'VolvoBEV!A3:S3';  // Range for value box (e.g., 3rd row for summary data)
+        const tableRange = 'VolvoBEV!A4:AB';    // Range for the table (from row 4 onward)
+
         let sheetData = [];
-        
+        let valueBoxData = [];
+
+        // Fetching both the value box data and the table data separately
         async function fetchSheetData() {
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
             try {
-                const response = await fetch(url);
-                const data = await response.json();
-                if (data.values) {
-                    sheetData = data.values;
-                    renderTable(sheetData);
-                    populateValueBoxes(sheetData[0]);
+                // Fetch data for the value boxes
+                const valueBoxUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${valueBoxRange}?key=${apiKey}`;
+                const valueBoxResponse = await fetch(valueBoxUrl);
+                const valueBoxResult = await valueBoxResponse.json();
+
+                if (valueBoxResult.values) {
+                    valueBoxData = valueBoxResult.values[0];  // Only the first row is used for the value boxes
+                    populateValueBoxes(valueBoxData);         // Populate the value boxes with data
+                }
+
+                // Fetch data for the table
+                const tableUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${tableRange}?key=${apiKey}`;
+                const tableResponse = await fetch(tableUrl);
+                const tableResult = await tableResponse.json();
+
+                if (tableResult.values) {
+                    sheetData = tableResult.values;  // Table data from row 4 onward
+                    renderTable(sheetData);          // Render the table with the data
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         }
-        
+
+        // Populate value boxes with the corresponding data
         function populateValueBoxes(row) {
             document.getElementById('cellA3').innerText = row[0] || '';
             document.getElementById('cellJ3').innerText = row[9] || '';
@@ -102,22 +118,23 @@
             document.getElementById('cellR3').innerText = row[17] || '';
             document.getElementById('cellS3').innerText = row[18] || '';
         }
-        
+
+        // Render the table with the fetched data
         function renderTable(data) {
             const tableHeader = document.getElementById("tableHeader");
             const tableBody = document.getElementById("tableBody");
             tableHeader.innerHTML = '';
             tableBody.innerHTML = '';
-            
+
             const columns = ["Date", "Operating Days", "Total Net Loads", "Total Mileage", "Column L", "Column M", "Column N", "Column O", "Avg Consumption", "Energy Efficiency 1", "Energy Efficiency 2", "CO2 Reduction", "Column U", "Column V", "Column W", "Column X", "Column Y", "Column Z", "Column AA", "Column AB"];
-            
+
             columns.forEach(col => {
                 const th = document.createElement("th");
                 th.innerText = col;
                 th.onclick = () => showTrend(col);
                 tableHeader.appendChild(th);
             });
-            
+
             data.forEach(row => {
                 const tr = document.createElement("tr");
                 row.forEach(cell => {
@@ -128,27 +145,29 @@
                 tableBody.appendChild(tr);
             });
         }
-        
+
+        // Function to filter the data based on date range
         function filterData() {
             const startDate = document.getElementById('startDate').value;
             const endDate = document.getElementById('endDate').value;
-            
+
             const filteredData = sheetData.filter(row => {
                 const rowDate = new Date(row[0]); // Assuming the first column contains the date
                 return (!startDate || rowDate >= new Date(startDate)) && (!endDate || rowDate <= new Date(endDate));
             });
-            
+
             renderTable(filteredData);
         }
 
+        // Function to show the trend chart when a column header is clicked
         function showTrend(column) {
             const chartContainer = document.getElementById("chartPopup");
             const chartCanvas = document.getElementById("trendChart");
             chartContainer.style.display = "block";
-            
+
             const columns = ["Date", "Operating Days", "Total Net Loads", "Total Mileage", "Column L", "Column M", "Column N", "Column O", "Avg Consumption", "Energy Efficiency 1", "Energy Efficiency 2", "CO2 Reduction", "Column U", "Column V", "Column W", "Column X", "Column Y", "Column Z", "Column AA", "Column AB"];
             const columnIndex = columns.indexOf(column);
-            
+
             if (columnIndex === -1) return; // Handle invalid column index
 
             // Collecting data for the trend chart (Y values)
@@ -156,7 +175,7 @@
                 const value = parseFloat(row[columnIndex]);
                 return isNaN(value) ? null : value; // Return null for invalid numbers
             }).filter(value => value !== null); // Filter out null values
-            
+
             // Collecting dates for the X axis
             const dates = sheetData.map(row => row[0]); // Dates are in the first column
 
@@ -181,10 +200,12 @@
             });
         }
 
+        // Close the trend chart popup
         function closeChart() {
             document.getElementById("chartPopup").style.display = "none";
         }
 
+        // Fetch the data for both value boxes and table
         fetchSheetData();
     </script>
 </body>
