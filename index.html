@@ -127,6 +127,9 @@
         // Define the columns you want to show (indexes are based on Google Sheet columns)
         const selectedColumns = [0, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]; // Example columns to display (A, J, K, L, M, N, O, P, Q, R, S)
 
+        // Define corresponding column names for the header based on selected columns
+        const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "Energy Efficiency 2 ($/Km)", "CO2 Reduction (Kg)"];
+
         // Render the table with the filtered data
         function renderTable(data) {
             const tableHeader = document.getElementById("tableHeader");
@@ -134,11 +137,8 @@
             tableHeader.innerHTML = '';
             tableBody.innerHTML = '';
 
-            // Define the columns to display
-            const columns = ["Date", "Operating Days", "Total Net Loads", "Total Mileage", "Column L", "Column M", "Column N", "Column O", "Avg Consumption", "Energy Efficiency 1", "Energy Efficiency 2", "CO2 Reduction"];
-
             // Create table headers based on selected columns
-            columns.forEach(col => {
+            columnNames.forEach((col, index) => {
                 const th = document.createElement("th");
                 th.innerText = col;
                 th.onclick = () => showTrend(col);
@@ -176,8 +176,7 @@
             const chartCanvas = document.getElementById("trendChart");
             chartContainer.style.display = "block";
 
-            const columns = ["Date", "Operating Days", "Total Net Loads", "Total Mileage", "Column L", "Column M", "Column N", "Column O", "Avg Consumption", "Energy Efficiency 1", "Energy Efficiency 2", "CO2 Reduction"];
-            const columnIndex = columns.indexOf(column);
+            const columnIndex = columnNames.indexOf(column);
 
             if (columnIndex === -1) return; // Handle invalid column index
 
