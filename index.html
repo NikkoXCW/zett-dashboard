@@ -7,7 +7,18 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body { font-family: 'Roboto', sans-serif; background-color: #f4f4f4; text-align: center; }
-        .value-container { text-align: left; max-width: 800px; margin: auto; }
+        .container { display: flex; justify-content: space-between; align-items: center; margin: 20px auto; max-width: 1200px; }
+        
+        /* Left Image Container */
+        .image-container-left { flex: 0 0 100px; }
+
+        /* Right Image Containers */
+        .image-container-right { display: flex; gap: 10px; }
+
+        .image-container-right img { width: 100px; height: 100px; }
+
+        /* Value Container */
+        .value-container { flex: 1; text-align: left; max-width: 800px; margin: auto; }
         .value-box { display: flex; justify-content: space-between; margin-bottom: 20px; }
         .value-box label { font-weight: bold; white-space: nowrap; }
         .value-box span { font-size: 18px; font-weight: bold; color: #63973F; }
@@ -21,40 +32,59 @@
 </head>
 <body>
     <h2>ZETT - Volvo BEV Trial - Sutco</h2>
-    <div class="value-container">
-        <div class="value-box">
-            <label for="trialStartDate">Trial Operation Start Date:</label>
-            <span id="trialStartDate">January 29, 2025</span>
+    <div class="container">
+        <!-- Left Image Container -->
+        <div class="image-container-left">
+            <img src="https://drive.google.com/thumbnail?id=1q2q-6c4mJbOdYS4WvpH-waOlMGdOzTmp" alt="Image Left">
         </div>
-        <div class="value-box">
-            <label for="cellA3">Operating Days:</label>
-            <span id="cellA3"></span>
+
+        <!-- Value Container in the Center -->
+        <div class="value-container">
+            <div class="value-box">
+                <label for="trialStartDate">Trial Operation Start Date:</label>
+                <span id="trialStartDate">January 29, 2025</span>
+            </div>
+            <div class="value-box">
+                <label for="cellA3">Operating Days:</label>
+                <span id="cellA3"></span>
+            </div>
+            <div class="value-box">
+                <label for="cellJ3">Total Net Loads (Kg):</label>
+                <span id="cellJ3"></span>
+            </div>
+            <div class="value-box">
+                <label for="cellK3">Total Operating Mileage (Km):</label>
+                <span id="cellK3"></span>
+            </div>
+            <div class="value-box">
+                <label for="cellP3">Average Fuel Consumption Rate (kWh/Km):</label>
+                <span id="cellP3"></span>
+            </div>
+            <div class="value-box">
+                <label for="cellQ3">Average Energy Efficiency 1 (CAD$/Km):</label>
+                <span id="cellQ3"></span>
+            </div>
+            <div class="value-box">
+                <label for="cellR3">Average Energy Efficiency 2 (CAD$/Km):</label>
+                <span id="cellR3"></span>
+            </div>
+            <div class="value-box">
+                <label for="cellS3">CO2 Emission Reduction (Kg):</label>
+                <span id="cellS3"></span>
+            </div>
         </div>
-        <div class="value-box">
-            <label for="cellJ3">Total Net Loads (Kg):</label>
-            <span id="cellJ3"></span>
-        </div>
-        <div class="value-box">
-            <label for="cellK3">Total Operating Mileage (Km):</label>
-            <span id="cellK3"></span>
-        </div>
-        <div class="value-box">
-            <label for="cellP3">Average Fuel Consumption Rate (kWh/Km):</label>
-            <span id="cellP3"></span>
-        </div>
-        <div class="value-box">
-            <label for="cellQ3">Average Energy Efficiency 1 (CAD$/Km):</label>
-            <span id="cellQ3"></span>
-        </div>
-        <div class="value-box">
-            <label for="cellR3">Average Energy Efficiency 2 (CAD$/Km):</label>
-            <span id="cellR3"></span>
-        </div>
-        <div class="value-box">
-            <label for="cellS3">CO2 Emission Reduction (Kg):</label>
-            <span id="cellS3"></span>
+
+        <!-- Right Image Containers -->
+        <div class="image-container-right">
+            <div>
+                <img src="https://drive.google.com/thumbnail?id=1eeSKHl0H5a2dM54ZwQ3nc9biubaGpGJO" alt="Image Right 1">
+            </div>
+            <div>
+                <img src="https://drive.google.com/thumbnail?id=1b21WXo7GKgh1ACBtJe4gQTpFc4a2a-uQ" alt="Image Right 2">
+            </div>
         </div>
     </div>
+
     <div class="filter-container">
         <label for="startDate">Start Date:</label>
         <input type="date" id="startDate">
@@ -62,16 +92,19 @@
         <input type="date" id="endDate">
         <button onclick="filterData()">Filter</button>
     </div>
+
     <table>
         <thead>
             <tr id="tableHeader"></tr>
         </thead>
         <tbody id="tableBody"></tbody>
     </table>
+
     <div class="chart-container" id="chartPopup">
         <span class="close-btn" onclick="closeChart()">&times;</span>
         <canvas id="trendChart"></canvas>
     </div>
+
     <script>
         const apiKey = 'AIzaSyC8f4hfYHPD8ZjffE2BlmCbEAmkgVJQsOQ';
         const sheetId = '1Tw-3NfzRG7JhzLsjLBfrRF__Plo4BZS8RWRa-csbiH4';
