@@ -210,9 +210,9 @@
             const startDate = document.getElementById('startDate').value;
             const endDate = document.getElementById('endDate').value;
 
-            const filteredData = sheetData.filter(row => {
-                const rowDate = new Date(row[0]); // Assuming the first column contains the date
-                return (!startDate || rowDate >= new Date(startDate)) && (!endDate || rowDate <= new Date(endDate));
+            const filteredData = Data.filter(row => {
+                const columnKValue = row[0]; 
+                return typeof columnKValue !== "undefined" && columnKValue !== "" && !isNaN(columnKValue);
             });
 
             renderTable(filteredData);
@@ -226,18 +226,31 @@
             const chartCanvas = document.getElementById("trendChart");
             chartContainer.style.display = "block";
 
+             // Use selectedColumns to correctly reference sheetData indices
+            const sheetColumnIndex = selectedColumns[columnIndex];
+
             // Collecting data for the trend chart (Y values)
             const trendData = sheetData.map(row => {
-                const value = parseFloat([row[columnIndex]]);
+                const value = parseFloat([row[sheetColumnIndex]]);
                 return isNaN(value) ? null : value; // Return null for invalid numbers
             }).filter(value => value !== null); // Filter out null values
 
             // Collecting dates for the X axis
             const dates = sheetData.map(row => row[0]); // Dates are in the first column
 
+            if (trendData.length === 0) {
+            alert("No valid data for this column.");
+            closeChart();
+            return;
+            }
+
             // Find the min and max values for dynamic scaling
             const minValue = Math.min(...trendData);
             const maxValue = Math.max(...trendData);
+
+            if (trendChart) {
+            trendChart.destroy();
+            }
 
             // Create a new chart
             trendChart = new Chart(chartCanvas, {
