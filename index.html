@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -257,14 +257,14 @@
                 return isNaN(value) ? null : value;
             }).filter(value => value !== null); // Remove invalid values
 
-            // Collecting dates for the X axis
-            const dates = sheetData.map(row => row[0]); // Dates are in the first column
-
             if (trendData.length === 0) {
             alert("No valid data for this column.");
             closeChart();
             return;
             }
+
+            // Collecting dates for the X axis
+            const dates = sheetData.map(row => row[0]); // Dates are in the first column
 
             // Find the min and max values for dynamic scaling
             const minValue = Math.min(...trendData);
