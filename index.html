@@ -150,16 +150,21 @@
             const columns = ["Date", "Operating Days", "Total Net Loads", "Total Mileage", "Column L", "Column M", "Column N", "Column O", "Avg Consumption", "Energy Efficiency 1", "Energy Efficiency 2", "CO2 Reduction", "Column U", "Column V", "Column W", "Column X", "Column Y", "Column Z", "Column AA", "Column AB"];
             const columnIndex = columns.indexOf(column);
             
-            // Collecting data for the trend chart (Y values)
-            const trendData = sheetData.map(row => parseFloat(row[columnIndex]) || 0); // Parse data as float and default to 0
+            if (columnIndex === -1) return; // Handle invalid column index
 
+            // Collecting data for the trend chart (Y values)
+            const trendData = sheetData.map(row => {
+                const value = parseFloat(row[columnIndex]);
+                return isNaN(value) ? null : value; // Return null for invalid numbers
+            }).filter(value => value !== null); // Filter out null values
+            
             // Collecting dates for the X axis
             const dates = sheetData.map(row => row[0]); // Dates are in the first column
-            
+
             const chart = new Chart(chartCanvas, {
                 type: 'line',
                 data: {
-                    labels: dates, // Use the 'Date' column for X-axis labels
+                    labels: dates.slice(0, trendData.length), // Slice to match the number of trend data points
                     datasets: [{
                         label: column,
                         data: trendData,
