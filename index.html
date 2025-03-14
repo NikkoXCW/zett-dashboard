@@ -6,9 +6,13 @@
     <title>Volvo BEV Trial Data</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; }
-        .filter-container { margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; }
+        body { font-family: 'Roboto', sans-serif; background-color: #f4f4f4; text-align: center; }
+        .value-container { text-align: left; max-width: 800px; margin: auto; }
+        .value-box { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .value-box label { font-weight: bold; white-space: nowrap; }
+        .value-box span { font-size: 18px; font-weight: bold; color: #63973F; }
+        .filter-container { margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; background: white; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: center; cursor: pointer; }
         th { background-color: #f4f4f4; }
         .chart-container { display: none; position: fixed; top: 10%; left: 10%; width: 80%; height: 60%; background: white; padding: 20px; border: 1px solid #ddd; }
@@ -16,12 +20,11 @@
     </style>
 </head>
 <body>
-    <h2>Volvo BEV Trial Data</h2>
-    
+    <h2>ZETT - Volvo BEV Trial - Sutco</h2>
     <div class="value-container">
         <div class="value-box">
             <label for="trialStartDate">Trial Operation Start Date:</label>
-            <span id="trialStartDate"></span>
+            <span id="trialStartDate">January 29, 2025</span>
         </div>
         <div class="value-box">
             <label for="cellA3">Operating Days:</label>
@@ -40,11 +43,11 @@
             <span id="cellP3"></span>
         </div>
         <div class="value-box">
-            <label for="cellQ3">Average Energy Efficiency 1 (CAD$/Km) regular electricity price:</label>
+            <label for="cellQ3">Average Energy Efficiency 1 (CAD$/Km):</label>
             <span id="cellQ3"></span>
         </div>
         <div class="value-box">
-            <label for="cellR3">Average Energy Efficiency 2 (CAD$/Km) fast charging electricity price:</label>
+            <label for="cellR3">Average Energy Efficiency 2 (CAD$/Km):</label>
             <span id="cellR3"></span>
         </div>
         <div class="value-box">
@@ -52,7 +55,6 @@
             <span id="cellS3"></span>
         </div>
     </div>
-    
     <div class="filter-container">
         <label for="startDate">Start Date:</label>
         <input type="date" id="startDate">
@@ -73,7 +75,7 @@
     <script>
         const apiKey = 'AIzaSyC8f4hfYHPD8ZjffE2BlmCbEAmkgVJQsOQ';
         const sheetId = '1Tw-3NfzRG7JhzLsjLBfrRF__Plo4BZS8RWRa-csbiH4';
-        const range = 'VolvoBEV!A3:AB';
+        const range = 'VolvoBEV!A4:AB';
         let sheetData = [];
         
         async function fetchSheetData() {
