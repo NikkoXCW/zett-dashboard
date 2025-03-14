@@ -75,40 +75,45 @@
     <script>
         const apiKey = 'AIzaSyC8f4hfYHPD8ZjffE2BlmCbEAmkgVJQsOQ';
         const sheetId = '1Tw-3NfzRG7JhzLsjLBfrRF__Plo4BZS8RWRa-csbiH4';
-        const valueBoxRange = 'VolvoBEV!A3:S3';  // Range for value box (e.g., 3rd row for summary data)
-        const tableRange = 'VolvoBEV!A4:AB';    // Range for the table (from row 4 onward)
-
+        
+        // Separate ranges for value boxes and table data
+        const valueBoxRange = 'VolvoBEV!A3:S3'; // Fetch value box data (first few columns)
+        const tableRange = 'VolvoBEV!A4:AB'; // Fetch table data (entire table)
+        
         let sheetData = [];
         let valueBoxData = [];
-
-        // Fetching both the value box data and the table data separately
-        async function fetchSheetData() {
+        
+        // Fetch value box data
+        async function fetchValueBoxData() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${valueBoxRange}?key=${apiKey}`;
             try {
-                // Fetch data for the value boxes
-                const valueBoxUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${valueBoxRange}?key=${apiKey}`;
-                const valueBoxResponse = await fetch(valueBoxUrl);
-                const valueBoxResult = await valueBoxResponse.json();
-
-                if (valueBoxResult.values) {
-                    valueBoxData = valueBoxResult.values[0];  // Only the first row is used for the value boxes
-                    populateValueBoxes(valueBoxData);         // Populate the value boxes with data
-                }
-
-                // Fetch data for the table
-                const tableUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${tableRange}?key=${apiKey}`;
-                const tableResponse = await fetch(tableUrl);
-                const tableResult = await tableResponse.json();
-
-                if (tableResult.values) {
-                    sheetData = tableResult.values;  // Table data from row 4 onward
-                    renderTable(sheetData);          // Render the table with the data
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data.values) {
+                    valueBoxData = data.values; // Store value box data
+                    populateValueBoxes(valueBoxData[0]); // Populate value boxes with the first row of value box data
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
+                console.error('Error fetching value box data:', error);
             }
         }
 
-        // Populate value boxes with the corresponding data
+        // Fetch table data
+        async function fetchTableData() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${tableRange}?key=${apiKey}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data.values) {
+                    sheetData = data.values; // Store table data
+                    renderTable(sheetData); // Render the table with the selected columns
+                }
+            } catch (error) {
+                console.error('Error fetching table data:', error);
+            }
+        }
+
+        // Populate value boxes with data
         function populateValueBoxes(row) {
             document.getElementById('cellA3').innerText = row[0] || '';
             document.getElementById('cellJ3').innerText = row[9] || '';
@@ -119,15 +124,20 @@
             document.getElementById('cellS3').innerText = row[18] || '';
         }
 
-        // Render the table with the fetched data
+        // Define the columns you want to show (indexes are based on Google Sheet columns)
+        const selectedColumns = [0, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]; // Example columns to display (A, J, K, L, M, N, O, P, Q, R, S)
+
+        // Render the table with the filtered data
         function renderTable(data) {
             const tableHeader = document.getElementById("tableHeader");
             const tableBody = document.getElementById("tableBody");
             tableHeader.innerHTML = '';
             tableBody.innerHTML = '';
 
-            const columns = ["Date", "Operating Days", "Total Net Loads", "Total Mileage", "Column L", "Column M", "Column N", "Column O", "Avg Consumption", "Energy Efficiency 1", "Energy Efficiency 2", "CO2 Reduction", "Column U", "Column V", "Column W", "Column X", "Column Y", "Column Z", "Column AA", "Column AB"];
+            // Define the columns to display
+            const columns = ["Date", "Operating Days", "Total Net Loads", "Total Mileage", "Column L", "Column M", "Column N", "Column O", "Avg Consumption", "Energy Efficiency 1", "Energy Efficiency 2", "CO2 Reduction"];
 
+            // Create table headers based on selected columns
             columns.forEach(col => {
                 const th = document.createElement("th");
                 th.innerText = col;
@@ -135,11 +145,12 @@
                 tableHeader.appendChild(th);
             });
 
+            // Render table rows with only the selected columns
             data.forEach(row => {
                 const tr = document.createElement("tr");
-                row.forEach(cell => {
+                selectedColumns.forEach(colIndex => {
                     const td = document.createElement("td");
-                    td.innerText = cell;
+                    td.innerText = row[colIndex] || ''; // Display the data from the selected columns
                     tr.appendChild(td);
                 });
                 tableBody.appendChild(tr);
@@ -165,7 +176,7 @@
             const chartCanvas = document.getElementById("trendChart");
             chartContainer.style.display = "block";
 
-            const columns = ["Date", "Operating Days", "Total Net Loads", "Total Mileage", "Column L", "Column M", "Column N", "Column O", "Avg Consumption", "Energy Efficiency 1", "Energy Efficiency 2", "CO2 Reduction", "Column U", "Column V", "Column W", "Column X", "Column Y", "Column Z", "Column AA", "Column AB"];
+            const columns = ["Date", "Operating Days", "Total Net Loads", "Total Mileage", "Column L", "Column M", "Column N", "Column O", "Avg Consumption", "Energy Efficiency 1", "Energy Efficiency 2", "CO2 Reduction"];
             const columnIndex = columns.indexOf(column);
 
             if (columnIndex === -1) return; // Handle invalid column index
@@ -205,8 +216,9 @@
             document.getElementById("chartPopup").style.display = "none";
         }
 
-        // Fetch the data for both value boxes and table
-        fetchSheetData();
+        // Fetch both value box and table data
+        fetchValueBoxData();
+        fetchTableData();
     </script>
 </body>
 </html>
