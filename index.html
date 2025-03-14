@@ -3,236 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZETT - Volvo BEV Trial - Sutco</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Volvo BEV Trial Data</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            padding: 20px;
-            text-align: center;
-            margin: 0;
-            position: relative;
-        }
-        h2 {
-            color: #333;
-            margin-bottom: 100px;
-        }
-        .input-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            width: 100%;
-            gap: 60px;
-        }
-        .image-left {
-            flex-basis: 40%; /* Set flex-basis to 50% */
-            width: 100%; /* Ensure the image container takes full width of its parent */
-        }
-        .image-left img {
-            width: 100%; /* Scale the image to the container's width */
-            height: auto; /* Maintain aspect ratio */
-        }
-        .image-right {
-            flex-basis: 15%;
-        }
-        .value-container {
-            flex-basis: 70%;
-            text-align: left;
-        }
-        .value-box {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            width: 100%;
-            align-items: center;
-        }
-        .value-box label {
-            font-weight: bold;
-            width: auto;
-            text-align: left;
-            white-space: nowrap;
-        }
-        .value-box span {
-            width: 50%;
-            padding: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            border: none;
-            background-color: transparent;
-            display: block;
-            text-align: right;
-            Color: #63973F;
-        }
-        #trialStartDate {
-            color: black;
-        }
-        /* Spinner CSS */
-        .spin {
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #485926;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-150%,-50%);
-        }
-
-        /* Keyframe for spinning animation */
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .footer-container {
-            margin-top: 80px;
-            text-align: center;
-        }
-        .footer-text {
-            font-size: 10px;
-            font-weight: bold;
-            color: #333;
-        }
-        /* Increase space only between the first and second value boxes */
-        .value-container .value-box:nth-child(1) {
-            margin-bottom: 60px; /* Increased space between Trial Operation and Operating Days */
-        }
-
-        /* Maintain the default margin for the rest of the value boxes */
-        .value-container .value-box:nth-child(2) {
-            margin-bottom: 20px; /* Keep the original margin for Operating Days */
-        }
-        @media (max-width: 768px) {
-            .input-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            .image-left, {
-                flex-basis: 100%;
-            }            
-            .image-right {
-                flex-basis: 100%;
-                margin-bottom: 20px;
-            }
-            .value-container {
-                flex-basis: 100%;
-                text-align: center;
-            }
-            .value-box {
-                width: 90%;
-                max-width: 350px;
-            }
-        }
+        body { font-family: Arial, sans-serif; }
+        .filter-container { margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; cursor: pointer; }
+        th { background-color: #f4f4f4; }
+        .chart-container { display: none; position: fixed; top: 10%; left: 10%; width: 80%; height: 60%; background: white; padding: 20px; border: 1px solid #ddd; }
+        .close-btn { cursor: pointer; font-size: 20px; }
     </style>
+</head>
+<body>
+    <h2>Volvo BEV Trial Data</h2>
+    
+    <div class="value-container">
+        <div class="value-box">
+            <label for="trialStartDate">Trial Operation Start Date:</label>
+            <span id="trialStartDate"></span>
+        </div>
+        <div class="value-box">
+            <label for="cellA3">Operating Days:</label>
+            <span id="cellA3"></span>
+        </div>
+        <div class="value-box">
+            <label for="cellJ3">Total Net Loads (Kg):</label>
+            <span id="cellJ3"></span>
+        </div>
+        <div class="value-box">
+            <label for="cellK3">Total Operating Mileage (Km):</label>
+            <span id="cellK3"></span>
+        </div>
+        <div class="value-box">
+            <label for="cellP3">Average Fuel Consumption Rate (kWh/Km):</label>
+            <span id="cellP3"></span>
+        </div>
+        <div class="value-box">
+            <label for="cellQ3">Average Energy Efficiency 1 (CAD$/Km) regular electricity price:</label>
+            <span id="cellQ3"></span>
+        </div>
+        <div class="value-box">
+            <label for="cellR3">Average Energy Efficiency 2 (CAD$/Km) fast charging electricity price:</label>
+            <span id="cellR3"></span>
+        </div>
+        <div class="value-box">
+            <label for="cellS3">CO2 Emission Reduction (Kg):</label>
+            <span id="cellS3"></span>
+        </div>
+    </div>
+    
+    <div class="filter-container">
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate">
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate">
+        <button onclick="filterData()">Filter</button>
+    </div>
+    <table>
+        <thead>
+            <tr id="tableHeader"></tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+    <div class="chart-container" id="chartPopup">
+        <span class="close-btn" onclick="closeChart()">&times;</span>
+        <canvas id="trendChart"></canvas>
+    </div>
     <script>
+        const apiKey = 'YOUR_API_KEY';
+        const sheetId = 'YOUR_SHEET_ID';
+        const range = 'VolvoBEV!A3:AB';
+        let sheetData = [];
+        
         async function fetchSheetData() {
-            const apiKey = 'AIzaSyC8f4hfYHPD8ZjffE2BlmCbEAmkgVJQsOQ';
-            const sheetId = '1Tw-3NfzRG7JhzLsjLBfrRF__Plo4BZS8RWRa-csbiH4';
-            const range = 'VolvoBEV!A3:S3';
-
             const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
-
             try {
                 const response = await fetch(url);
                 const data = await response.json();
-
                 if (data.values) {
-                    const cells = data.values[0];
-                    document.getElementById('cellA3').innerText = cells[0] || '';
-                    document.getElementById('cellJ3').innerText = cells[9] || '';
-                    document.getElementById('cellK3').innerText = cells[10] || '';
-                    document.getElementById('cellP3').innerText = cells[15] || '';
-                    document.getElementById('cellQ3').innerText = cells[16] || '';
-                    document.getElementById('cellR3').innerText = cells[17] || '';
-                    document.getElementById('cellS3').innerText = cells[18] || '';
-                    document.getElementById('trialStartDate').innerText = cells[1] || 'January 29, 2025';
-                } else {
-                    document.getElementById('sheetData').innerHTML = '<p>No data available in the specified range.</p>';
+                    sheetData = data.values;
+                    renderTable(sheetData);
+                    populateValueBoxes(sheetData[0]);
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
-                document.getElementById('sheetData').innerHTML = '<p style="color: red;">Failed to load data. Please check your API key and sheet access settings.</p>';
             }
         }
-
-        // Function to calculate the time to the next midnight
-        function getTimeUntilNextMidnight() {
-            const now = new Date();
-            const nextMidnight = new Date(now);
-            nextMidnight.setHours(24, 0, 0, 0); // Set to 12:00 AM (midnight) of the next day
-            return nextMidnight.getTime() - now.getTime(); // Time difference in milliseconds
+        
+        function populateValueBoxes(row) {
+            document.getElementById('trialStartDate').innerText = row[1] || '';
+            document.getElementById('cellA3').innerText = row[0] || '';
+            document.getElementById('cellJ3').innerText = row[9] || '';
+            document.getElementById('cellK3').innerText = row[10] || '';
+            document.getElementById('cellP3').innerText = row[15] || '';
+            document.getElementById('cellQ3').innerText = row[16] || '';
+            document.getElementById('cellR3').innerText = row[17] || '';
+            document.getElementById('cellS3').innerText = row[18] || '';
         }
-    
-        // Function to set the fetch interval based on next midnight
-        function scheduleDailyUpdate() {
-            const timeUntilMidnight = getTimeUntilNextMidnight();
-            setTimeout(() => {
-                fetchSheetData();  // Fetch data at midnight
-                scheduleDailyUpdate();  // Schedule next update for the next day
-            }, timeUntilMidnight);
+        
+        function renderTable(data) {
+            const tableHeader = document.getElementById("tableHeader");
+            const tableBody = document.getElementById("tableBody");
+            tableHeader.innerHTML = '';
+            tableBody.innerHTML = '';
+            
+            const columns = ["Date", "Operating Days", "Total Net Loads", "Total Mileage", "Column L", "Column M", "Column N", "Column O", "Avg Consumption", "Energy Efficiency 1", "Energy Efficiency 2", "CO2 Reduction", "Column U", "Column V", "Column W", "Column X", "Column Y", "Column Z", "Column AA", "Column AB"];
+            
+            columns.forEach(col => {
+                const th = document.createElement("th");
+                th.innerText = col;
+                th.onclick = () => showTrend(col);
+                tableHeader.appendChild(th);
+            });
+            
+            data.forEach(row => {
+                const tr = document.createElement("tr");
+                row.forEach(cell => {
+                    const td = document.createElement("td");
+                    td.innerText = cell;
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            });
         }
-    
-        // Start the daily fetch schedule
-    scheduleDailyUpdate();
+        
+        fetchSheetData();
     </script>
-</head>
-<body onload="fetchSheetData()">
-    <div>
-        <h2>ZETT - Volvo BEV Trial - Sutco</h2>
-        <div class="input-container">
-            <div class="image-left">
-                <img class="image-2" src="https://drive.google.com/thumbnail?id=1q2q-6c4mJbOdYS4WvpH-waOlMGdOzTmp" alt="Image 2">
-            </div>
-            <div class="value-container">
-                <div class="value-box">
-                    <label for="trialStartDate">Trial Operation Start Date:</label>
-                    <span id="trialStartDate">January 29, 2025</span>
-                </div>
-                <div class="value-box">
-                    <label for="cellA3">Operating Days:</label>
-                    <span id="cellA3"><div class="spin"></div></span>
-                </div>
-                <div class="value-box">
-                    <label for="cellJ3">Total Net Loads (Kg):</label>
-                    <span id="cellJ3"><div class="spin"></div></span>
-                </div>
-                <div class="value-box">
-                    <label for="cellK3">Total Operating Mileage (Km):</label>
-                    <span id="cellK3"><div class="spin"></div></span>
-                </div>
-                <div class="value-box">
-                    <label for="cellP3">Average Fuel Consumption Rate (kWh/Km):</label>
-                    <span id="cellP3"><div class="spin"></div></span>
-                </div>
-                <div class="value-box">
-                    <label for="cellQ3">Average Energy Efficiency 1 (CAD$/Km) regular electricity price:</label>
-                    <span id="cellQ3"><div class="spin"></div></span>
-                </div>
-                <div class="value-box">
-                    <label for="cellR3">Average Energy Efficiency 2 (CAD$/Km) fast charging electricity price:</label>
-                    <span id="cellR3"><div class="spin"></div></span>
-                </div>
-                <div class="value-box">
-                    <label for="cellS3">CO2 Emission Reduction (Kg):</label>
-                    <span id="cellS3"><div class="spin"></div></span>
-                </div>
-            </div>
-            <div class="image-right">
-                <img class="image-1" src="https://drive.google.com/thumbnail?id=1eeSKHl0H5a2dM54ZwQ3nc9biubaGpGJO" alt="Image 1">
-                <img class="image-3" src="https://drive.google.com/thumbnail?id=1b21WXo7GKgh1ACBtJe4gQTpFc4a2a-uQ" alt="Image 3">
-            </div>
-        </div>
-        <div class="footer-container">
-            <div class="footer-text">AMTA, Industry Advancement - 2025</div>
-        </div>
-    </div>
 </body>
 </html>
