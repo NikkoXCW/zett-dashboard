@@ -150,13 +150,16 @@
             const columns = ["Date", "Operating Days", "Total Net Loads", "Total Mileage", "Column L", "Column M", "Column N", "Column O", "Avg Consumption", "Energy Efficiency 1", "Energy Efficiency 2", "CO2 Reduction", "Column U", "Column V", "Column W", "Column X", "Column Y", "Column Z", "Column AA", "Column AB"];
             const columnIndex = columns.indexOf(column);
             
-            // Collecting data for the trend chart
+            // Collecting data for the trend chart (Y values)
             const trendData = sheetData.map(row => parseFloat(row[columnIndex]) || 0); // Parse data as float and default to 0
+
+            // Collecting dates for the X axis
+            const dates = sheetData.map(row => row[0]); // Dates are in the first column
             
             const chart = new Chart(chartCanvas, {
                 type: 'line',
                 data: {
-                    labels: sheetData.map(row => row[0]), // Assuming the first column is the date
+                    labels: dates, // Use the 'Date' column for X-axis labels
                     datasets: [{
                         label: column,
                         data: trendData,
@@ -167,7 +170,7 @@
                 options: {
                     responsive: true,
                     scales: {
-                        x: { type: 'category' },
+                        x: { type: 'category' }, // Set the X-axis to be based on categorical data (dates)
                         y: { beginAtZero: true }
                     }
                 }
