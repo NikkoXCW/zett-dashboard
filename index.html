@@ -145,6 +145,8 @@
                 tableHeader.appendChild(th);
             });
 
+            const filteredData = data.filter(row => row[10] && row[10].trim() !== "");
+
             // Render table rows with only the selected columns
             data.forEach(row => {
                 const tr = document.createElement("tr");
