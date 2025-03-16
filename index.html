@@ -151,6 +151,30 @@
     </div>
     
     <script>
+
+        // JavaScript to handle page navigation
+        function showPage(page) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach((pageElement) => {
+                pageElement.style.display = 'none';
+            });
+
+            // Show the selected page
+            if (page === 'page1.html') {
+                document.getElementById('current').style.display = 'block';
+            } else {
+                const pageElement = document.getElementById(page);
+                if (pageElement) {
+                    pageElement.style.display = 'block';
+                }
+            }
+        }
+
+        // Call showPage('current') when the page loads to display the current page by default
+        window.onload = function() {
+            showPage('current');
+        };
+        
         const apiKey = 'AIzaSyC8f4hfYHPD8ZjffE2BlmCbEAmkgVJQsOQ';
         const sheetId = '1Tw-3NfzRG7JhzLsjLBfrRF__Plo4BZS8RWRa-csbiH4';
         
