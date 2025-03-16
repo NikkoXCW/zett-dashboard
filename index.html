@@ -26,10 +26,6 @@
         table { width: 100%; border-collapse: collapse; background: white; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: center; cursor: pointer; }
         th { background-color: #f4f4f4; }
-        .chart-container { transition: all 0.3s ease-in-out;}
-        .close-btn:hover { color: red; cursor: pointer; }
-
-        /* Navigation Buttons */
         .nav-buttons {
             margin: 20px 0;
             text-align: center;
@@ -125,11 +121,6 @@
             </thead>
             <tbody id="tableBody"></tbody>
         </table>
-    
-        <div class="chart-container" id="chartPopup">
-            <span class="close-btn" onclick="closeChart()">&times;</span>
-            <canvas id="trendChart"></canvas>
-        </div>
     </div>
 
     <!-- Page 2 -->
@@ -203,129 +194,103 @@
         }
 
         // Define the columns you want to show (indexes are based on Google Sheet columns)
-        const selectedColumns = [0, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]; // Example columns to display (A, J, K, L, M, N, O, P, Q, R, S)
-
-        // Define corresponding column names for the header based on selected columns
-        const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "Energy Efficiency 2 ($/Km)", "CO2 Reduction (Kg)"];
-
-        // Render the table with the filtered data
+        const selectedColumns = [0, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]; 
+        
+        // Render the table
         function renderTable(data) {
-            const tableHeader = document.getElementById("tableHeader");
-            const tableBody = document.getElementById("tableBody");
-            tableHeader.innerHTML = '';
-            tableBody.innerHTML = '';
+            const tableHeader = document.getElementById('tableHeader');
+            const tableBody = document.getElementById('tableBody');
 
-            // Create table headers based on selected columns
-            columnNames.forEach((col, index) => {
-                const th = document.createElement("th");
-                th.innerText = col;
-                th.onclick = () => showTrend(index); // Pass the column index
+            // Create table header
+            tableHeader.innerHTML = '';
+            selectedColumns.forEach(col => {
+                const th = document.createElement('th');
+                th.innerText = data[0][col];
+                th.onclick = () => showTrend(col);
                 tableHeader.appendChild(th);
             });
 
-            // Log the data to debug the values in column K
-            console.log('Data:', data);
-        
-            // Filter the data to only include rows where column K (index 10) has a non-empty value
-            const filteredData = data.filter(row => {
-                const columnKValue = row[10];
-                console.log(`Column K Value: ${columnKValue}`); // Log the value of column K for each row
-        
-                // Check if column K has a valid value (non-empty, non-null, and not NaN)
-                return columnKValue && columnKValue.trim() !== "" && !isNaN(columnKValue);
-            });
-        
-            // Log the filtered data to debug
-            console.log('Filtered Data:', filteredData);
-
-            // Render table rows with only the selected columns
-            filteredData.forEach(row => {
-                const tr = document.createElement("tr");
-                selectedColumns.forEach(colIndex => {
-                    const td = document.createElement("td");
-                    td.innerText = row[colIndex] || ''; // Display the data from the selected columns
+            // Create table rows
+            tableBody.innerHTML = '';
+            for (let i = 1; i < data.length; i++) {
+                const row = data[i];
+                const tr = document.createElement('tr');
+                selectedColumns.forEach(col => {
+                    const td = document.createElement('td');
+                    td.innerText = row[col] || '';
                     tr.appendChild(td);
                 });
                 tableBody.appendChild(tr);
-            });
-        }
-
-        // Function to filter the data based on date range
-        function filterData() {
-            const startDate = document.getElementById('startDate').value;
-            const endDate = document.getElementById('endDate').value;
-        
-            if (!startDate || !endDate) {
-                alert("Please select both start and end dates.");
-                return;
             }
-        
-            const filteredData = sheetData.filter(row => {
-                const rowDate = row[0]; // Assuming the first column contains the date
-        
-                if (!rowDate) return false; // Skip empty dates
-        
-                // Convert date string to Date object
-                const rowDateObj = new Date(rowDate);
-                const startDateObj = new Date(startDate);
-                const endDateObj = new Date(endDate);
-        
-                return rowDateObj >= startDateObj && rowDateObj <= endDateObj;
-            });
-        
-            renderTable(filteredData);
         }
 
-        let trendChart;
-
-        // Function to show the trend chart when a column header is clicked
+        // Show the trend chart in a popup
         function showTrend(columnIndex) {
-            const chartContainer = document.getElementById("chartPopup");
-            const chartCanvas = document.getElementById("trendChart");
-            chartContainer.style.display = "block";
-
+            const chartContainer = document.createElement("div");
+            chartContainer.style.position = "fixed";
+            chartContainer.style.top = "50%";
+            chartContainer.style.left = "50%";
+            chartContainer.style.transform = "translate(-50%, -50%)";
+            chartContainer.style.backgroundColor = "white";
+            chartContainer.style.padding = "20px";
+            chartContainer.style.zIndex = "9999";
+            chartContainer.style.border = "1px solid #ccc";
+            chartContainer.style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.2)";
+        
+            const closeButton = document.createElement("span");
+            closeButton.innerText = "×";
+            closeButton.style.position = "absolute";
+            closeButton.style.top = "10px";
+            closeButton.style.right = "10px";
+            closeButton.style.fontSize = "24px";
+            closeButton.style.cursor = "pointer";
+            closeButton.onclick = function() {
+                document.body.removeChild(chartContainer);
+            };
+            chartContainer.appendChild(closeButton);
+        
+            const chartCanvas = document.createElement("canvas");
+            chartContainer.appendChild(chartCanvas);
+        
+            document.body.appendChild(chartContainer);
+        
             // Use selectedColumns to correctly reference sheetData indices
             const sheetColumnIndex = selectedColumns[columnIndex];
-
+        
             // Collecting data for the trend chart (Y values)
             const trendData = [];
             const validDates = [];
-
+        
             sheetData.forEach(row => {
                 let rawValue = row[sheetColumnIndex];
                 if (rawValue) {
                     rawValue = rawValue.replace(/[^0-9.-]/g, ''); // Remove "$", "," or any non-numeric characters
                 }
-
+        
                 const value = parseFloat(rawValue);
-
+        
                 if (!isNaN(value)) {
                     trendData.push(value);
                     validDates.push(row[0]); // Corresponding date for the valid value
                 }
             });
-
+        
             if (trendData.length === 0) {
                 alert("No valid data for this column.");
-                closeChart();
                 return;
             }
-
+        
             // Find the min and max values for dynamic scaling
             const minValue = Math.min(...trendData);
             const maxValue = Math.max(...trendData);
-
-            if (trendChart) {
-                trendChart.destroy();
-            }
-
+        
             // Create a new chart
-            trendChart = new Chart(chartCanvas, {
+            const trendChart = new Chart(chartCanvas, {
                 type: 'line',
                 data: {
                     labels: validDates, // Use filtered valid dates
                     datasets: [{
-                        label: columnNames[columnIndex],
+                        label: sheetData[0][columnIndex], // Use the column name as the label
                         data: trendData,
                         borderColor: 'rgba(75, 192, 192, 1)',
                         fill: false,
@@ -349,30 +314,17 @@
             });
         }
 
-
-        // Page navigation function
-        function navigateTo(page) {
-            const pages = document.querySelectorAll('.page');
-            pages.forEach((pageElement) => {
-                pageElement.style.display = 'none';
+        // Navigate between pages
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.style.display = 'none';
             });
-
-            const selectedPage = document.getElementById(page);
-            if (selectedPage) {
-                selectedPage.style.display = 'block';
-            }
+            document.getElementById(pageId).style.display = 'block';
         }
         
-        // Close the chart popup
-        function closeChart() {
-            document.getElementById("chartPopup").style.display = "none";
-        }
-
-        // Fetch the data when the page loads
-        window.onload = function() {
-            fetchValueBoxData();
-            fetchTableData();
-        };
+        // Initialize the first page
+        fetchValueBoxData();
+        fetchTableData();
     </script>
 </body>
 </html>
