@@ -349,6 +349,20 @@
             });
         }
 
+
+        // Page navigation function
+        function navigateTo(page) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach((pageElement) => {
+                pageElement.style.display = 'none';
+            });
+
+            const selectedPage = document.getElementById(page);
+            if (selectedPage) {
+                selectedPage.style.display = 'block';
+            }
+        }
+        
         // Close the chart popup
         function closeChart() {
             document.getElementById("chartPopup").style.display = "none";
