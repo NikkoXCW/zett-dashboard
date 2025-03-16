@@ -42,14 +42,44 @@
         
         /* styles for the ZETT - Volvo BEV Trial page */
         .container { display: flex; justify-content: space-between; align-items: center; margin: 20px auto; max-width: 1200px; }
-        .value-box { display: flex; justify-content: space-between; margin-bottom: 20px; }
-        .value-box label { font-weight: bold; white-space: nowrap; }
-        .value-box span { font-size: 18px; font-weight: bold; color: #63973F; }
+        .value-box { display: flex; justify-content: space-between; width: 100%; margin-bottom: 20px; }
+        .value-box label { font-weight: bold; white-space: nowrap; flex:1; text-align: left; }
+        .value-box span { font-size: 18px; font-weight: bold; color: #63973F; text-align: right;}
         table { width: 100%; border-collapse: collapse; background: white; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: center; cursor: pointer; }
         th { background-color: #f4f4f4; }
         .chart-container { display: none; position: fixed; top: 10%; left: 10%; width: 80%; height: 60%; background: white; padding: 20px; border: 1px solid #ddd; }
 
+        /* Increase the size of the value-container */
+        .value-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            margin: 20px;
+            width: 80%;  /* Set width to 80% */
+            max-width: 1000px;  /* Optional, sets max-width */
+        }
+        
+        /* Styling for the close button */
+        .close-btn {
+            font-size: 24px;  /* Increase font size */
+            color: #63973F;  /* Set a color */
+            font-weight: bold; /* Optional, to make it bold */
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: transparent;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;  /* Optional, for rounded corners */
+            transition: background-color 0.3s;
+        }
+
+        .close-btn:hover {
+            background-color: #f4f4f4;  /* Change background on hover */
+        }
             
     </style>
 </head>
