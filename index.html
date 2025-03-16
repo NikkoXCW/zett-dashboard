@@ -3,119 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Volvo BEV Trial Data</title>
+    <title>Zero Emission Trucking TestBed</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body { font-family: 'Roboto', sans-serif; background-color: #f4f4f4; text-align: center; }
+        .container { display: flex; justify-content: center; align-items: center; margin: 20px auto; max-width: 1200px; }
+        
+        /* Navigation Button Styles */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-evenly;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .nav-buttons button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #63973F;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-buttons button:hover {
+            background-color: #4a7e2f;
+        }
+
+        .page-container {
+            display: none;
+        }
+
+        #zetPage {
+            display: block;
+        }
+        
+        /* styles for the ZETT - Volvo BEV Trial page */
         .container { display: flex; justify-content: space-between; align-items: center; margin: 20px auto; max-width: 1200px; }
-
-        /* Left Image Container */
-        .image-container-left { flex: 0 0 150px; /* Increased gap between value container and left images */ }
-
-        /* Right Image Containers */
-        .image-container-right { display: flex; flex-direction: column; gap: 20px; /* Stack images vertically */ }
-
-        .image-container-right img { width: 100px; height: 100px; }
-
-        /* Value Container */
-        .value-container { flex: 1; text-align: left; max-width: 800px; margin: auto; }
         .value-box { display: flex; justify-content: space-between; margin-bottom: 20px; }
         .value-box label { font-weight: bold; white-space: nowrap; }
         .value-box span { font-size: 18px; font-weight: bold; color: #63973F; }
-        .filter-container { margin: 20px 0; }
         table { width: 100%; border-collapse: collapse; background: white; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: center; cursor: pointer; }
         th { background-color: #f4f4f4; }
         .chart-container { display: none; position: fixed; top: 10%; left: 10%; width: 80%; height: 60%; background: white; padding: 20px; border: 1px solid #ddd; }
-        .close-btn { cursor: pointer; font-size: 20px; }
     </style>
 </head>
 <body>
-    <h2>ZETT - Volvo BEV Trial - Sutco</h2>
-    <div class="container">
-        <!-- Left Image Container -->
-        <div class="image-container-left">
-            <img src="https://drive.google.com/thumbnail?id=1q2q-6c4mJbOdYS4WvpH-waOlMGdOzTmp" alt="Image Left">
+    <h2>Volvo BEV Trial Data</h2>
+
+    <!-- Navigation Buttons -->
+    <div class="nav-buttons">
+        <button onclick="loadPage('Page1')">ZETT - Volvo BEV Trial - Sutco</button>
+        <button onclick="loadPage('Page2')">ZETT - AZETEC FCEV 99 - Trimac</button>
+        <button onclick="loadPage('Page3')">ZETT - Nikola FCEV V13 - Bison</button>
+        <button onclick="loadPage('Page4')">ZETT - Nikola FCEV V14 - Arrow</button>
+    </div>
+
+    <!-- Page Content (ZETT Page) -->
+    <div id="Page1" class="page-container">
+        <h3>ZETT - Volvo BEV Trial - Sutco</h3>
+        <div class="container">
+            <!-- Left Image Container -->
+            <div class="image-container-left">
+                <img src="https://drive.google.com/thumbnail?id=1q2q-6c4mJbOdYS4WvpH-waOlMGdOzTmp" alt="Image Left">
+            </div>
+
+            <!-- Value Container in the Center -->
+            <div class="value-container">
+                <div class="value-box">
+                    <label for="trialStartDate">Trial Operation Start Date:</label>
+                    <span id="trialStartDate">January 29, 2025</span>
+                </div>
+                <div class="value-box">
+                    <label for="cellA3">Operating Days:</label>
+                    <span id="cellA3"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellJ3">Total Net Loads (Kg):</label>
+                    <span id="cellJ3"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellK3">Total Operating Mileage (Km):</label>
+                    <span id="cellK3"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellP3">Average Fuel Consumption Rate (kWh/Km):</label>
+                    <span id="cellP3"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellQ3">Average Energy Efficiency 1 (CAD$/Km):</label>
+                    <span id="cellQ3"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellR3">Average Energy Efficiency 2 (CAD$/Km):</label>
+                    <span id="cellR3"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellS3">CO2 Emission Reduction (Kg):</label>
+                    <span id="cellS3"></span>
+                </div>
+            </div>
+
+            <!-- Right Image Containers -->
+            <div class="image-container-right">
+                <div>
+                    <img src="https://drive.google.com/thumbnail?id=1eeSKHl0H5a2dM54ZwQ3nc9biubaGpGJO" alt="Image Right 1">
+                </div>
+                <div>
+                    <img src="https://drive.google.com/thumbnail?id=1b21WXo7GKgh1ACBtJe4gQTpFc4a2a-uQ" alt="Image Right 2">
+                </div>
+            </div>
         </div>
 
-        <!-- Value Container in the Center -->
-        <div class="value-container">
-            <div class="value-box">
-                <label for="trialStartDate">Trial Operation Start Date:</label>
-                <span id="trialStartDate">January 29, 2025</span>
-            </div>
-            <div class="value-box">
-                <label for="cellA3">Operating Days:</label>
-                <span id="cellA3"></span>
-            </div>
-            <div class="value-box">
-                <label for="cellJ3">Total Net Loads (Kg):</label>
-                <span id="cellJ3"></span>
-            </div>
-            <div class="value-box">
-                <label for="cellK3">Total Operating Mileage (Km):</label>
-                <span id="cellK3"></span>
-            </div>
-            <div class="value-box">
-                <label for="cellP3">Average Fuel Consumption Rate (kWh/Km):</label>
-                <span id="cellP3"></span>
-            </div>
-            <div class="value-box">
-                <label for="cellQ3">Average Energy Efficiency 1 (CAD$/Km):</label>
-                <span id="cellQ3"></span>
-            </div>
-            <div class="value-box">
-                <label for="cellR3">Average Energy Efficiency 2 (CAD$/Km):</label>
-                <span id="cellR3"></span>
-            </div>
-            <div class="value-box">
-                <label for="cellS3">CO2 Emission Reduction (Kg):</label>
-                <span id="cellS3"></span>
-            </div>
+        <!-- Filter Container for Date -->
+        <div class="filter-container">
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate">
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate">
+            <button onclick="filterData()">Filter</button>
         </div>
 
-        <!-- Right Image Containers -->
-        <div class="image-container-right">
-            <div>
-                <img src="https://drive.google.com/thumbnail?id=1eeSKHl0H5a2dM54ZwQ3nc9biubaGpGJO" alt="Image Right 1">
-            </div>
-            <div>
-                <img src="https://drive.google.com/thumbnail?id=1b21WXo7GKgh1ACBtJe4gQTpFc4a2a-uQ" alt="Image Right 2">
-            </div>
+        <!-- Table for Data -->
+        <table>
+            <thead>
+                <tr id="tableHeader"></tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+
+        <!-- Trend Chart Popup -->
+        <div class="chart-container" id="chartPopup">
+            <span class="close-btn" onclick="closeChart()">&times;</span>
+            <canvas id="trendChart"></canvas>
         </div>
     </div>
 
-    <div class="filter-container">
-        <label for="startDate">Start Date:</label>
-        <input type="date" id="startDate">
-        <label for="endDate">End Date:</label>
-        <input type="date" id="endDate">
-        <button onclick="filterData()">Filter</button>
+    <!-- Page 2 -->
+    <div id="Page2" class="page-container">
+        <h3>ZETT - AZETEC FCEV 99 - Trimac</h3>
+        <p>This page is under construction.</p>
     </div>
 
-    <table>
-        <thead>
-            <tr id="tableHeader"></tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-    </table>
+    <!-- Page 3 -->
+    <div id="Page3" class="page-container">
+        <h3>ZETT - Nikola FCEV V13 - Bison</h3>
+        <p>This page is under construction.</p>
+    </div>
 
-    <div class="chart-container" id="chartPopup">
-        <span class="close-btn" onclick="closeChart()">&times;</span>
-        <canvas id="trendChart"></canvas>
+    <!-- Page 4 -->
+    <div id="Page4" class="page-container">
+        <h3>ZETT - Nikola FCEV V14 - Arrow</h3>
+        <p>This page is under construction.</p>
     </div>
 
     <script>
+        // Function to load the selected page and hide others
+        function loadPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page-container');
+            pages.forEach(page => page.style.display = 'none');
+            
+            // Show the selected page
+            document.getElementById(pageId).style.display = 'block';
+        }
+
+        // Example data fetching and processing functions for ZETT page
         const apiKey = 'AIzaSyC8f4hfYHPD8ZjffE2BlmCbEAmkgVJQsOQ';
         const sheetId = '1Tw-3NfzRG7JhzLsjLBfrRF__Plo4BZS8RWRa-csbiH4';
-        
-        // Separate ranges for value boxes and table data
-        const valueBoxRange = 'VolvoBEV!A3:S3'; // Fetch value box data (first few columns)
-        const tableRange = 'VolvoBEV!A5:AB'; // Fetch table data (entire table)
+        const valueBoxRange = 'VolvoBEV!A3:S3'; 
+        const tableRange = 'VolvoBEV!A5:AB'; 
         
         let sheetData = [];
         let valueBoxData = [];
-        
+
         // Fetch value box data
         async function fetchValueBoxData() {
             const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${valueBoxRange}?key=${apiKey}`;
@@ -123,8 +187,8 @@
                 const response = await fetch(url);
                 const data = await response.json();
                 if (data.values) {
-                    valueBoxData = data.values; // Store value box data
-                    populateValueBoxes(valueBoxData[0]); // Populate value boxes with the first row of value box data
+                    valueBoxData = data.values;
+                    populateValueBoxes(valueBoxData[0]);
                 }
             } catch (error) {
                 console.error('Error fetching value box data:', error);
@@ -138,15 +202,15 @@
                 const response = await fetch(url);
                 const data = await response.json();
                 if (data.values) {
-                    sheetData = data.values; // Store table data
-                    renderTable(sheetData); // Render the table with the selected columns
+                    sheetData = data.values;
+                    renderTable(sheetData);
                 }
             } catch (error) {
                 console.error('Error fetching table data:', error);
             }
         }
 
-        // Populate value boxes with data
+        // Populate value boxes
         function populateValueBoxes(row) {
             document.getElementById('cellA3').innerText = row[0] || '';
             document.getElementById('cellJ3').innerText = row[9] || '';
@@ -156,6 +220,7 @@
             document.getElementById('cellR3').innerText = row[17] || '';
             document.getElementById('cellS3').innerText = row[18] || '';
         }
+
 
         // Define the columns you want to show (indexes are based on Google Sheet columns)
         const selectedColumns = [0, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]; // Example columns to display (A, J, K, L, M, N, O, P, Q, R, S)
@@ -309,7 +374,7 @@
             document.getElementById("chartPopup").style.display = "none";
         }
 
-        // Fetch the data when the page loads
+
         window.onload = function() {
             fetchValueBoxData();
             fetchTableData();
