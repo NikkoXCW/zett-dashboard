@@ -8,16 +8,12 @@
     <style>
         body { font-family: 'Roboto', sans-serif; background-color: #f4f4f4; text-align: center; }
         .container { display: flex; justify-content: space-between; align-items: center; margin: 20px auto; max-width: 1200px; }
-
-        /* Left Image Container */
-        .image-container-left { flex: 0 0 150px; /* Increased gap between value container and left images */ }
-
-        /* Right Image Containers */
-        .image-container-right { display: flex; flex-direction: column; gap: 20px; /* Stack images vertically */ }
-
+        .nav-buttons { margin: 20px 0; }
+        .nav-buttons button { padding: 10px 15px; margin: 5px; font-size: 16px; cursor: pointer; border: none; background-color: #63973F; color: white; border-radius: 5px; }
+        .nav-buttons button:hover { background-color: #4a732c; }
+        .image-container-left { flex: 0 0 150px; }
+        .image-container-right { display: flex; flex-direction: column; gap: 20px; }
         .image-container-right img { width: 100px; height: 100px; }
-
-        /* Value Container */
         .value-container { flex: 1; text-align: left; max-width: 800px; margin: auto; }
         .value-box { display: flex; justify-content: space-between; margin-bottom: 20px; }
         .value-box label { font-weight: bold; white-space: nowrap; }
@@ -31,6 +27,13 @@
     </style>
 </head>
 <body>
+    <div class="nav-buttons">
+        <button onclick="navigateTo('page1.html')">Page 1</button>
+        <button onclick="navigateTo('page2.html')">Page 2</button>
+        <button onclick="navigateTo('page3.html')">Page 3</button>
+        <button onclick="navigateTo('page4.html')">Page 4</button>
+    </div>
+    
     <h2>ZETT - Volvo BEV Trial - Sutco</h2>
     <div class="container">
         <!-- Left Image Container -->
