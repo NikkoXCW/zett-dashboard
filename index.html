@@ -26,8 +26,8 @@
         table { width: 100%; border-collapse: collapse; background: white; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: center; cursor: pointer; }
         th { background-color: #f4f4f4; }
-        .chart-container { transition: all 0.3s ease-in-out;}
-        .close-btn:hover { color: red; cursor: pointer; }
+        .chart-container { display: none; position: fixed; top: 10%; left: 10%; width: 80%; height: 60%; background: white; padding: 20px; border: 1px solid #ddd; }
+        .close-btn { cursor: pointer; font-size: 20px; }
 
         /* Navigation Buttons */
         .nav-buttons {
@@ -49,14 +49,14 @@
 </head>
 <body>
     <div class="nav-buttons">
-        <button onclick="navigateTo('page1')">Volvo BEV</button>
-        <button onclick="navigateTo('page2')">AZETEC FCEV 99</button>
-        <button onclick="navigateTo('page3')">Nikola FCEV V13</button>
-        <button onclick="navigateTo('page4')">Nikola FCEV V14</button>
+        <button onclick="navigateTo('page1.html')">Volvo BEV</button>
+        <button onclick="navigateTo('page2.html')">AZETEC FCEV 99</button>
+        <button onclick="navigateTo('page3.html')">Nikola FCEV V13</button>
+        <button onclick="navigateTo('page4.html')">Nikola FCEV V14</button>
     </div>
 
     <!-- Page 1 -->
-    <div id="page1" class="page" style="display: block;">
+    <div id="Page1.html" class="page">
         <h2>ZETT - Volvo BEV Trial - Sutco</h2>
         <div class="container">
             <!-- Left Image Container -->
@@ -133,24 +133,48 @@
     </div>
 
     <!-- Page 2 -->
-    <div id="page2" class="page" style="display: none;">
+    <div id="page2.html" class="page">
         <h2>ZETT - AZETEC FCEV 99 - Trimac</h2>
         <p>This is a blank page. You can add content here.</p>
     </div>
 
     <!-- Page 3 -->
-    <div id="page3" class="page" style="display: none;">
+    <div id="page3.html" class="page">
         <h2>ZETT - Nikola FCEV V13 - Bison</h2>
         <p>This is a blank page. You can add content here.</p>
     </div>
 
     <!-- Page 4 -->
-    <div id="page4" class="page" style="display: none;">
+    <div id="page4.html" class="page">
         <h2>ZETT - Nikola FCEV V14 - Arrow</h2>
         <p>This is a blank page. You can add content here.</p>
     </div>
     
-    <script>    
+    <script>
+
+        // JavaScript to handle page navigation
+        function showPage(page) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach((pageElement) => {
+                pageElement.style.display = 'none';
+            });
+
+            // Show the selected page
+            if (page === 'page1.html') {
+                document.getElementById('current').style.display = 'block';
+            } else {
+                const pageElement = document.getElementById(page);
+                if (pageElement) {
+                    pageElement.style.display = 'block';
+                }
+            }
+        }
+
+        // Call showPage('current') when the page loads to display the current page by default
+        window.onload = function() {
+            showPage('current');
+        };
+        
         const apiKey = 'AIzaSyC8f4hfYHPD8ZjffE2BlmCbEAmkgVJQsOQ';
         const sheetId = '1Tw-3NfzRG7JhzLsjLBfrRF__Plo4BZS8RWRa-csbiH4';
         
@@ -163,7 +187,7 @@
         
         // Fetch value box data
         async function fetchValueBoxData() {
-            const url = https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${valueBoxRange}?key=${apiKey};
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${valueBoxRange}?key=${apiKey}`;
             try {
                 const response = await fetch(url);
                 const data = await response.json();
@@ -178,7 +202,7 @@
 
         // Fetch table data
         async function fetchTableData() {
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${valueBoxRange}?key=${apiKey}`;
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${tableRange}?key=${apiKey}`;
             try {
                 const response = await fetch(url);
                 const data = await response.json();
@@ -229,7 +253,7 @@
             // Filter the data to only include rows where column K (index 10) has a non-empty value
             const filteredData = data.filter(row => {
                 const columnKValue = row[10];
-                console.log(Column K Value: ${columnKValue}); // Log the value of column K for each row
+                console.log(`Column K Value: ${columnKValue}`); // Log the value of column K for each row
         
                 // Check if column K has a valid value (non-empty, non-null, and not NaN)
                 return columnKValue && columnKValue.trim() !== "" && !isNaN(columnKValue);
@@ -349,20 +373,6 @@
             });
         }
 
-
-        // Page navigation function
-        function navigateTo(page) {
-            const pages = document.querySelectorAll('.page');
-            pages.forEach((pageElement) => {
-                pageElement.style.display = 'none';
-            });
-
-            const selectedPage = document.getElementById(page);
-            if (selectedPage) {
-                selectedPage.style.display = 'block';
-            }
-        }
-        
         // Close the chart popup
         function closeChart() {
             document.getElementById("chartPopup").style.display = "none";
