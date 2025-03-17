@@ -594,29 +594,26 @@
         
         const chartContainer = document.getElementById("chartPopup");
         
-        chartContainer.addEventListener("mousedown", (e) => {
-            // Only allow dragging when the user clicks inside the chart container
-            if (e.target === chartContainer || e.target.closest(".close-btn")) {
-                isDragging = true;
-                offsetX = e.clientX - chartContainer.getBoundingClientRect().left;
-                offsetY = e.clientY - chartContainer.getBoundingClientRect().top;
-                chartContainer.style.cursor = "grabbing"; // Change cursor when dragging
-            }
+        chartContainer.addEventListener("mousedown", (event) => {
+            isDragging = true;
+            offsetX = event.clientX - chartContainer.getBoundingClientRect().left;
+            offsetY = event.clientY - chartContainer.getBoundingClientRect().top;
+            chartContainer.style.cursor = "move"; // Change cursor to indicate dragging
         });
         
-        document.addEventListener("mousemove", (e) => {
+        document.addEventListener("mousemove", (event) => {
             if (isDragging) {
-                const left = e.clientX - offsetX;
-                const top = e.clientY - offsetY;
+                const newX = event.clientX - offsetX;
+                const newY = event.clientY - offsetY;
         
-                chartContainer.style.left = `${left}px`;
-                chartContainer.style.top = `${top}px`;
+                chartContainer.style.left = `${newX}px`;
+                chartContainer.style.top = `${newY}px`;
             }
         });
         
         document.addEventListener("mouseup", () => {
             isDragging = false;
-            chartContainer.style.cursor = "move"; // Change back to default cursor when dragging ends
+            chartContainer.style.cursor = "default"; // Reset cursor after dragging ends
         });
 
         window.onload = function() {
