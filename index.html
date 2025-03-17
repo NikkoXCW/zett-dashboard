@@ -93,6 +93,7 @@
             border: 1px solid #ddd;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             z-index: 1000;
+            cursor:move;
         }  
         
         .close-btn {
@@ -502,6 +503,36 @@
         function closeChart() {
             document.getElementById("chartPopup").style.display = "none";
         }
+
+        let isDragging = false;
+        let offsetX, offsetY;
+        
+        const chartContainer = document.getElementById("chartPopup");
+        
+        chartContainer.addEventListener("mousedown", (e) => {
+            // Only allow dragging when the user clicks inside the chart container
+            if (e.target === chartContainer || e.target.closest(".close-btn")) {
+                isDragging = true;
+                offsetX = e.clientX - chartContainer.getBoundingClientRect().left;
+                offsetY = e.clientY - chartContainer.getBoundingClientRect().top;
+                chartContainer.style.cursor = "grabbing"; // Change cursor when dragging
+            }
+        });
+        
+        document.addEventListener("mousemove", (e) => {
+            if (isDragging) {
+                const left = e.clientX - offsetX;
+                const top = e.clientY - offsetY;
+        
+                chartContainer.style.left = `${left}px`;
+                chartContainer.style.top = `${top}px`;
+            }
+        });
+        
+        document.addEventListener("mouseup", () => {
+            isDragging = false;
+            chartContainer.style.cursor = "move"; // Change back to default cursor when dragging ends
+        });
 
         window.onload = function() {
             loadPage('Page1');  // Automatically load Page 1 by default
