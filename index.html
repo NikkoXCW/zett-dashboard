@@ -398,7 +398,7 @@
 
         // Fetch value box data
         async function fetchValueBoxData() {
-            const url = https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${valueBoxRange}?key=${apiKey};
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${valueBoxRange}?key=${apiKey}`;
             try {
                 const response = await fetch(url);
                 const data = await response.json();
@@ -413,7 +413,7 @@
 
         // Fetch table data
         async function fetchTableData() {
-            const url = https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${tableRange}?key=${apiKey};
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${tableRange}?key=${apiKey}`;
             try {
                 const response = await fetch(url);
                 const data = await response.json();
@@ -465,7 +465,7 @@
             // Filter the data to only include rows where column K (index 10) has a non-empty value
             const filteredData = data.filter(row => {
                 const columnKValue = row[10];
-                console.log(Column K Value: ${columnKValue}); // Log the value of column K for each row
+                console.log(`Column K Value: ${columnKValue}`); // Log the value of column K for each row
         
                 // Check if column K has a valid value (non-empty, non-null, and not NaN)
                 return columnKValue && columnKValue.trim() !== "" && !isNaN(columnKValue);
@@ -593,27 +593,25 @@
         let isDragging = false;
         let offsetX, offsetY;
         
-        const chartContainer = document.getElementById("chartPopup");
-        
+       const chartContainer = document.getElementById("chartPopup");
+
         chartContainer.addEventListener("mousedown", (event) => {
             isDragging = true;
-            offsetX = event.clientX - chartContainer.offsetLeft;
-            offsetY = event.clientY - chartContainer.offsetTop;
-            chartContainer.style.cursor = 'move'; // Change cursor to indicate dragging
+            offsetX = event.clientX - chartContainer.getBoundingClientRect().left;
+            offsetY = event.clientY - chartContainer.getBoundingClientRect().top;
+            document.body.style.cursor = 'move'; // Change cursor style to indicate drag mode
         });
-        
+
         document.addEventListener("mousemove", (event) => {
             if (isDragging) {
-                const x = event.clientX - offsetX;
-                const y = event.clientY - offsetY;
-                chartContainer.style.left = ${x}px;
-                chartContainer.style.top = ${y}px;
+                chartContainer.style.left = `${event.clientX - offsetX}px`;
+                chartContainer.style.top = `${event.clientY - offsetY}px`;
             }
         });
-        
+
         document.addEventListener("mouseup", () => {
             isDragging = false;
-            chartContainer.style.cursor = 'default'; // Reset cursor when dragging ends
+            document.body.style.cursor = ''; // Reset cursor style
         });
 
         window.onload = function() {
