@@ -593,28 +593,25 @@
         let isDragging = false;
         let offsetX, offsetY;
         
-        const chartContainer = document.getElementById("chartPopup");
-        
+       const chartContainer = document.getElementById("chartPopup");
+
         chartContainer.addEventListener("mousedown", (event) => {
             isDragging = true;
             offsetX = event.clientX - chartContainer.getBoundingClientRect().left;
             offsetY = event.clientY - chartContainer.getBoundingClientRect().top;
-            chartContainer.style.cursor = "move"; // Change cursor to indicate dragging
+            document.body.style.cursor = 'move'; // Change cursor style to indicate drag mode
         });
-        
+
         document.addEventListener("mousemove", (event) => {
             if (isDragging) {
-                const newX = event.clientX - offsetX;
-                const newY = event.clientY - offsetY;
-        
-                chartContainer.style.left = `${newX}px`;
-                chartContainer.style.top = `${newY}px`;
+                chartContainer.style.left = `${event.clientX - offsetX}px`;
+                chartContainer.style.top = `${event.clientY - offsetY}px`;
             }
         });
-        
+
         document.addEventListener("mouseup", () => {
             isDragging = false;
-            chartContainer.style.cursor = "default"; // Reset cursor after dragging ends
+            document.body.style.cursor = ''; // Reset cursor style
         });
 
         window.onload = function() {
