@@ -102,10 +102,20 @@
             width: 100%;
         }
 
+        /* Right image container */
         .image-container-right {
-            flex: 3;  /* Adjust flex value as needed */
-            display: flex;
-            justify-content: flex-end; /* Align images to the right */
+            display: flex;         /* Flexbox layout */
+            flex-direction: column; /* Stack images vertically */
+            justify-content: flex-start; /* Align items to the top */
+            gap: 20px;             /* Add space between images */
+            flex: 1;               /* Allow the right container to take up remaining space */
+        }
+        
+        /* Each image in the right container */
+        .image-container-right img {
+            width: 100%;  /* Ensure the images take up the full width of their container */
+            height: auto; /* Maintain aspect ratio */
+            object-fit: contain; /* Ensure the image fits within its container */
         }
 
         .filter-container {
