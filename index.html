@@ -83,12 +83,12 @@
             display: flex;
             justify-content: flex-start;
             max-width: 800px;
+            align-items: stretch;
         }
         
         .image-container-left img {
             width: 100%;  /* Ensure image fills the container */
-            max-width: 100%;  /* Limit the maximum width of the image */
-            height: auto;  /* Maintain aspect ratio */
+            height: 100%;  /* Maintain aspect ratio */
             object-fit: contain;
         }
 
@@ -116,7 +116,7 @@
         /* Each image in the right container */
         .image-container-right img {
             width: 100%;  /* Ensure the images take up the full width of their container */
-            height: 80%; 
+            height: 100%; 
             object-fit: contain; /* Ensure the image fits within its container */
         }
 
