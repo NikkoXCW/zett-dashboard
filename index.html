@@ -41,7 +41,13 @@
         }
         
         /* styles for the ZETT - Volvo BEV Trial page */
-        .container { display: flex; justify-content: space-between; align-items: center; margin: 20px auto; max-width: 1200px; }
+        .container { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: flex-start; 
+            margin: 20px auto; 
+            max-width: 1200px; 
+        }
         .value-box { display: flex; justify-content: space-between; width: 100%; margin-bottom: 20px; }
         .value-box label { font-weight: bold; white-space: nowrap; flex:1; text-align: left; margin-right: 10px; }
         .value-box span { font-size: 18px; font-weight: bold; color: #63973F; text-align: right;}
@@ -82,16 +88,24 @@
 
         /* Increase size of left image */
         .image-container-left {
-            flex: 3; /* Ensure it takes up equal space */
-            margin-right: 30px; /* Space between the left image and the value container */
-            display: flex;
-            justify-content: center;
+            flex: 4; /* Ensure it takes up equal space */
+            margin-right: 20px; /* Space between the left image and the value container */
         }
         
         .image-container-left img {
             width: 100%;  /* Ensure image fills the container */
-            max-width: 1500px;  /* Limit the maximum width of the image */
+            max-width: 1200px;  /* Limit the maximum width of the image */
             height: auto;  /* Maintain aspect ratio */
+        }
+        /* Value container */
+        .value-container {
+            flex: 2;  /* Reduce flex of the value container to make the left image bigger */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            margin: 20px;
+            width: 100%;
         }
 
             
