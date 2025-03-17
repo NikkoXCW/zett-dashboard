@@ -78,15 +78,16 @@
 
         /* Increase size of left image */
         .image-container-left {
-            flex: 4; /* Ensure it takes up equal space */
+            flex: 1; /* Ensure it takes up equal space */
             margin-right: 20px; /* Space between the left image and the value container */
             display: flex;
             justify-content: flex-start;
+            max-width: 500px;
         }
         
         .image-container-left img {
             width: 100%;  /* Ensure image fills the container */
-            max-width: 1200px;  /* Limit the maximum width of the image */
+            max-width: 100%;  /* Limit the maximum width of the image */
             height: auto;  /* Maintain aspect ratio */
             object-fit: contain;
         }
