@@ -51,16 +51,54 @@
         .value-box { display: flex; justify-content: space-between; width: 100%; margin-bottom: 20px; }
         .value-box label { font-weight: bold; white-space: nowrap; flex:1; text-align: left; margin-right: 10px; }
         .value-box span { font-size: 18px; font-weight: bold; color: #63973F; text-align: right;}
-        table { width: 100%; border-collapse: collapse; background: white; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; cursor: pointer; }
-        th { background-color: #f4f4f4; }
-        .chart-container { display: none; position: fixed; top: 10%; left: 10%; width: 80%; height: 60%; background: white; padding: 20px; border: 1px solid #ddd; }
-   
-        /* Styling for the close button */
+        
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 20px;
+        }
+    
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            cursor: pointer;
+        }
+    
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+    
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+         /* Chart Container Styling */
+        .chart-container {
+            display: none;
+            position: fixed;
+            top: 10%;
+            left: 10%;
+            width: 80%;
+            height: 60%;
+            background: white;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }  
+        
         .close-btn {
-            font-size: 24px;  /* Increase font size */
-            color: #63973F;  /* Set a color */
-            font-weight: bold; /* Optional, to make it bold */
+            font-size: 20px;  
+            color: #63973F;  
+            font-weight: bold; 
             cursor: pointer;
             position: absolute;
             top: 10px;
@@ -124,7 +162,6 @@
         margin-bottom: 30px;  /* Increase space between the filter and the table */
         }
 
-            
     </style>
 </head>
 <body>
