@@ -361,7 +361,77 @@
     <!-- Page 2 -->
     <div id="Page2" class="page-container">
         <h3>AZETEC FCEV 99 - Trimac</h3>
-        <p>This page is under construction.</p>
+        <div class="container">
+            <!-- Left Image Container -->
+            <div class="image-container-left">
+                <img src="https://drive.google.com/thumbnail?id=1q2q-6c4mJbOdYS4WvpH-waOlMGdOzTmp" alt="Image Left">
+            </div>
+
+            <!-- Value Container in the Center -->
+            <div class="value-container">
+                <div class="value-box">
+                    <label for="trialStartDate">Trial Operation Start Date:</label>
+                    <span id="trialStartDate">January 29, 2025</span>
+                </div>
+                <div class="value-box">
+                    <label for="cellA3">Operating Days:</label>
+                    <span id="cellA3"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellJ3">Total Net Loads (Kg):</label>
+                    <span id="cellJ3"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellK3">Total Operating Mileage (Km):</label>
+                    <span id="cellK3"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellP3">Average Fuel Consumption Rate (Kg/Km):</label>
+                    <span id="cellP3"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellQ3">Average Energy Efficiency (CAD$/Km):</label>
+                    <span id="cellQ3"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellS3">CO2 Emission Reduction (Kg):</label>
+                    <span id="cellS3"></span>
+                </div>
+            </div>
+
+            <!-- Right Image Containers -->
+            <div class="image-container-right">
+                <div>
+                    <img src="https://drive.google.com/thumbnail?id=1eeSKHl0H5a2dM54ZwQ3nc9biubaGpGJO" alt="Image Right 1">
+                </div>
+                <div>
+                    <img src="https://drive.google.com/thumbnail?id=1b21WXo7GKgh1ACBtJe4gQTpFc4a2a-uQ" alt="Image Right 2">
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Container for Date -->
+        <div class="filter-container">
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate">
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate">
+            <button onclick="filterData()">Filter</button>
+        </div>
+
+        <!-- Table for Data -->
+        <table>
+            <thead>
+                <tr id="tableHeader"></tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+
+        <!-- Trend Chart Popup -->
+        <div class="chart-container" id="chartPopup">
+            <span class="close-btn" onclick="closeChart()">&times;</span>
+            <canvas id="trendChart"></canvas>
+        </div>
     </div>
 
     <!-- Page 3 -->
@@ -390,6 +460,7 @@
         // Example data fetching and processing functions for ZETT page
         const apiKey = 'AIzaSyC8f4hfYHPD8ZjffE2BlmCbEAmkgVJQsOQ';
         const sheetId = '1Tw-3NfzRG7JhzLsjLBfrRF__Plo4BZS8RWRa-csbiH4';
+        
         const valueBoxRange = 'VolvoBEV!A3:S3'; 
         const tableRange = 'VolvoBEV!A5:AB'; 
         
