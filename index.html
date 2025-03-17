@@ -43,7 +43,7 @@
         /* styles for the ZETT - Volvo BEV Trial page */
         .container { 
             display: flex; 
-            justify-content: space-between; 
+            justify-content: flex-start; 
             align-items: flex-start; 
             margin: 20px auto; 
             max-width: 1200px; 
@@ -78,14 +78,17 @@
 
         /* Increase size of left image */
         .image-container-left {
-            flex: 1; /* Ensure it takes up equal space */
+            flex: 4; /* Ensure it takes up equal space */
             margin-right: 20px; /* Space between the left image and the value container */
+            display: flex;
+            justify-content: flex-start;
         }
         
         .image-container-left img {
-            width: 80%;  /* Ensure image fills the container */
-            max-width: 500px;  /* Limit the maximum width of the image */
+            width: 100%;  /* Ensure image fills the container */
+            max-width: 1200px;  /* Limit the maximum width of the image */
             height: auto;  /* Maintain aspect ratio */
+            object-fit: contain;
         }
 
         .value-container {
