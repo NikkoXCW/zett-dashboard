@@ -426,157 +426,81 @@
         }
 
         let trendChart;
-        let displayedColumns = [];  // Tracks which columns have been added to the chart
-        
+
         // Function to show the trend chart when a column header is clicked
         function showTrend(columnIndex) {
             const chartContainer = document.getElementById("chartPopup");
             const chartCanvas = document.getElementById("trendChart");
-            const checkboxContainer = document.getElementById("checkboxContainer");
             chartContainer.style.display = "block";
-        
+
             // Use selectedColumns to correctly reference sheetData indices
             const sheetColumnIndex = selectedColumns[columnIndex];
-        
+
             // Collecting data for the trend chart (Y values)
             const trendData = [];
             const validDates = [];
-        
+
             sheetData.forEach(row => {
                 let rawValue = row[sheetColumnIndex];
                 if (rawValue) {
                     rawValue = rawValue.replace(/[^0-9.-]/g, ''); // Remove "$", "," or any non-numeric characters
                 }
-        
+
                 const value = parseFloat(rawValue);
-        
+
                 if (!isNaN(value)) {
                     trendData.push(value);
                     validDates.push(row[0]); // Corresponding date for the valid value
                 }
             });
-        
+
             if (trendData.length === 0) {
                 alert("No valid data for this column.");
                 closeChart();
                 return;
             }
-        
+
             // Find the min and max values for dynamic scaling
             const minValue = Math.min(...trendData);
             const maxValue = Math.max(...trendData);
-        
-            // If chart doesn't exist yet, create it
-            if (!trendChart) {
-                trendChart = new Chart(chartCanvas, {
-                    type: 'line',
-                    data: {
-                        labels: validDates, // Use filtered valid dates
-                        datasets: [{
-                            label: columnNames[columnIndex],
-                            data: trendData,
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            fill: false,
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            x: { type: 'category' },
-                            y: {
-                                beginAtZero: false,
-                                min: minValue * 0.95,
-                                max: maxValue * 1.05,
-                                ticks: {
-                                    suggestedMin: minValue * 0.95,
-                                    suggestedMax: maxValue * 1.05
-                                }
+
+            if (trendChart) {
+                trendChart.destroy();
+            }
+
+            // Create a new chart
+            trendChart = new Chart(chartCanvas, {
+                type: 'line',
+                data: {
+                    labels: validDates, // Use filtered valid dates
+                    datasets: [{
+                        label: columnNames[columnIndex],
+                        data: trendData,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        fill: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: { type: 'category' },
+                        y: {
+                            beginAtZero: false, // Start the y-axis at the minimum value
+                            min: minValue * 0.95, // 5% below the minimum value
+                            max: maxValue * 1.05, // 5% above the maximum value
+                            ticks: {
+                                suggestedMin: minValue * 0.95, // Optional, for better control
+                                suggestedMax: maxValue * 1.05 // Optional, for better control
                             }
                         }
                     }
-                });
-            } else {
-                // Reset the chart with the first selected column's trend
-                trendChart.data.datasets = [{
-                    label: columnNames[columnIndex],
-                    data: trendData,
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    fill: false,
-                }];
-                trendChart.update();
-            }
-        
-            // Create checkboxes for other columns
-            checkboxContainer.innerHTML = ''; // Clear any existing checkboxes
-            selectedColumns.forEach((colIndex, i) => {
-                if (i !== columnIndex) { // Don't display the checkbox for the currently displayed column
-                    const checkboxDiv = document.createElement("div");
-                    const checkboxLabel = document.createElement("label");
-                    const checkbox = document.createElement("input");
-                    checkbox.type = "checkbox";
-                    checkbox.id = `checkbox-${i}`;
-                    checkboxLabel.textContent = columnNames[i];
-                    checkboxDiv.appendChild(checkbox);
-                    checkboxDiv.appendChild(checkboxLabel);
-                    checkboxContainer.appendChild(checkboxDiv);
-        
-                    // When checkbox is clicked, show/hide the trend for that column
-                    checkbox.addEventListener("change", () => toggleTrend(i, checkbox.checked));
                 }
             });
         }
-        
-        // Function to add or remove a trend based on checkbox status
-        function toggleTrend(columnIndex, isChecked) {
-            const sheetColumnIndex = selectedColumns[columnIndex];
-            const trendData = [];
-            const validDates = [];
-        
-            sheetData.forEach(row => {
-                let rawValue = row[sheetColumnIndex];
-                if (rawValue) {
-                    rawValue = rawValue.replace(/[^0-9.-]/g, ''); // Remove "$", "," or any non-numeric characters
-                }
-        
-                const value = parseFloat(rawValue);
-        
-                if (!isNaN(value)) {
-                    trendData.push(value);
-                    validDates.push(row[0]); // Corresponding date for the valid value
-                }
-            });
-        
-            if (isChecked) {
-                trendChart.data.datasets.push({
-                    label: columnNames[columnIndex],
-                    data: trendData,
-                    borderColor: getRandomColor(),
-                    fill: false,
-                });
-            } else {
-                // Remove the dataset for the unchecked column
-                trendChart.data.datasets = trendChart.data.datasets.filter(dataset => dataset.label !== columnNames[columnIndex]);
-            }
-            trendChart.update();
-        }
-        
-        // Function to get a random color for each new dataset
-        function getRandomColor() {
-            const letters = '0123456789ABCDEF';
-            let color = '#';
-            for (let i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
-        }
-        
+
         // Close the chart popup
         function closeChart() {
             document.getElementById("chartPopup").style.display = "none";
-            if (trendChart) {
-                trendChart.destroy();
-                trendChart = null;
-            }
         }
 
         window.onload = function() {
