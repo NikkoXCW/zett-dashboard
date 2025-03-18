@@ -1118,30 +1118,11 @@
 
         let trendChart;
         
-        // Function to handle page change and reset the chart container
-        function loadPage(page) {
-            // Hide the chart popup and reset data before switching pages
-            resetChartPopup();
-        
-            // Show the correct page content based on the parameter 'page'
-            // You can implement your page rendering logic here (e.g., displaying the tables, value boxes, etc.)
-            console.log(`Loading content for ${page}`);
-        }
-        
-        // Reset the chart popup container
-        function resetChartPopup() {
-            const chartContainer = document.getElementById("chartPopup");
-            chartContainer.style.display = "none"; // Hide the chart
-            if (trendChart) {
-                trendChart.destroy(); // Destroy the previous chart if any
-            }
-        }
-        
         // Function to show the trend chart when a column header is clicked
         function showTrend(columnIndex, pageIndex, selectedColumns) {
             const chartContainer = document.getElementById("chartPopup");
             const chartCanvas = document.getElementById("trendChart");
-            chartContainer.style.display = "block"; // Ensure the chart is shown when clicked
+            chartContainer.style.display = "block";
         
             // Dynamically select the correct dataset based on pageIndex
             let sheetData, columnNames;
@@ -1168,15 +1149,31 @@
                     return;
             }
         
-            // Debugging: Check which data set is being passed
+            // Debugging log: Check which data set is being passed
             console.log(`Data for page ${pageIndex}:`, sheetData);
         
+            // Make sure sheetData is available
             if (!sheetData || sheetData.length === 0) {
                 alert("No data available for this page.");
                 closeChart();
                 return;
             }
+
+            // Ensure selectedColumns and columnIndex are valid
+            if (!Array.isArray(selectedColumns) || selectedColumns.length === 0) {
+                console.error("Invalid or empty selectedColumns array:", selectedColumns);
+                closeChart();
+                return;
+            }
         
+            // Check if columnIndex exists in selectedColumns
+            if (columnIndex >= selectedColumns.length) {
+                console.error("Invalid columnIndex:", columnIndex);
+                closeChart();
+                return;
+            }
+        
+            // Collecting data for the trend chart (Y values)
             const trendData = [];
             const validDates = [];
         
@@ -1198,31 +1195,30 @@
                 }
             });
         
-            // Debugging: Check the collected trend data
-            console.log(`Trend Data for page ${pageIndex}:`, trendData);
-        
             if (trendData.length === 0) {
                 alert("No valid data for this column.");
                 closeChart();
                 return;
             }
         
+            // Find the min and max values for dynamic scaling
             const minValue = Math.min(...trendData);
             const maxValue = Math.max(...trendData);
         
+            // Destroy the existing chart if it exists
             if (trendChart) {
                 trendChart.destroy();
             }
         
-            const selectedColumnIndex = selectedColumns.indexOf(columnIndex);
             const columnLabel = columnNames && columnNames[columnIndex] ? columnNames[columnIndex] : "Unknown Column";
         
+            // Create a new chart
             trendChart = new Chart(chartCanvas, {
                 type: 'line',
                 data: {
-                    labels: validDates,
+                    labels: validDates, // Use filtered valid dates
                     datasets: [{
-                        label: columnLabel,
+                        label: columnLabel, // Dynamically use the column label
                         data: trendData,
                         borderColor: 'rgba(75, 192, 192, 1)',
                         fill: false,
@@ -1233,12 +1229,12 @@
                     scales: {
                         x: { type: 'category' },
                         y: {
-                            beginAtZero: false,
-                            min: minValue * 0.95,
-                            max: maxValue * 1.05,
+                            beginAtZero: false, // Start the y-axis at the minimum value
+                            min: minValue * 0.95, // 5% below the minimum value
+                            max: maxValue * 1.05, // 5% above the maximum value
                             ticks: {
-                                suggestedMin: minValue * 0.95,
-                                suggestedMax: maxValue * 1.05
+                                suggestedMin: minValue * 0.95, // Optional, for better control
+                                suggestedMax: maxValue * 1.05 // Optional, for better control
                             }
                         }
                     },
@@ -1246,7 +1242,7 @@
                         tooltip: {
                             callbacks: {
                                 label: function (context) {
-                                    return `${context.dataset.label}: ${context.raw.toFixed(2)} (${context.label})`;
+                                    return `${context.dataset.label}: ${context.raw.toFixed(2)} (${context.label})`; // Show value with precision
                                 }
                             }
                         }
@@ -1263,46 +1259,46 @@
                 trendChart.destroy(); // Destroy the chart to clear memory
             }
         }
-        
+
         let isDragging = false;
         let offsetX, offsetY;
         
-        const chartContainer = document.getElementById("chartPopup");
-        
+       const chartContainer = document.getElementById("chartPopup");
+
         chartContainer.addEventListener("mousedown", (event) => {
             isDragging = true;
             offsetX = event.clientX - chartContainer.getBoundingClientRect().left;
             offsetY = event.clientY - chartContainer.getBoundingClientRect().top;
             document.body.style.cursor = 'move'; // Change cursor style to indicate drag mode
         });
-        
+
         document.addEventListener("mousemove", (event) => {
             if (isDragging) {
                 chartContainer.style.left = `${event.clientX - offsetX}px`;
                 chartContainer.style.top = `${event.clientY - offsetY}px`;
             }
         });
-        
+
         document.addEventListener("mouseup", () => {
             isDragging = false;
             document.body.style.cursor = ''; // Reset cursor style
         });
-        
-        window.onload = function () {
+
+        window.onload = function() {
             loadPage('Page1');  // Automatically load Page 1 by default
             fetchValueBoxDataPage1();
             fetchTableDataPage1();
-        
+
             // Load Page 2
             loadPage('Page2');
             fetchValueBoxDataPage2(); // For Page 2
             fetchTableDataPage2();  // For Page 2
-        
+
             // Load Page 3
             loadPage('Page3');
             fetchValueBoxDataPage3(); // For Page 3
             fetchTableDataPage3();  // For Page 3
-        
+
             // Load Page 4
             loadPage('Page4');
             fetchValueBoxDataPage4(); // For Page 4
