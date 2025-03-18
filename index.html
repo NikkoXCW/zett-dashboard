@@ -618,10 +618,23 @@
         const valueBoxRangePage2 = 'AZETECFCEV!A3:R3'; // New sheet range for Page 2
         const tableRangePage2 = 'AZETECFCEV!A5:R'; // New sheet range for Page 2
 
+        const valueBoxRangePage3 = 'NikolaV13!A3:R3'; // New sheet range for Page 3
+        const tableRangePage3 = 'NikolaV13!A5:R'; // New sheet range for Page 3
+
+        const valueBoxRangePage4 = 'NikolaV14!A3:R3'; // New sheet range for Page 4
+        const tableRangePage4 = 'NikolaV14!A5:R'; // New sheet range for Page 4
+
         let sheetDataPage1 = [];
         let valueBoxDataPage1 = [];
+        
         let sheetDataPage2 = [];
         let valueBoxDataPage2 = [];
+             
+        let sheetDataPage3 = [];
+        let valueBoxDataPage3 = [];
+                
+        let sheetDataPage4 = [];
+        let valueBoxDataPage4 = [];
 
         // Fetch value box data for Page 1
         async function fetchValueBoxDataPage1() {
@@ -691,7 +704,73 @@
                 console.error('Error fetching table data for Page 2:', error);
             }
         }
+        
+        // Fetch value box data for Page 3
+        async function fetchValueBoxDataPage3() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${valueBoxRangePage2}?key=${apiKey}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data.values) {
+                    valueBoxDataPage3 = data.values;
+                    populateValueBoxesPage3(valueBoxDataPage3[0]);
+                }
+            } catch (error) {
+                console.error('Error fetching value box data for Page 3:', error);
+            }
+        }
 
+        // Fetch table data for Page 3
+        async function fetchTableDataPage3() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${tableRangePage2}?key=${apiKey}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                console.log("Page 3 Table Data:", data);
+                
+                if (data.values) {
+                    sheetDataPage3 = data.values;
+                    renderTablePage3(sheetDataPage3);
+                }
+            } catch (error) {
+                console.error('Error fetching table data for Page 3:', error);
+            }
+        }
+
+        // Fetch value box data for Page 4
+        async function fetchValueBoxDataPage4() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${valueBoxRangePage2}?key=${apiKey}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data.values) {
+                    valueBoxDataPage4 = data.values;
+                    populateValueBoxesPage4(valueBoxDataPage4[0]);
+                }
+            } catch (error) {
+                console.error('Error fetching value box data for Page 4:', error);
+            }
+        }
+
+        // Fetch table data for Page 4
+        async function fetchTableDataPage4() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${tableRangePage2}?key=${apiKey}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                console.log("Page 4 Table Data:", data);
+                
+                if (data.values) {
+                    sheetDataPage4 = data.values;
+                    renderTablePage4(sheetDataPage4);
+                }
+            } catch (error) {
+                console.error('Error fetching table data for Page 4:', error);
+            }
+        }
+        
         // Populate value boxes for Page 1
         function populateValueBoxesPage1(row) {
             document.getElementById('cellA3').innerText = row[0] || '';
@@ -713,7 +792,26 @@
             document.getElementById('cellR3Page2').innerText = row[17] || '';
         }
 
-
+        // Populate value boxes for Page 3
+        function populateValueBoxesPage3(row) {
+            document.getElementById('cellA3Page3').innerText = row[0] || '';
+            document.getElementById('cellJ3Page3').innerText = row[9] || '';
+            document.getElementById('cellK3Page3').innerText = row[10] || '';
+            document.getElementById('cellP3Page3').innerText = row[15] || '';
+            document.getElementById('cellQ3Page3').innerText = row[16] || '';
+            document.getElementById('cellR3Page3').innerText = row[17] || '';
+        }
+        
+        // Populate value boxes for Page 4
+        function populateValueBoxesPage4(row) {
+            document.getElementById('cellA3Page4').innerText = row[0] || '';
+            document.getElementById('cellJ3Page4').innerText = row[9] || '';
+            document.getElementById('cellK3Page4').innerText = row[10] || '';
+            document.getElementById('cellP3Page4').innerText = row[15] || '';
+            document.getElementById('cellQ3Page4').innerText = row[16] || '';
+            document.getElementById('cellR3Page4').innerText = row[17] || '';
+        }
+        
         // Render the table for Page 1
         function renderTablePage1(data) {
             const tableHeader = document.getElementById("tableHeaderPage1");
