@@ -1158,6 +1158,20 @@
                 closeChart();
                 return;
             }
+
+            // Ensure selectedColumns and columnIndex are valid
+            if (!Array.isArray(selectedColumns) || selectedColumns.length === 0) {
+                console.error("Invalid or empty selectedColumns array:", selectedColumns);
+                closeChart();
+                return;
+            }
+        
+            // Check if columnIndex exists in selectedColumns
+            if (columnIndex >= selectedColumns.length) {
+                console.error("Invalid columnIndex:", columnIndex);
+                closeChart();
+                return;
+            }
         
             // Collecting data for the trend chart (Y values)
             const trendData = [];
@@ -1196,8 +1210,6 @@
                 trendChart.destroy();
             }
         
-            // Ensure that the column index is valid in the selectedColumns array
-            const selectedColumnIndex = selectedColumns.indexOf(columnIndex);
             const columnLabel = columnNames && columnNames[columnIndex] ? columnNames[columnIndex] : "Unknown Column";
         
             // Create a new chart
