@@ -607,7 +607,7 @@
             // Filter the data to only include rows where column K (index 10) has a non-empty value
             const filteredDataPage1 = data.filter(row => {
                 const columnKValuePage1 = row[10];
-                console.log(`Column K Value: ${columnKValue}`); // Log the value of column K for each row
+                console.log(`Column K Value: ${columnKValuePage1}`); // Log the value of column K for each row
         
                 // Check if column K has a valid value (non-empty, non-null, and not NaN)
                 return columnKValue && columnKValue.trim() !== "" && !isNaN(columnKValue);
