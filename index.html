@@ -670,12 +670,33 @@
                 tableHeader.appendChild(th);
             });
 
-            // Render rows for Page 2
-            data.forEach(row => {
+            // Filter the data to only include rows where column K (index 10) has a non-empty value
+            const filteredDataPage2 = data.filter(row => {
+                if (!row || !row[10]) {
+                    console.log('Skipping row due to missing data:', row); // Log rows that are skipped
+                    return false;
+                }
+        
+                const columnKValuePage2 = row[10];
+                console.log(`Column K Value: ${columnKValuePage2}`); // Log the value of column K for each row
+        
+                const cleanedValue = columnKValuePage2.replace(/[^0-9.-]/g, ''); // Remove non-numeric characters
+                const isValid = cleanedValue && !isNaN(cleanedValue);
+                if (!isValid) {
+                    console.log('Row skipped due to invalid column K:', row); // Log rows that are skipped
+                }
+                return isValid;
+            });
+        
+            // Log the filtered data to debug
+            console.log('Filtered Data:', filteredDataPage1);
+
+            // Render table rows with only the selected columns
+            filteredDataPage2.forEach(row => {
                 const tr = document.createElement("tr");
-                row.forEach(cell => {
+                selectedColumns.forEach(colIndex => {
                     const td = document.createElement("td");
-                    td.innerText = cell || '';
+                    td.innerText = row[colIndex] || ''; // Display the data from the selected columns
                     tr.appendChild(td);
                 });
                 tableBody.appendChild(tr);
@@ -683,23 +704,40 @@
         }
 
         // Function to filter the data based on date range
-        function filterData() {
+        function filterData(pageIndex) {
             const startDate = document.getElementById('startDate').value;
             const endDate = document.getElementById('endDate').value;
-        
+            
+            // Check if both startDate and endDate are provided
             if (!startDate || !endDate) {
-                renderTablePage1(sheetDataPage1);
+                // Render the corresponding page table without filtering if no dates are selected
+                renderTable(pageIndex);
                 return;
             }
-        
+            
             const startDateObj = new Date(startDate);
             const endDateObj = new Date(endDate);
-        
+            
             // Log dates for debugging
             console.log('Start Date:', startDateObj);
             console.log('End Date:', endDateObj);
         
-            const filteredData = sheetDataPage1.filter(row => {
+            let sheetData;  // Define a variable to hold the data based on the page index
+        
+            // Assign the correct data based on the page index
+            switch(pageIndex) {
+                case 1:
+                    sheetData = sheetDataPage1;
+                    break;
+                case 2:
+                    sheetData = sheetDataPage2;
+                    break;
+                default:
+                    console.error('Invalid page index.');
+                    return;
+            }
+            
+            const filteredData = sheetData.filter(row => {
                 const rowDate = row[0]; // Assuming the first column contains the date
                 
                 // Parse the date from the row and ensure it's valid
@@ -711,9 +749,9 @@
         
                 return rowDateObj >= startDateObj && rowDateObj <= endDateObj;
             });
-        
-            // Render the filtered data in page 1
-            renderTablePage1(filteredData);
+            
+            // Render the filtered data for the selected page
+            renderTable(pageIndex, filteredData);
         }
 
      let trendChart;
