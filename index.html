@@ -712,7 +712,7 @@
         let trendChart;
 
         // Function to show the trend chart when a column header is clicked
-        function showTrend(columnIndex) {
+        function showTrend(columnIndex, data) {
             const chartContainer = document.getElementById("chartPopup");
             const chartCanvas = document.getElementById("trendChart");
             chartContainer.style.display = "block";
@@ -728,7 +728,7 @@
             const trendData = [];
             const validDates = [];
 
-            sheetData.forEach(row => {
+            data.forEach(row, rowIndex) => {
                 let rawValue = row[sheetColumnIndex];
                 if (rawValue) {
                     rawValue = rawValue.replace(/[^0-9.-]/g, ''); // Remove "$", "," or any non-numeric characters
