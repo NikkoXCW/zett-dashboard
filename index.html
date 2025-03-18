@@ -593,18 +593,35 @@
             // Table header and rendering logic for Page 1
             const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "Energy Efficiency 2 ($/Km)", "CO2 Reduction (Kg)"];
          
-            columnNames.forEach(col => {
+            // Create table headers based on selected columns
+            columnNames.forEach((col, index) => {
                 const th = document.createElement("th");
                 th.innerText = col;
+                th.onclick = () => showTrend(index); // Pass the column index
                 tableHeader.appendChild(th);
             });
 
-            // Render rows for Page 1
-            data.forEach(row => {
+            // Log the data to debug the values in column K
+            console.log('Data:', data);
+        
+            // Filter the data to only include rows where column K (index 10) has a non-empty value
+            const filteredDataPage1 = data.filter(row => {
+                const columnKValuePage1 = row[10];
+                console.log(`Column K Value: ${columnKValue}`); // Log the value of column K for each row
+        
+                // Check if column K has a valid value (non-empty, non-null, and not NaN)
+                return columnKValue && columnKValue.trim() !== "" && !isNaN(columnKValue);
+            });
+        
+            // Log the filtered data to debug
+            console.log('Filtered Data:', filteredData);
+
+            // Render table rows with only the selected columns
+            filteredDataPage1.forEach(row => {
                 const tr = document.createElement("tr");
-                row.forEach(cell => {
+                selectedColumns.forEach(colIndex => {
                     const td = document.createElement("td");
-                    td.innerText = cell || '';
+                    td.innerText = row[colIndex] || ''; // Display the data from the selected columns
                     tr.appendChild(td);
                 });
                 tableBody.appendChild(tr);
