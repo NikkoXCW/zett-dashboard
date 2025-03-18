@@ -1124,7 +1124,7 @@
             const chartCanvas = document.getElementById("trendChart");
             chartContainer.style.display = "block"; // Show chart container
         
-            // Dynamically select the correct dataset based on pageIndex
+            // Dynamically select the correct dataset and column names based on pageIndex
             let sheetData, columnNames;
             switch (pageIndex) {
                 case 1:
@@ -1159,16 +1159,32 @@
                 return;
             }
         
+            // Check if selectedColumns is valid
+            if (!selectedColumns || selectedColumns.length === 0) {
+                alert("Invalid selectedColumns array.");
+                closeChart();
+                return;
+            }
+        
+            // Ensure that columnIndex is within valid bounds for the selectedColumns
+            if (columnIndex < 0 || columnIndex >= selectedColumns.length) {
+                alert("Invalid column index.");
+                closeChart();
+                return;
+            }
+        
             // Collecting data for the trend chart (Y values)
             const trendData = [];
             const validDates = [];
         
             sheetData.forEach(row => {
-                if (!selectedColumns || columnIndex >= selectedColumns.length) {
-                    console.error("Invalid selectedColumns array or columnIndex:", selectedColumns, columnIndex);
+                const selectedColumnIndex = selectedColumns[columnIndex];
+                if (selectedColumnIndex < 0 || selectedColumnIndex >= row.length) {
+                    console.error("Selected column index is out of bounds for row:", row);
                     return;
                 }
-                let rawValue = row[selectedColumns[columnIndex]];
+        
+                let rawValue = row[selectedColumnIndex];
                 if (rawValue) {
                     rawValue = rawValue.replace(/[^0-9.-]/g, ''); // Remove "$", "," or any non-numeric characters
                 }
@@ -1196,9 +1212,7 @@
                 trendChart.destroy();
             }
         
-            // Ensure that the column index is valid in the selectedColumns array
-            const selectedColumnIndex = selectedColumns.indexOf(columnIndex);
-            const columnLabel = columnNames && columnNames[columnIndex] ? columnNames[columnIndex] : "Unknown Column";
+            const columnLabel = columnNames[columnIndex] || "Unknown Column";
         
             // Create a new chart
             trendChart = new Chart(chartCanvas, {
