@@ -600,7 +600,7 @@
             columnNames.forEach((col, index) => {
                 const th = document.createElement("th");
                 th.innerText = col;
-                th.onclick = () => showTrend(index,1); // Pass the column index
+                th.onclick = () => showTrend(index,1, selectedColumns); // Pass the column index
                 tableHeader.appendChild(th);
             });
 
@@ -660,7 +660,7 @@
             columnNames.forEach(col => {
                 const th = document.createElement("th");
                 th.innerText = col;
-                th.onclick = () => showTrend(index, 2);
+                th.onclick = () => showTrend(index, 2, selectedColumns);
                 tableHeader.appendChild(th);
             });
 
@@ -713,7 +713,7 @@
      let trendChart;
 
         // Function to show the trend chart when a column header is clicked
-        function showTrend(columnIndex, pageIndex) {
+        function showTrend(columnIndex, pageIndex, selectedColumns) {
             const chartContainer = document.getElementById("chartPopup");
             const chartCanvas = document.getElementById("trendChart");
             chartContainer.style.display = "block";
@@ -754,6 +754,10 @@
             const validDates = [];
         
             sheetData.forEach(row => {
+                if (!selectedColumns || columnIndex >= selectedColumns.length) {
+                    console.error("Invalid selectedColumns array or columnIndex:", selectedColumns, columnIndex);
+                    return;
+                }
                 let rawValue = row[selectedColumns[columnIndex]];
                 if (rawValue) {
                     rawValue = rawValue.replace(/[^0-9.-]/g, ''); // Remove "$", "," or any non-numeric characters
