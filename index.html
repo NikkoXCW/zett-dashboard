@@ -590,6 +590,9 @@
                 return;
             }
 
+            // Define the columns you want to show (indexes are based on Google Sheet columns)
+            const selectedColumns = [0, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]; // Example columns to display (A, J, K, L, M, N, O, P, Q, R, S)
+
             // Table header and rendering logic for Page 1
             const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "Energy Efficiency 2 ($/Km)", "CO2 Reduction (Kg)"];
          
@@ -623,7 +626,7 @@
             });
         
             // Log the filtered data to debug
-            console.log('Filtered Data:', filteredData);
+            console.log('Filtered Data:', filteredDataPage1);
 
             // Render table rows with only the selected columns
             filteredDataPage1.forEach(row => {
