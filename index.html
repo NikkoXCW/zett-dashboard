@@ -600,7 +600,7 @@
             columnNames.forEach((col, index) => {
                 const th = document.createElement("th");
                 th.innerText = col;
-                th.onclick = () => showTrend(selectedColumns[index],1, selectedColumns); // Pass the column index
+                th.onclick = () => showTrend(selectedColumns[index], 1, selectedColumns); // Pass the column index
                 tableHeader.appendChild(th);
             });
 
