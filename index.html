@@ -832,7 +832,7 @@
             }
 
             const selectedColumnIndex = selectedColumns.indexOf(columnIndex);
-            const columnLabel = columnNames[selectedColumnIndex] || "Unknown Column"; // Handle missing labels
+            const columnLabel = (columnNames && columnNames[columnIndex]) ? columnNames[columnIndex] : "Unknown Column";
 
         
             // Create a new chart
