@@ -363,10 +363,13 @@
 
         <!-- Table for Data -->
         <table id="tablePage1">
-            <thead>
-                <tr id="tableHeaderPage1"></tr>
-            </thead>
+            <thead id="tableHeaderPage1"></thead>
             <tbody id="tableBodyPage1"></tbody>
+        </table>
+        
+        <table id="tablePage2">
+            <thead id="tableHeaderPage2"></thead>
+            <tbody id="tableBodyPage2"></tbody>
         </table>
 
         <!-- Trend Chart Popup -->
@@ -483,8 +486,8 @@
         const valueBoxRangePage1 = 'VolvoBEV!A3:S3'; 
         const tableRangePage1 = 'VolvoBEV!A5:AB'; 
         
-        const valueBoxRangePage2 = 'Page2Data!A3:S3'; // New sheet range for Page 2
-        const tableRangePage2 = 'Page2Data!A5:AB'; // New sheet range for Page 2
+        const valueBoxRangePage2 = 'AZETECFCEV!A3:S3'; // New sheet range for Page 2
+        const tableRangePage2 = 'AZETECFECV!A5:AB'; // New sheet range for Page 2
 
         let sheetDataPage1 = [];
         let valueBoxDataPage1 = [];
@@ -578,11 +581,19 @@
         function renderTablePage1(data) {
             const tableHeader = document.getElementById("tableHeaderPage1");
             const tableBody = document.getElementById("tableBodyPage1");
+            
             tableHeader.innerHTML = '';
             tableBody.innerHTML = '';
 
+            // Check if data is not empty
+            if (!data || data.length === 0) {
+                console.error('No data available for Page 1');
+                return;
+            }
+
             // Table header and rendering logic for Page 1
             const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "Energy Efficiency 2 ($/Km)", "CO2 Reduction (Kg)"];
+         
             columnNames.forEach(col => {
                 const th = document.createElement("th");
                 th.innerText = col;
@@ -605,11 +616,19 @@
         function renderTablePage2(data) {
             const tableHeader = document.getElementById("tableHeaderPage2");
             const tableBody = document.getElementById("tableBodyPage2");
+            
             tableHeader.innerHTML = '';
             tableBody.innerHTML = '';
 
+            // Check if data is not empty
+            if (!data || data.length === 0) {
+                console.error('No data available for Page 2');
+                return;
+            }
+
             // Table header and rendering logic for Page 2
             const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "Energy Efficiency 2 ($/Km)", "CO2 Reduction (Kg)"];
+            
             columnNames.forEach(col => {
                 const th = document.createElement("th");
                 th.innerText = col;
