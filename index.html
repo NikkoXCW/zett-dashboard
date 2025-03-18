@@ -663,10 +663,10 @@
             // Table header and rendering logic for Page 2
             const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
             
-            columnNames.forEach(col, index) => {
+            columnNames.forEach(col, i) => {
                 const th = document.createElement("th");
                 th.innerText = col;
-                th.onclick = () => showTrend(index, 2, selectedColumns);
+                th.onclick = () => showTrend(i, 2, selectedColumns);
                 tableHeader.appendChild(th);
             });
 
