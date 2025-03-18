@@ -717,6 +717,10 @@
             const chartCanvas = document.getElementById("trendChart");
             chartContainer.style.display = "block";
 
+            // Log selectedColumns and columnIndex for debugging
+            console.log('selectedColumns:', selectedColumns);
+            console.log('columnIndex clicked:', columnIndex);
+
             // Use selectedColumns to correctly reference sheetData indices
             const sheetColumnIndex = selectedColumns[columnIndex];
 
@@ -735,8 +739,14 @@
                 if (!isNaN(value)) {
                     trendData.push(value);
                     validDates.push(row[0]); // Corresponding date for the valid value
+                } else {
+                    console.log(`Invalid data in row ${rowIndex + 1} for column ${sheetColumnIndex}: ${rawValue}`);
                 }
             });
+
+            // Log the filtered data
+            console.log('Valid trend data:', trendData);
+            console.log('Valid dates:', validDates);
 
             if (trendData.length === 0) {
                 alert("No valid data for this column.");
