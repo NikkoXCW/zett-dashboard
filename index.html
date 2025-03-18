@@ -600,7 +600,7 @@
             columnNames.forEach((col, index) => {
                 const th = document.createElement("th");
                 th.innerText = col;
-                th.onclick = () => showTrend(index); // Pass the column index
+                th.onclick = () => showTrend(index,1); // Pass the column index
                 tableHeader.appendChild(th);
             });
 
@@ -660,6 +660,7 @@
             columnNames.forEach(col => {
                 const th = document.createElement("th");
                 th.innerText = col;
+                th.onclick = () => showTrend(index, 2);
                 tableHeader.appendChild(th);
             });
 
@@ -712,46 +713,46 @@
      let trendChart;
 
         // Function to show the trend chart when a column header is clicked
-        function showTrend(columnIndex) {
+        function showTrend(columnIndex, pageIndex) {
             const chartContainer = document.getElementById("chartPopup");
             const chartCanvas = document.getElementById("trendChart");
             chartContainer.style.display = "block";
-
-            // Use selectedColumns to correctly reference sheetData indices
-            const sheetColumnIndex = selectedColumns[columnIndex];
-
+        
+            // Use pageIndex to choose the correct sheet data (Page 1 or Page 2)
+            const sheetData = pageIndex === 1 ? sheetDataPage1 : sheetDataPage2;
+        
             // Collecting data for the trend chart (Y values)
             const trendData = [];
             const validDates = [];
-
+        
             sheetData.forEach(row => {
-                let rawValue = row[sheetColumnIndex];
+                let rawValue = row[selectedColumns[columnIndex]];
                 if (rawValue) {
                     rawValue = rawValue.replace(/[^0-9.-]/g, ''); // Remove "$", "," or any non-numeric characters
                 }
-
+        
                 const value = parseFloat(rawValue);
-
+        
                 if (!isNaN(value)) {
                     trendData.push(value);
                     validDates.push(row[0]); // Corresponding date for the valid value
                 }
             });
-
+        
             if (trendData.length === 0) {
                 alert("No valid data for this column.");
                 closeChart();
                 return;
             }
-
+        
             // Find the min and max values for dynamic scaling
             const minValue = Math.min(...trendData);
             const maxValue = Math.max(...trendData);
-
+        
             if (trendChart) {
                 trendChart.destroy();
             }
-
+        
             // Create a new chart
             trendChart = new Chart(chartCanvas, {
                 type: 'line',
