@@ -1122,9 +1122,9 @@
         function showTrend(columnIndex, pageIndex, selectedColumns) {
             const chartContainer = document.getElementById("chartPopup");
             const chartCanvas = document.getElementById("trendChart");
-            chartContainer.style.display = "block"; // Show chart container
+            chartContainer.style.display = "block";
         
-            // Dynamically select the correct dataset and column names based on pageIndex
+            // Dynamically select the correct dataset based on pageIndex
             let sheetData, columnNames;
             switch (pageIndex) {
                 case 1:
@@ -1159,32 +1159,16 @@
                 return;
             }
         
-            // Check if selectedColumns is valid
-            if (!selectedColumns || selectedColumns.length === 0) {
-                alert("Invalid selectedColumns array.");
-                closeChart();
-                return;
-            }
-        
-            // Ensure that columnIndex is within valid bounds for the selectedColumns
-            if (columnIndex < 0 || columnIndex >= selectedColumns.length) {
-                alert("Invalid column index.");
-                closeChart();
-                return;
-            }
-        
             // Collecting data for the trend chart (Y values)
             const trendData = [];
             const validDates = [];
         
             sheetData.forEach(row => {
-                const selectedColumnIndex = selectedColumns[columnIndex];
-                if (selectedColumnIndex < 0 || selectedColumnIndex >= row.length) {
-                    console.error("Selected column index is out of bounds for row:", row);
+                if (!selectedColumns || columnIndex >= selectedColumns.length) {
+                    console.error("Invalid selectedColumns array or columnIndex:", selectedColumns, columnIndex);
                     return;
                 }
-        
-                let rawValue = row[selectedColumnIndex];
+                let rawValue = row[selectedColumns[columnIndex]];
                 if (rawValue) {
                     rawValue = rawValue.replace(/[^0-9.-]/g, ''); // Remove "$", "," or any non-numeric characters
                 }
@@ -1212,7 +1196,9 @@
                 trendChart.destroy();
             }
         
-            const columnLabel = columnNames[columnIndex] || "Unknown Column";
+            // Ensure that the column index is valid in the selectedColumns array
+            const selectedColumnIndex = selectedColumns.indexOf(columnIndex);
+            const columnLabel = columnNames && columnNames[columnIndex] ? columnNames[columnIndex] : "Unknown Column";
         
             // Create a new chart
             trendChart = new Chart(chartCanvas, {
@@ -1256,10 +1242,9 @@
         // Function to close the chart and hide the chart container
         function closeChart() {
             const chartContainer = document.getElementById("chartPopup");
-            chartContainer.style.display = "none"; // Hide the chart container
+            chartContainer.style.display = "none"; // Hide the chart
             if (trendChart) {
                 trendChart.destroy(); // Destroy the chart to clear memory
-                trendChart = null; // Ensure the reference is null after destruction
             }
         }
 
