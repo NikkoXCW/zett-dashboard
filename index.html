@@ -1122,7 +1122,7 @@
         function showTrend(columnIndex, pageIndex, selectedColumns) {
             const chartContainer = document.getElementById("chartPopup");
             const chartCanvas = document.getElementById("trendChart");
-            chartContainer.style.display = "block";
+            chartContainer.style.display = "block"; // Show chart container
         
             // Dynamically select the correct dataset based on pageIndex
             let sheetData, columnNames;
@@ -1242,9 +1242,10 @@
         // Function to close the chart and hide the chart container
         function closeChart() {
             const chartContainer = document.getElementById("chartPopup");
-            chartContainer.style.display = "none"; // Hide the chart
+            chartContainer.style.display = "none"; // Hide the chart container
             if (trendChart) {
                 trendChart.destroy(); // Destroy the chart to clear memory
+                trendChart = null; // Ensure the reference is null after destruction
             }
         }
 
