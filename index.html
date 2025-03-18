@@ -1289,24 +1289,12 @@
         });
         
         window.onload = function () {
-            loadPage('Page1');  // Automatically load Page 1 by default
-            fetchValueBoxDataPage1();
-            fetchTableDataPage1();
+            loadPage(1);  // Automatically load Page 1 by default
         
             // Load Page 2
-            loadPage('Page2');
-            fetchValueBoxDataPage2(); // For Page 2
-            fetchTableDataPage2();  // For Page 2
-        
-            // Load Page 3
-            loadPage('Page3');
-            fetchValueBoxDataPage3(); // For Page 3
-            fetchTableDataPage3();  // For Page 3
-        
-            // Load Page 4
-            loadPage('Page4');
-            fetchValueBoxDataPage4(); // For Page 4
-            fetchTableDataPage4();  // For Page 4
+            document.getElementById('loadPage2').addEventListener('click', () => loadPage(2));
+            document.getElementById('loadPage3').addEventListener('click', () => loadPage(3));
+            document.getElementById('loadPage4').addEventListener('click', () => loadPage(4));
         };
     </script>
 </body>
