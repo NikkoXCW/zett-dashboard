@@ -652,24 +652,32 @@
             const endDate = document.getElementById('endDate').value;
         
             if (!startDate || !endDate) {
-                renderTable(sheetData);
+                renderTablePage1(sheetDataPage1);
                 return;
             }
         
-            const filteredData = sheetData.filter(row => {
+            const startDateObj = new Date(startDate);
+            const endDateObj = new Date(endDate);
+        
+            // Log dates for debugging
+            console.log('Start Date:', startDateObj);
+            console.log('End Date:', endDateObj);
+        
+            const filteredData = sheetDataPage1.filter(row => {
                 const rowDate = row[0]; // Assuming the first column contains the date
-        
-                if (!rowDate) return false; // Skip empty dates
-        
-                // Convert date string to Date object
+                
+                // Parse the date from the row and ensure it's valid
                 const rowDateObj = new Date(rowDate);
-                const startDateObj = new Date(startDate);
-                const endDateObj = new Date(endDate);
+                if (isNaN(rowDateObj)) {
+                    console.error(`Invalid date: ${rowDate}`);
+                    return false; // Skip invalid dates
+                }
         
                 return rowDateObj >= startDateObj && rowDateObj <= endDateObj;
             });
         
-            renderTable(filteredData);
+            // Render the filtered data in page 1
+            renderTablePage1(filteredData);
         }
 
         let trendChart;
