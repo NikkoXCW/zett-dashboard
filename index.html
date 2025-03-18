@@ -599,12 +599,20 @@
     <script>
         // Function to load the selected page and hide others
         function loadPage(pageId) {
+            // Store the current page in localStorage
+            localStorage.setItem('currentPage', pageId);
+        
             // Hide all pages
             const pages = document.querySelectorAll('.page-container');
             pages.forEach(page => page.style.display = 'none');
             
             // Show the selected page
-            document.getElementById(pageId).style.display = 'block';
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) {
+                selectedPage.style.display = 'block';
+            } else {
+                console.error(`Page with ID ${pageId} not found!`);
+            }
         }
 
         // Example data fetching and processing functions for ZETT page
