@@ -387,7 +387,7 @@
             <div class="value-container">
                 <div class="value-box">
                     <label for="trialStartDate">Trial Operation Start Date:</label>
-                    <span id="trialStartDate">April 07, 2025</span>
+                    <span id="trialStartDate">April 14, 2025</span>
                 </div>
                 <div class="value-box">
                     <label for="cellA3Page2">Operating Days:</label>
@@ -451,13 +451,149 @@
     <!-- Page 3 -->
     <div id="Page3" class="page-container">
         <h3>Nikola FCEV V13 - Bison</h3>
-        <p>This page is under construction.</p>
+        <div class="container">
+            <!-- Left Image Container -->
+            <div class="image-container-left">
+                <img src="https://drive.google.com/thumbnail?id=..." alt="Image Left">
+            </div>
+
+            <!-- Value Container in the Center -->
+            <div class="value-container">
+                <div class="value-box">
+                    <label for="trialStartDate">Trial Operation Start Date:</label>
+                    <span id="trialStartDate">April 01, 2025</span>
+                </div>
+                <div class="value-box">
+                    <label for="cellA3Page3">Operating Days:</label>
+                    <span id="cellA3Page3"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellJ3Page3">Total Net Loads (Kg):</label>
+                    <span id="cellJ3Page3"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellK3Page3">Total Operating Mileage (Km):</label>
+                    <span id="cellK3Page3"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellP3Page3">Average H2 Consumption Rate (Kg/Km):</label>
+                    <span id="cellP3Page3"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellQ3Page3">Average Energy Efficiency (CAD$/Km):</label>
+                    <span id="cellQ3Page3"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellR3Page3">CO2 Emission Reduction (Kg):</label>
+                    <span id="cellR3Page3"></span>
+                </div>
+            </div>
+
+            <!-- Right Image Containers -->
+            <div class="image-container-right">
+                <div>
+                    <img src="https://drive.google.com/thumbnail?id=..." alt="Image Right 1">
+                </div>
+                <div>
+                    <img src="https://drive.google.com/thumbnail?id=..." alt="Image Right 2">
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Container for Date -->
+        <div class="filter-container">
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate">
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate">
+            <button onclick="filterData()">Filter</button>
+        </div>
+
+        <!-- Table for Data -->       
+        <table id="tablePage3">
+            <thead id="tableHeaderPage3"></thead>
+            <tbody id="tableBodyPage3"></tbody>
+        </table>
+
+        <!-- Trend Chart Popup -->
+        <div class="chart-container" id="chartPopup">
+            <span class="close-btn" onclick="closeChart()">&times;</span>
+            <canvas id="trendChart"></canvas>
+        </div>
     </div>
 
     <!-- Page 4 -->
     <div id="Page4" class="page-container">
         <h3>Nikola FCEV V14 - Arrow</h3>
-        <p>This page is under construction.</p>
+        <div class="container">
+            <!-- Left Image Container -->
+            <div class="image-container-left">
+                <img src="https://drive.google.com/thumbnail?id=..." alt="Image Left">
+            </div>
+
+            <!-- Value Container in the Center -->
+            <div class="value-container">
+                <div class="value-box">
+                    <label for="trialStartDate">Trial Operation Start Date:</label>
+                    <span id="trialStartDate">April 01, 2025</span>
+                </div>
+                <div class="value-box">
+                    <label for="cellA3Page4">Operating Days:</label>
+                    <span id="cellA3Page4"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellJ3Page4">Total Net Loads (Kg):</label>
+                    <span id="cellJ3Page4"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellK3Page4">Total Operating Mileage (Km):</label>
+                    <span id="cellK3Page4"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellP3Page4">Average H2 Consumption Rate (Kg/Km):</label>
+                    <span id="cellP3Page4"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellQ3Page4">Average Energy Efficiency (CAD$/Km):</label>
+                    <span id="cellQ3Page4"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellR3Page4">CO2 Emission Reduction (Kg):</label>
+                    <span id="cellR3Page4"></span>
+                </div>
+            </div>
+
+            <!-- Right Image Containers -->
+            <div class="image-container-right">
+                <div>
+                    <img src="https://drive.google.com/thumbnail?id=..." alt="Image Right 1">
+                </div>
+                <div>
+                    <img src="https://drive.google.com/thumbnail?id=..." alt="Image Right 2">
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Container for Date -->
+        <div class="filter-container">
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate">
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate">
+            <button onclick="filterData()">Filter</button>
+        </div>
+
+        <!-- Table for Data -->       
+        <table id="tablePage4">
+            <thead id="tableHeaderPage4"></thead>
+            <tbody id="tableBodyPage4"></tbody>
+        </table>
+
+        <!-- Trend Chart Popup -->
+        <div class="chart-container" id="chartPopup">
+            <span class="close-btn" onclick="closeChart()">&times;</span>
+            <canvas id="trendChart"></canvas>
+        </div>
     </div>
 
     <script>
