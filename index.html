@@ -710,83 +710,48 @@
         }
 
         let trendChart;
-        let activePage = 1; // Default active page (Page 1)
-        
-        // Data and selected columns for each page
-        let sheetDataPage1, sheetDataPage2, sheetDataPage3, sheetDataPage4; // Data for all 4 pages
-        let selectedColumnsPage1, selectedColumnsPage2, selectedColumnsPage3, selectedColumnsPage4; // Columns for each page
-        let columnNamesPage1, columnNamesPage2, columnNamesPage3, columnNamesPage4; // Column names for each page
-        
+
         // Function to show the trend chart when a column header is clicked
         function showTrend(columnIndex) {
             const chartContainer = document.getElementById("chartPopup");
             const chartCanvas = document.getElementById("trendChart");
             chartContainer.style.display = "block";
-        
-            let pageData, selectedColumns, columnNames;
-        
-            // Determine the active page data, columns, and names
-            switch (activePage) {
-                case 1:
-                    pageData = sheetDataPage1;
-                    selectedColumns = selectedColumnsPage1;
-                    columnNames = columnNamesPage1;
-                    break;
-                case 2:
-                    pageData = sheetDataPage2;
-                    selectedColumns = selectedColumnsPage2;
-                    columnNames = columnNamesPage2;
-                    break;
-                case 3:
-                    pageData = sheetDataPage3;
-                    selectedColumns = selectedColumnsPage3;
-                    columnNames = columnNamesPage3;
-                    break;
-                case 4:
-                    pageData = sheetDataPage4;
-                    selectedColumns = selectedColumnsPage4;
-                    columnNames = columnNamesPage4;
-                    break;
-                default:
-                    console.error("Unknown active page:", activePage);
-                    return;
-            }
-        
-            // Use selectedColumns to correctly reference sheetData indices for the current page
+
+            // Use selectedColumns to correctly reference sheetData indices
             const sheetColumnIndex = selectedColumns[columnIndex];
-        
+
             // Collecting data for the trend chart (Y values)
             const trendData = [];
             const validDates = [];
-        
-            pageData.forEach(row => {
+
+            sheetData.forEach(row => {
                 let rawValue = row[sheetColumnIndex];
                 if (rawValue) {
                     rawValue = rawValue.replace(/[^0-9.-]/g, ''); // Remove "$", "," or any non-numeric characters
                 }
-        
+
                 const value = parseFloat(rawValue);
-        
+
                 if (!isNaN(value)) {
                     trendData.push(value);
                     validDates.push(row[0]); // Corresponding date for the valid value
                 }
             });
-        
+
             if (trendData.length === 0) {
                 alert("No valid data for this column.");
                 closeChart();
                 return;
             }
-        
+
             // Find the min and max values for dynamic scaling
             const minValue = Math.min(...trendData);
             const maxValue = Math.max(...trendData);
-        
+
             if (trendChart) {
                 trendChart.destroy();
             }
-        
+
             // Create a new chart
             trendChart = new Chart(chartCanvas, {
                 type: 'line',
