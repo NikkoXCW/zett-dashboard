@@ -493,6 +493,9 @@
             try {
                 const response = await fetch(url);
                 const data = await response.json();
+                
+                console.log("Page 1 Value Box Data:", data);  // Add this line
+                
                 if (data.values) {
                     valueBoxDataPage1 = data.values;
                     populateValueBoxesPage1(valueBoxDataPage1[0]);
@@ -508,6 +511,9 @@
             try {
                 const response = await fetch(url);
                 const data = await response.json();
+
+                console.log("Page 1 Table Data:", data);  // Add this line
+                
                 if (data.values) {
                     sheetDataPage1 = data.values;
                     renderTablePage1(sheetDataPage1);
