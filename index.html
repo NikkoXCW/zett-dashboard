@@ -606,11 +606,20 @@
         
             // Filter the data to only include rows where column K (index 10) has a non-empty value
             const filteredDataPage1 = data.filter(row => {
+                if (!row || !row[10]) {
+                    console.log('Skipping row due to missing data:', row); // Log rows that are skipped
+                    return false;
+                }
+        
                 const columnKValuePage1 = row[10];
                 console.log(`Column K Value: ${columnKValuePage1}`); // Log the value of column K for each row
         
-                // Check if column K has a valid value (non-empty, non-null, and not NaN)
-                return columnKValue && columnKValue.trim() !== "" && !isNaN(columnKValue);
+                const cleanedValue = columnKValuePage1.replace(/[^0-9.-]/g, ''); // Remove non-numeric characters
+                const isValid = cleanedValue && !isNaN(cleanedValue);
+                if (!isValid) {
+                    console.log('Row skipped due to invalid column K:', row); // Log rows that are skipped
+                }
+                return isValid;
             });
         
             // Log the filtered data to debug
