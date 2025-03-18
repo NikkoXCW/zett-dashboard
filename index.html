@@ -719,13 +719,15 @@
             chartContainer.style.display = "block";
         
             // Dynamically select the correct dataset based on pageIndex
-            let sheetData;
+            let sheetData, ColumnNames;
             switch (pageIndex) {
                 case 1:
                     sheetData = sheetDataPage1;
+                    columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "Energy Efficiency 2 ($/Km)", "CO2 Reduction (Kg)"];
                     break;
                 case 2:
                     sheetData = sheetDataPage2;
+                    columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Avg Speed (Km/h)", "Battery Start SoC", "Battery End SoC", "Fuel Consumption", "Energy Efficiency ($/Km)", "CO2 Reduction"];
                     break;
                 case 3:
                     sheetData = sheetDataPage3;
@@ -740,7 +742,7 @@
             }
 
             // Debugging log: Check which data set is being passed
-            console.log("Data for page " + pageIndex + ": ", sheetData);
+            console.log(`Data for page ${pageIndex}:`, sheetData);
         
             // Make sure sheetData is available
             if (!sheetData || sheetData.length === 0) {
