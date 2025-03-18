@@ -290,10 +290,10 @@
 
     <!-- Navigation Buttons -->
     <div class="nav-buttons">
-        <button onclick="loadPage1">Volvo BEV - Sutco</button>
-        <button onclick="loadPage2">AZETEC FCEV 99 - Trimac</button>
-        <button onclick="loadPage3">Nikola FCEV V13 - Bison</button>
-        <button onclick="loadPage4">Nikola FCEV V14 - Arrow</button>
+        <button onclick="loadPage('Page1')">Volvo BEV - Sutco</button>
+        <button onclick="loadPage('Page2')">AZETEC FCEV 99 - Trimac</button>
+        <button onclick="loadPage('Page3')">Nikola FCEV V13 - Bison</button>
+        <button onclick="loadPage('Page4')">Nikola FCEV V14 - Arrow</button>
     </div>
 
     <!-- Page Content (ZETT Page) -->
@@ -1116,194 +1116,198 @@
             renderTable(pageIndex, filteredData);
         }
 
-            let trendChart;
-            
-            // Function to handle page change and reset the chart container
-            function loadPage(pageIndex) {
-                // Hide all page contents first
-                const allPages = document.querySelectorAll('.page-content');
-                allPages.forEach(page => page.style.display = 'none');
-            
-                // Show the selected page based on the pageIndex
-                const selectedPage = document.getElementById(`page${pageIndex}`);
-                if (selectedPage) {
-                    selectedPage.style.display = 'block';
-                } else {
-                    console.error(`Page ${pageIndex} not found`);
-                }
-            
-                // Reset the chart popup container
-                resetChartPopup();
+        let trendChart;
+        
+        // Function to handle page change and reset the chart container
+        function loadPage(page) {
+            // Hide the chart popup and reset data before switching pages
+            resetChartPopup();
+        
+            // Show the correct page content based on the parameter 'page'
+            // You can implement your page rendering logic here (e.g., displaying the tables, value boxes, etc.)
+            console.log(`Loading content for ${page}`);
+        }
+        
+        // Reset the chart popup container
+        function resetChartPopup() {
+            const chartContainer = document.getElementById("chartPopup");
+            chartContainer.style.display = "none"; // Hide the chart
+            if (trendChart) {
+                trendChart.destroy(); // Destroy the previous chart if any
             }
-            
-            // Reset the chart popup container
-            function resetChartPopup() {
-                const chartContainer = document.getElementById("chartPopup");
-                chartContainer.style.display = "none"; // Hide the chart
-                if (trendChart) {
-                    trendChart.destroy(); // Destroy the previous chart if any
-                }
-            }
-            
-            // Function to show the trend chart when a column header is clicked
-            function showTrend(columnIndex, pageIndex, selectedColumns) {
-                const chartContainer = document.getElementById("chartPopup");
-                const chartCanvas = document.getElementById("trendChart");
-                chartContainer.style.display = "block"; // Ensure the chart is shown when clicked
-            
-                // Dynamically select the correct dataset based on pageIndex
-                let sheetData, columnNames;
-                switch (pageIndex) {
-                    case 1:
-                        sheetData = sheetDataPage1;
-                        columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "Energy Efficiency 2 ($/Km)", "CO2 Reduction (Kg)"];
-                        break;
-                    case 2:
-                        sheetData = sheetDataPage2;
-                        columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
-                        break;
-                    case 3:
-                        sheetData = sheetDataPage3;
-                        columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
-                        break;
-                    case 4:
-                        sheetData = sheetDataPage4;
-                        columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
-                        break;
-                    default:
-                        alert("Invalid page index.");
-                        closeChart();
-                        return;
-                }
-            
-                // Debugging: Check which data set is being passed
-                console.log(`Data for page ${pageIndex}:`, sheetData);
-            
-                if (!sheetData || sheetData.length === 0) {
-                    alert("No data available for this page.");
+        }
+        
+        // Function to show the trend chart when a column header is clicked
+        function showTrend(columnIndex, pageIndex, selectedColumns) {
+            const chartContainer = document.getElementById("chartPopup");
+            const chartCanvas = document.getElementById("trendChart");
+            chartContainer.style.display = "block"; // Ensure the chart is shown when clicked
+        
+            // Dynamically select the correct dataset based on pageIndex
+            let sheetData, columnNames;
+            switch (pageIndex) {
+                case 1:
+                    sheetData = sheetDataPage1;
+                    columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "Energy Efficiency 2 ($/Km)", "CO2 Reduction (Kg)"];
+                    break;
+                case 2:
+                    sheetData = sheetDataPage2;
+                    columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
+                    break;
+                case 3:
+                    sheetData = sheetDataPage3;
+                    columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
+                    break;
+                case 4:
+                    sheetData = sheetDataPage4;
+                    columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
+                    break;
+                default:
+                    alert("Invalid page index.");
                     closeChart();
                     return;
-                }
-            
-                const trendData = [];
-                const validDates = [];
-            
-                sheetData.forEach(row => {
-                    if (!selectedColumns || columnIndex >= selectedColumns.length) {
-                        console.error("Invalid selectedColumns array or columnIndex:", selectedColumns, columnIndex);
-                        return;
-                    }
-                    let rawValue = row[selectedColumns[columnIndex]];
-                    if (rawValue) {
-                        rawValue = rawValue.replace(/[^0-9.-]/g, ''); // Remove "$", "," or any non-numeric characters
-                    }
-            
-                    const value = parseFloat(rawValue);
-            
-                    if (!isNaN(value)) {
-                        trendData.push(value);
-                        validDates.push(row[0]); // Corresponding date for the valid value
-                    }
-                });
-            
-                // Debugging: Check the collected trend data
-                console.log(`Trend Data for page ${pageIndex}:`, trendData);
-            
-                if (trendData.length === 0) {
-                    alert("No valid data for this column.");
-                    closeChart();
+            }
+        
+            // Debugging: Check which data set is being passed
+            console.log(`Data for page ${pageIndex}:`, sheetData);
+        
+            if (!sheetData || sheetData.length === 0) {
+                alert("No data available for this page.");
+                closeChart();
+                return;
+            }
+        
+            const trendData = [];
+            const validDates = [];
+        
+            sheetData.forEach(row => {
+                if (!selectedColumns || columnIndex >= selectedColumns.length) {
+                    console.error("Invalid selectedColumns array or columnIndex:", selectedColumns, columnIndex);
                     return;
                 }
-            
-                const minValue = Math.min(...trendData);
-                const maxValue = Math.max(...trendData);
-            
-                if (trendChart) {
-                    trendChart.destroy();
+                let rawValue = row[selectedColumns[columnIndex]];
+                if (rawValue) {
+                    rawValue = rawValue.replace(/[^0-9.-]/g, ''); // Remove "$", "," or any non-numeric characters
                 }
-            
-                const selectedColumnIndex = selectedColumns.indexOf(columnIndex);
-                const columnLabel = columnNames && columnNames[columnIndex] ? columnNames[columnIndex] : "Unknown Column";
-            
-                trendChart = new Chart(chartCanvas, {
-                    type: 'line',
-                    data: {
-                        labels: validDates,
-                        datasets: [{
-                            label: columnLabel,
-                            data: trendData,
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            fill: false,
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            x: { type: 'category' },
-                            y: {
-                                beginAtZero: false,
-                                min: minValue * 0.95,
-                                max: maxValue * 1.05,
-                                ticks: {
-                                    suggestedMin: minValue * 0.95,
-                                    suggestedMax: maxValue * 1.05
-                                }
+        
+                const value = parseFloat(rawValue);
+        
+                if (!isNaN(value)) {
+                    trendData.push(value);
+                    validDates.push(row[0]); // Corresponding date for the valid value
+                }
+            });
+        
+            // Debugging: Check the collected trend data
+            console.log(`Trend Data for page ${pageIndex}:`, trendData);
+        
+            if (trendData.length === 0) {
+                alert("No valid data for this column.");
+                closeChart();
+                return;
+            }
+        
+            const minValue = Math.min(...trendData);
+            const maxValue = Math.max(...trendData);
+        
+            if (trendChart) {
+                trendChart.destroy();
+            }
+        
+            const selectedColumnIndex = selectedColumns.indexOf(columnIndex);
+            const columnLabel = columnNames && columnNames[columnIndex] ? columnNames[columnIndex] : "Unknown Column";
+        
+            trendChart = new Chart(chartCanvas, {
+                type: 'line',
+                data: {
+                    labels: validDates,
+                    datasets: [{
+                        label: columnLabel,
+                        data: trendData,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        fill: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: { type: 'category' },
+                        y: {
+                            beginAtZero: false,
+                            min: minValue * 0.95,
+                            max: maxValue * 1.05,
+                            ticks: {
+                                suggestedMin: minValue * 0.95,
+                                suggestedMax: maxValue * 1.05
                             }
-                        },
-                        plugins: {
-                            tooltip: {
-                                callbacks: {
-                                    label: function (context) {
-                                        return `${context.dataset.label}: ${context.raw.toFixed(2)} (${context.label})`;
-                                    }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    return `${context.dataset.label}: ${context.raw.toFixed(2)} (${context.label})`;
                                 }
                             }
                         }
                     }
-                });
-            }
-            
-            // Function to close the chart and hide the chart container
-            function closeChart() {
-                const chartContainer = document.getElementById("chartPopup");
-                chartContainer.style.display = "none"; // Hide the chart
-                if (trendChart) {
-                    trendChart.destroy(); // Destroy the chart to clear memory
                 }
-            }
-            
-            let isDragging = false;
-            let offsetX, offsetY;
-            
+            });
+        }
+        
+        // Function to close the chart and hide the chart container
+        function closeChart() {
             const chartContainer = document.getElementById("chartPopup");
-            
-            chartContainer.addEventListener("mousedown", (event) => {
-                isDragging = true;
-                offsetX = event.clientX - chartContainer.getBoundingClientRect().left;
-                offsetY = event.clientY - chartContainer.getBoundingClientRect().top;
-                document.body.style.cursor = 'move'; // Change cursor style to indicate drag mode
-            });
-            
-            document.addEventListener("mousemove", (event) => {
-                if (isDragging) {
-                    chartContainer.style.left = `${event.clientX - offsetX}px`;
-                    chartContainer.style.top = `${event.clientY - offsetY}px`;
-                }
-            });
-            
-            document.addEventListener("mouseup", () => {
-                isDragging = false;
-                document.body.style.cursor = ''; // Reset cursor style
-            });
-            
-            window.onload = function () {
-                loadPage(1);  // Automatically load Page 1 by default
-            
-                // Load Page 2
-                document.getElementById('loadPage2').addEventListener('click', () => loadPage(2));
-                document.getElementById('loadPage3').addEventListener('click', () => loadPage(3));
-                document.getElementById('loadPage4').addEventListener('click', () => loadPage(4));
-            };
+            chartContainer.style.display = "none"; // Hide the chart
+            if (trendChart) {
+                trendChart.destroy(); // Destroy the chart to clear memory
+            }
+        }
+        
+        let isDragging = false;
+        let offsetX, offsetY;
+        
+        const chartContainer = document.getElementById("chartPopup");
+        
+        chartContainer.addEventListener("mousedown", (event) => {
+            isDragging = true;
+            offsetX = event.clientX - chartContainer.getBoundingClientRect().left;
+            offsetY = event.clientY - chartContainer.getBoundingClientRect().top;
+            document.body.style.cursor = 'move'; // Change cursor style to indicate drag mode
+        });
+        
+        document.addEventListener("mousemove", (event) => {
+            if (isDragging) {
+                chartContainer.style.left = `${event.clientX - offsetX}px`;
+                chartContainer.style.top = `${event.clientY - offsetY}px`;
+            }
+        });
+        
+        document.addEventListener("mouseup", () => {
+            isDragging = false;
+            document.body.style.cursor = ''; // Reset cursor style
+        });
+        
+        window.onload = function () {
+            loadPage('Page1');  // Automatically load Page 1 by default
+            fetchValueBoxDataPage1();
+            fetchTableDataPage1();
+        
+            // Load Page 2
+            loadPage('Page2');
+            fetchValueBoxDataPage2(); // For Page 2
+            fetchTableDataPage2();  // For Page 2
+        
+            // Load Page 3
+            loadPage('Page3');
+            fetchValueBoxDataPage3(); // For Page 3
+            fetchTableDataPage3();  // For Page 3
+        
+            // Load Page 4
+            loadPage('Page4');
+            fetchValueBoxDataPage4(); // For Page 4
+            fetchTableDataPage4();  // For Page 4
+        };
     </script>
 </body>
 </html>
