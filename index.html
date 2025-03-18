@@ -738,6 +738,9 @@
                     closeChart();
                     return;
             }
+
+            // Debugging log: Check which data set is being passed
+            console.log("Data for page " + pageIndex + ": ", sheetData);
         
             // Make sure sheetData is available
             if (!sheetData || sheetData.length === 0) {
@@ -810,7 +813,8 @@
         
         // Close the chart popup
         function closeChart() {
-            document.getElementById("chartPopup").style.display = "none";
+            const chartContainer = document.getElementById("chartPopup");
+            chartContainer.style.display = "none";
         }
 
         let isDragging = false;
