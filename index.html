@@ -718,8 +718,33 @@
             const chartCanvas = document.getElementById("trendChart");
             chartContainer.style.display = "block";
         
-            // Use pageIndex to choose the correct sheet data (Page 1 or Page 2)
-            const sheetData = pageIndex === 1 ? sheetDataPage1 : sheetDataPage2;
+            // Dynamically select the correct dataset based on pageIndex
+            let sheetData;
+            switch (pageIndex) {
+                case 1:
+                    sheetData = sheetDataPage1;
+                    break;
+                case 2:
+                    sheetData = sheetDataPage2;
+                    break;
+                case 3:
+                    sheetData = sheetDataPage3;
+                    break;
+                case 4:
+                    sheetData = sheetDataPage4;
+                    break;
+                default:
+                    alert("Invalid page index.");
+                    closeChart();
+                    return;
+            }
+        
+            // Make sure sheetData is available
+            if (!sheetData || sheetData.length === 0) {
+                alert("No data available for this page.");
+                closeChart();
+                return;
+            }
         
             // Collecting data for the trend chart (Y values)
             const trendData = [];
