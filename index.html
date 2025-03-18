@@ -480,7 +480,7 @@
         const tableRangePage1 = 'VolvoBEV!A5:AB'; 
         
         const valueBoxRangePage2 = 'AZETECFCEV!A3:S3'; // New sheet range for Page 2
-        const tableRangePage2 = 'AZETECFECV!A5:R'; // New sheet range for Page 2
+        const tableRangePage2 = 'AZETECFCEV!A5:R'; // New sheet range for Page 2
 
         let sheetDataPage1 = [];
         let valueBoxDataPage1 = [];
@@ -544,6 +544,9 @@
             try {
                 const response = await fetch(url);
                 const data = await response.json();
+                
+                console.log("Page 2 Fetch Response:", data);
+                
                 if (data.values) {
                     sheetDataPage2 = data.values;
                     renderTablePage2(sheetDataPage2);
