@@ -600,7 +600,7 @@
             columnNames.forEach((col, index) => {
                 const th = document.createElement("th");
                 th.innerText = col;
-                th.onclick = () => showTrend(index,1, selectedColumns); // Pass the column index
+                th.onclick = () => showTrend(selectedColumns[index],1, selectedColumns); // Pass the column index
                 tableHeader.appendChild(th);
             });
 
@@ -660,7 +660,7 @@
             columnNames.forEach(col => {
                 const th = document.createElement("th");
                 th.innerText = col;
-                th.onclick = () => showTrend(index, 2, selectedColumns);
+                th.onclick = () => showTrend(selectedColumns[index], 2, selectedColumns);
                 tableHeader.appendChild(th);
             });
 
@@ -784,6 +784,10 @@
             if (trendChart) {
                 trendChart.destroy();
             }
+
+            const selectedColumnIndex = selectedColumns.indexOf(columnIndex);
+            const columnLabel = columnNames[selectedColumnIndex] || "Unknown Column"; // Handle missing labels
+
         
             // Create a new chart
             trendChart = new Chart(chartCanvas, {
