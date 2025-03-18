@@ -661,7 +661,7 @@
 
 
             // Table header and rendering logic for Page 2
-            const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "CO2 Reduction (Kg)"];
+            const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
             
             columnNames.forEach(col => {
                 const th = document.createElement("th");
@@ -733,7 +733,7 @@
                     break;
                 case 2:
                     sheetData = sheetDataPage2;
-                    columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Avg Speed (Km/h)", "Battery Start SoC", "Battery End SoC", "Fuel Consumption", "Energy Efficiency ($/Km)", "CO2 Reduction"];
+                    columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
                     break;
                 case 3:
                     sheetData = sheetDataPage3;
