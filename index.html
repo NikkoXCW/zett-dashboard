@@ -937,6 +937,128 @@
             });
         }
 
+        // Render the table for Page 3
+        function renderTablePage3(data) {
+            const tableHeader = document.getElementById("tableHeaderPage3");
+            const tableBody = document.getElementById("tableBodyPage3");
+            
+            tableHeader.innerHTML = '';
+            tableBody.innerHTML = '';
+
+            // Check if data is not empty
+            if (!data || data.length === 0) {
+                console.error('No data available for Page 3');
+                return;
+            }
+
+            // Define the columns you want to show (indexes are based on Google Sheet columns)
+            const selectedColumns = [0, 9, 10, 11, 12, 13, 14, 15, 16, 17]; // Example columns to display (A, J, K, L, M, N, O, P, Q, R)
+
+
+            // Table header and rendering logic for Page 3
+            const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
+            
+            columnNames.forEach((col, index)  => {
+                const th = document.createElement("th");
+                th.innerText = col;
+                th.onclick = () => showTrend(index, 3, selectedColumns);
+                tableHeader.appendChild(th);
+            });
+
+            // Filter the data to only include rows where column K (index 10) has a non-empty value
+            const filteredDataPage3 = data.filter(row => {
+                if (!row || !row[10]) {
+                    console.log('Skipping row due to missing data:', row); // Log rows that are skipped
+                    return false;
+                }
+        
+                const columnKValuePage3 = row[10];
+                console.log(`Column K Value: ${columnKValuePage3}`); // Log the value of column K for each row
+        
+                const cleanedValue = columnKValuePage3.replace(/[^0-9.-]/g, ''); // Remove non-numeric characters
+                const isValid = cleanedValue && !isNaN(cleanedValue);
+                if (!isValid) {
+                    console.log('Row skipped due to invalid column K:', row); // Log rows that are skipped
+                }
+                return isValid;
+            });
+        
+            // Log the filtered data to debug
+            console.log('Filtered Data:', filteredDataPage3);
+
+            // Render table rows with only the selected columns
+            filteredDataPage3.forEach(row => {
+                const tr = document.createElement("tr");
+                selectedColumns.forEach(colIndex => {
+                    const td = document.createElement("td");
+                    td.innerText = row[colIndex] || ''; // Display the data from the selected columns
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            });
+        }
+
+        // Render the table for Page 4
+        function renderTablePage4(data) {
+            const tableHeader = document.getElementById("tableHeaderPage4");
+            const tableBody = document.getElementById("tableBodyPage4");
+            
+            tableHeader.innerHTML = '';
+            tableBody.innerHTML = '';
+
+            // Check if data is not empty
+            if (!data || data.length === 0) {
+                console.error('No data available for Page 4');
+                return;
+            }
+
+            // Define the columns you want to show (indexes are based on Google Sheet columns)
+            const selectedColumns = [0, 9, 10, 11, 12, 13, 14, 15, 16, 17]; // Example columns to display (A, J, K, L, M, N, O, P, Q, R)
+
+
+            // Table header and rendering logic for Page 4
+            const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
+            
+            columnNames.forEach((col, index)  => {
+                const th = document.createElement("th");
+                th.innerText = col;
+                th.onclick = () => showTrend(index, 4, selectedColumns);
+                tableHeader.appendChild(th);
+            });
+
+            // Filter the data to only include rows where column K (index 10) has a non-empty value
+            const filteredDataPage4 = data.filter(row => {
+                if (!row || !row[10]) {
+                    console.log('Skipping row due to missing data:', row); // Log rows that are skipped
+                    return false;
+                }
+        
+                const columnKValuePage4 = row[10];
+                console.log(`Column K Value: ${columnKValuePage4}`); // Log the value of column K for each row
+        
+                const cleanedValue = columnKValuePage4.replace(/[^0-9.-]/g, ''); // Remove non-numeric characters
+                const isValid = cleanedValue && !isNaN(cleanedValue);
+                if (!isValid) {
+                    console.log('Row skipped due to invalid column K:', row); // Log rows that are skipped
+                }
+                return isValid;
+            });
+        
+            // Log the filtered data to debug
+            console.log('Filtered Data:', filteredDataPage4);
+
+            // Render table rows with only the selected columns
+            filteredDataPage4.forEach(row => {
+                const tr = document.createElement("tr");
+                selectedColumns.forEach(colIndex => {
+                    const td = document.createElement("td");
+                    td.innerText = row[colIndex] || ''; // Display the data from the selected columns
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            });
+        }
+
         // Function to filter the data based on date range
         function filterData(pageIndex) {
             const startDate = document.getElementById('startDate').value;
@@ -965,6 +1087,12 @@
                     break;
                 case 2:
                     sheetData = sheetDataPage2;
+                    break;
+                case 3:
+                    sheetData = sheetDataPage3;
+                    break;
+                case 4:
+                    sheetData = sheetDataPage4;
                     break;
                 default:
                     console.error('Invalid page index.');
@@ -1009,9 +1137,11 @@
                     break;
                 case 3:
                     sheetData = sheetDataPage3;
+                    columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
                     break;
                 case 4:
                     sheetData = sheetDataPage4;
+                    columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
                     break;
                 default:
                     alert("Invalid page index.");
@@ -1138,6 +1268,16 @@
             loadPage('Page2');
             fetchValueBoxDataPage2(); // For Page 2
             fetchTableDataPage2();  // For Page 2
+
+            // Load Page 3
+            loadPage('Page3');
+            fetchValueBoxDataPage3(); // For Page 3
+            fetchTableDataPage3();  // For Page 3
+
+            // Load Page 4
+            loadPage('Page4');
+            fetchValueBoxDataPage4(); // For Page 4
+            fetchTableDataPage4();  // For Page 4
         };
     </script>
 </body>
