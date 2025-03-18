@@ -324,7 +324,7 @@
                     <span id="cellK3"></span>
                 </div>
                 <div class="value-box">
-                    <label for="cellP3">Average Fuel Consumption Rate (kWh/Km):</label>
+                    <label for="cellP3">Average Electricity Consumption Rate (kWh/Km):</label>
                     <span id="cellP3"></span>
                 </div>
                 <div class="value-box">
@@ -402,7 +402,7 @@
                     <span id="cellK3Page2"></span>
                 </div>
                 <div class="value-box">
-                    <label for="cellP3Page2">Average Fuel Consumption Rate (Kg/Km):</label>
+                    <label for="cellP3Page2">Average H2 Consumption Rate (Kg/Km):</label>
                     <span id="cellP3Page2"></span>
                 </div>
                 <div class="value-box">
@@ -480,7 +480,7 @@
         const tableRangePage1 = 'VolvoBEV!A5:AB'; 
         
         const valueBoxRangePage2 = 'AZETECFCEV!A3:S3'; // New sheet range for Page 2
-        const tableRangePage2 = 'AZETECFECV!A5:AB'; // New sheet range for Page 2
+        const tableRangePage2 = 'AZETECFECV!A5:R'; // New sheet range for Page 2
 
         let sheetDataPage1 = [];
         let valueBoxDataPage1 = [];
@@ -572,7 +572,6 @@
             document.getElementById('cellP3Page2').innerText = row[15] || '';
             document.getElementById('cellQ3Page2').innerText = row[16] || '';
             document.getElementById('cellR3Page2').innerText = row[17] || '';
-            document.getElementById('cellS3Page2').innerText = row[18] || '';
         }
 
 
@@ -654,8 +653,12 @@
                 return;
             }
 
+            // Define the columns you want to show (indexes are based on Google Sheet columns)
+            const selectedColumns = [0, 9, 10, 11, 12, 13, 14, 15, 16, 17]; // Example columns to display (A, J, K, L, M, N, O, P, Q, R)
+
+
             // Table header and rendering logic for Page 2
-            const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "Energy Efficiency 2 ($/Km)", "CO2 Reduction (Kg)"];
+            const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "CO2 Reduction (Kg)"];
             
             columnNames.forEach(col => {
                 const th = document.createElement("th");
