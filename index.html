@@ -362,11 +362,11 @@
         </div>
 
         <!-- Table for Data -->
-        <table>
+        <table id="tablePage1">
             <thead>
-                <tr id="tableHeader"></tr>
+                <tr id="tableHeaderPage1"></tr>
             </thead>
-            <tbody id="tableBody"></tbody>
+            <tbody id="tableBodyPage1"></tbody>
         </table>
 
         <!-- Trend Chart Popup -->
@@ -438,11 +438,11 @@
         </div>
 
         <!-- Table for Data -->
-        <table>
+        <table id="tablePage2">
             <thead>
-                <tr id="tableHeader"></tr>
+                <tr id="tableHeaderPage2"></tr>
             </thead>
-            <tbody id="tableBody"></tbody>
+            <tbody id="tableBodyPage2"></tbody>
         </table>
 
         <!-- Trend Chart Popup -->
@@ -479,44 +479,80 @@
         const apiKey = 'AIzaSyC8f4hfYHPD8ZjffE2BlmCbEAmkgVJQsOQ';
         const sheetId = '1Tw-3NfzRG7JhzLsjLBfrRF__Plo4BZS8RWRa-csbiH4';
         
-        const valueBoxRange = 'VolvoBEV!A3:S3'; 
-        const tableRange = 'VolvoBEV!A5:AB'; 
+        // Page 1 (VolvoBEV) range and Page 2 range
+        const valueBoxRangePage1 = 'VolvoBEV!A3:S3'; 
+        const tableRangePage1 = 'VolvoBEV!A5:AB'; 
         
-        let sheetData = [];
-        let valueBoxData = [];
+        const valueBoxRangePage2 = 'Page2Data!A3:S3'; // New sheet range for Page 2
+        const tableRangePage2 = 'Page2Data!A5:AB'; // New sheet range for Page 2
 
-        // Fetch value box data
-        async function fetchValueBoxData() {
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${valueBoxRange}?key=${apiKey}`;
+        let sheetDataPage1 = [];
+        let valueBoxDataPage1 = [];
+        let sheetDataPage2 = [];
+        let valueBoxDataPage2 = [];
+
+        // Fetch value box data for Page 1
+        async function fetchValueBoxDataPage1() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${valueBoxRangePage1}?key=${apiKey}`;
             try {
                 const response = await fetch(url);
                 const data = await response.json();
                 if (data.values) {
-                    valueBoxData = data.values;
-                    populateValueBoxes(valueBoxData[0]);
+                    valueBoxDataPage1 = data.values;
+                    populateValueBoxesPage1(valueBoxDataPage1[0]);
                 }
             } catch (error) {
-                console.error('Error fetching value box data:', error);
+                console.error('Error fetching value box data for Page 1:', error);
             }
         }
 
-        // Fetch table data
-        async function fetchTableData() {
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${tableRange}?key=${apiKey}`;
+        // Fetch table data for Page 1
+        async function fetchTableDataPage1() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${tableRangePage1}?key=${apiKey}`;
             try {
                 const response = await fetch(url);
                 const data = await response.json();
                 if (data.values) {
-                    sheetData = data.values;
-                    renderTable(sheetData);
+                    sheetDataPage1 = data.values;
+                    renderTablePage1(sheetDataPage1);
                 }
             } catch (error) {
-                console.error('Error fetching table data:', error);
+                console.error('Error fetching table data for Page 1:', error);
             }
         }
 
-        // Populate value boxes
-        function populateValueBoxes(row) {
+        // Fetch value box data for Page 2
+        async function fetchValueBoxDataPage2() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${valueBoxRangePage2}?key=${apiKey}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data.values) {
+                    valueBoxDataPage2 = data.values;
+                    populateValueBoxesPage2(valueBoxDataPage2[0]);
+                }
+            } catch (error) {
+                console.error('Error fetching value box data for Page 2:', error);
+            }
+        }
+
+        // Fetch table data for Page 2
+        async function fetchTableDataPage2() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${tableRangePage2}?key=${apiKey}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data.values) {
+                    sheetDataPage2 = data.values;
+                    renderTablePage2(sheetDataPage2);
+                }
+            } catch (error) {
+                console.error('Error fetching table data for Page 2:', error);
+            }
+        }
+
+        // Populate value boxes for Page 1
+        function populateValueBoxesPage1(row) {
             document.getElementById('cellA3').innerText = row[0] || '';
             document.getElementById('cellJ3').innerText = row[9] || '';
             document.getElementById('cellK3').innerText = row[10] || '';
@@ -526,49 +562,66 @@
             document.getElementById('cellS3').innerText = row[18] || '';
         }
 
+        // Populate value boxes for Page 2
+        function populateValueBoxesPage2(row) {
+            document.getElementById('cellA3Page2').innerText = row[0] || '';
+            document.getElementById('cellJ3Page2').innerText = row[9] || '';
+            document.getElementById('cellK3Page2').innerText = row[10] || '';
+            document.getElementById('cellP3Page2').innerText = row[15] || '';
+            document.getElementById('cellQ3Page2').innerText = row[16] || '';
+            document.getElementById('cellR3Page2').innerText = row[17] || '';
+            document.getElementById('cellS3Page2').innerText = row[18] || '';
+        }
 
-        // Define the columns you want to show (indexes are based on Google Sheet columns)
-        const selectedColumns = [0, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]; // Example columns to display (A, J, K, L, M, N, O, P, Q, R, S)
 
-        // Define corresponding column names for the header based on selected columns
-        const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "Energy Efficiency 2 ($/Km)", "CO2 Reduction (Kg)"];
-
-        // Render the table with the filtered data
-        function renderTable(data) {
-            const tableHeader = document.getElementById("tableHeader");
-            const tableBody = document.getElementById("tableBody");
+        // Render the table for Page 1
+        function renderTablePage1(data) {
+            const tableHeader = document.getElementById("tableHeaderPage1");
+            const tableBody = document.getElementById("tableBodyPage1");
             tableHeader.innerHTML = '';
             tableBody.innerHTML = '';
 
-            // Create table headers based on selected columns
-            columnNames.forEach((col, index) => {
+            // Table header and rendering logic for Page 1
+            const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "Energy Efficiency 2 ($/Km)", "CO2 Reduction (Kg)"];
+            columnNames.forEach(col => {
                 const th = document.createElement("th");
                 th.innerText = col;
-                th.onclick = () => showTrend(index); // Pass the column index
                 tableHeader.appendChild(th);
             });
 
-            // Log the data to debug the values in column K
-            console.log('Data:', data);
-        
-            // Filter the data to only include rows where column K (index 10) has a non-empty value
-            const filteredData = data.filter(row => {
-                const columnKValue = row[10];
-                console.log(`Column K Value: ${columnKValue}`); // Log the value of column K for each row
-        
-                // Check if column K has a valid value (non-empty, non-null, and not NaN)
-                return columnKValue && columnKValue.trim() !== "" && !isNaN(columnKValue);
-            });
-        
-            // Log the filtered data to debug
-            console.log('Filtered Data:', filteredData);
-
-            // Render table rows with only the selected columns
-            filteredData.forEach(row => {
+            // Render rows for Page 1
+            data.forEach(row => {
                 const tr = document.createElement("tr");
-                selectedColumns.forEach(colIndex => {
+                row.forEach(cell => {
                     const td = document.createElement("td");
-                    td.innerText = row[colIndex] || ''; // Display the data from the selected columns
+                    td.innerText = cell || '';
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            });
+        }
+
+        // Render the table for Page 2
+        function renderTablePage2(data) {
+            const tableHeader = document.getElementById("tableHeaderPage2");
+            const tableBody = document.getElementById("tableBodyPage2");
+            tableHeader.innerHTML = '';
+            tableBody.innerHTML = '';
+
+            // Table header and rendering logic for Page 2
+            const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "Energy Efficiency 2 ($/Km)", "CO2 Reduction (Kg)"];
+            columnNames.forEach(col => {
+                const th = document.createElement("th");
+                th.innerText = col;
+                tableHeader.appendChild(th);
+            });
+
+            // Render rows for Page 2
+            data.forEach(row => {
+                const tr = document.createElement("tr");
+                row.forEach(cell => {
+                    const td = document.createElement("td");
+                    td.innerText = cell || '';
                     tr.appendChild(td);
                 });
                 tableBody.appendChild(tr);
