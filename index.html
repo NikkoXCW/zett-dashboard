@@ -479,7 +479,7 @@
         const valueBoxRangePage1 = 'VolvoBEV!A3:S3'; 
         const tableRangePage1 = 'VolvoBEV!A5:AB'; 
         
-        const valueBoxRangePage2 = 'AZETECFCEV!A3:S3'; // New sheet range for Page 2
+        const valueBoxRangePage2 = 'AZETECFCEV!A3:R3'; // New sheet range for Page 2
         const tableRangePage2 = 'AZETECFCEV!A5:R'; // New sheet range for Page 2
 
         let sheetDataPage1 = [];
@@ -545,7 +545,7 @@
                 const response = await fetch(url);
                 const data = await response.json();
                 
-                console.log("Page 2 Fetch Response:", data);
+                console.log("Page 2 Table Data:", data);
                 
                 if (data.values) {
                     sheetDataPage2 = data.values;
@@ -689,7 +689,7 @@
             });
         
             // Log the filtered data to debug
-            console.log('Filtered Data:', filteredDataPage1);
+            console.log('Filtered Data:', filteredDataPage2);
 
             // Render table rows with only the selected columns
             filteredDataPage2.forEach(row => {
