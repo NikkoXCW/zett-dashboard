@@ -1285,12 +1285,12 @@
         });
 
         window.onload = function() {
-            // Check if there's a saved page in localStorage
-            const savedPage = localStorage.getItem('currentPage') || 'Page1';  // Default to 'Page1' if no saved page
+            // Check if there's a saved page in localStorage, or default to 'Page1'
+            const savedPage = localStorage.getItem('currentPage') || 'Page1';
         
             // Load the saved page
             loadPage(savedPage);
-            
+        
             // Fetch data for the current page
             if (savedPage === 'Page1') {
                 fetchValueBoxDataPage1();
@@ -1306,27 +1306,6 @@
                 fetchTableDataPage4();
             }
         };
-        
-        // Example of setting the current page in localStorage when switching pages
-        function loadPage(pageId) {
-            // Store the current page in localStorage
-            localStorage.setItem('currentPage', pageId);
-        
-            // Logic to load the content of the page (your existing loadPage logic)
-            if (pageId === 'Page1') {
-                // Load Page 1 content
-                // Add the logic to load Page 1 here (for example, set page-specific data)
-            } else if (pageId === 'Page2') {
-                // Load Page 2 content
-                // Add the logic to load Page 2 here
-            } else if (pageId === 'Page3') {
-                // Load Page 3 content
-                // Add the logic to load Page 3 here
-            } else if (pageId === 'Page4') {
-                // Load Page 4 content
-                // Add the logic to load Page 4 here
-            }
-        }
     </script>
 </body>
 </html>
