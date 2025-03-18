@@ -1116,8 +1116,8 @@
             renderTable(pageIndex, filteredData);
         }
 
-     let trendChart;
-
+        let trendChart;
+        
         // Function to show the trend chart when a column header is clicked
         function showTrend(columnIndex, pageIndex, selectedColumns) {
             const chartContainer = document.getElementById("chartPopup");
@@ -1125,7 +1125,7 @@
             chartContainer.style.display = "block";
         
             // Dynamically select the correct dataset based on pageIndex
-            let sheetData, ColumnNames;
+            let sheetData, columnNames;
             switch (pageIndex) {
                 case 1:
                     sheetData = sheetDataPage1;
@@ -1148,7 +1148,7 @@
                     closeChart();
                     return;
             }
-
+        
             // Debugging log: Check which data set is being passed
             console.log(`Data for page ${pageIndex}:`, sheetData);
         
@@ -1191,13 +1191,14 @@
             const minValue = Math.min(...trendData);
             const maxValue = Math.max(...trendData);
         
+            // Destroy the existing chart if it exists
             if (trendChart) {
                 trendChart.destroy();
             }
-
+        
+            // Ensure that the column index is valid in the selectedColumns array
             const selectedColumnIndex = selectedColumns.indexOf(columnIndex);
-            const columnLabel = (columnNames && columnNames[columnIndex]) ? columnNames[columnIndex] : "Unknown Column";
-
+            const columnLabel = columnNames && columnNames[columnIndex] ? columnNames[columnIndex] : "Unknown Column";
         
             // Create a new chart
             trendChart = new Chart(chartCanvas, {
@@ -1205,7 +1206,7 @@
                 data: {
                     labels: validDates, // Use filtered valid dates
                     datasets: [{
-                        label: columnNames[columnIndex],
+                        label: columnLabel, // Dynamically use the column label
                         data: trendData,
                         borderColor: 'rgba(75, 192, 192, 1)',
                         fill: false,
@@ -1224,15 +1225,27 @@
                                 suggestedMax: maxValue * 1.05 // Optional, for better control
                             }
                         }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    return `${context.dataset.label}: ${context.raw.toFixed(2)} (${context.label})`; // Show value with precision
+                                }
+                            }
+                        }
                     }
                 }
             });
         }
         
-        // Close the chart popup
+        // Function to close the chart and hide the chart container
         function closeChart() {
             const chartContainer = document.getElementById("chartPopup");
-            chartContainer.style.display = "none";
+            chartContainer.style.display = "none"; // Hide the chart
+            if (trendChart) {
+                trendChart.destroy(); // Destroy the chart to clear memory
+            }
         }
 
         let isDragging = false;
