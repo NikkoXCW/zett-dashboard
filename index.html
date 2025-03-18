@@ -712,14 +712,10 @@
         let trendChart;
 
         // Function to show the trend chart when a column header is clicked
-        function showTrend(columnIndex, data) {
+        function showTrend(columnIndex) {
             const chartContainer = document.getElementById("chartPopup");
             const chartCanvas = document.getElementById("trendChart");
             chartContainer.style.display = "block";
-
-            // Log selectedColumns and columnIndex for debugging
-            console.log('selectedColumns:', selectedColumns);
-            console.log('columnIndex clicked:', columnIndex);
 
             // Use selectedColumns to correctly reference sheetData indices
             const sheetColumnIndex = selectedColumns[columnIndex];
@@ -728,7 +724,7 @@
             const trendData = [];
             const validDates = [];
 
-            data.forEach(row, rowIndex) => {
+            sheetData.forEach(row => {
                 let rawValue = row[sheetColumnIndex];
                 if (rawValue) {
                     rawValue = rawValue.replace(/[^0-9.-]/g, ''); // Remove "$", "," or any non-numeric characters
@@ -739,14 +735,79 @@
                 if (!isNaN(value)) {
                     trendData.push(value);
                     validDates.push(row[0]); // Corresponding date for the valid value
-                } else {
-                    console.log(`Invalid data in row ${rowIndex + 1} for column ${sheetColumnIndex}: ${rawValue}`);
                 }
             });
 
-            // Log the filtered data
-            console.log('Valid trend data:', trendData);
-            console.log('Valid dates:', validDates);
+            if (trendData.length === 0) {
+                alert("No valid data for this column.");
+                closeChart();
+                return;
+            }
+
+            // Find the min and max values for dynamic scaling
+            const minValue = Math.min(...trendData);
+            const maxValue = Math.max(...trendData);
+
+            if (trendChart) {
+                trendChart.destroy();
+            }
+
+            // Create a new chart
+            trendChart = new Chart(chartCanvas, {
+                type: 'line',
+                data: {
+                    labels: validDates, // Use filtered valid dates
+                    datasets: [{
+                        label: columnNames[columnIndex],
+                        data: trendData,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        fill: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: { type: 'category' },
+                        y: {
+                            beginAtZero: false, // Start the y-axis at the minimum value
+                            min: minValue * 0.95, // 5% below the minimum value
+                            max: maxValue * 1.05, // 5% above the maximum value
+                            ticks: {
+                                suggestedMin: minValue * 0.95, // Optional, for better control
+                                suggestedMax: maxValue * 1.05 // Optional, for better control
+                            }
+                        }
+                    }
+                }
+            });
+        }let trendChart;
+
+        // Function to show the trend chart when a column header is clicked
+        function showTrend(columnIndex) {
+            const chartContainer = document.getElementById("chartPopup");
+            const chartCanvas = document.getElementById("trendChart");
+            chartContainer.style.display = "block";
+
+            // Use selectedColumns to correctly reference sheetData indices
+            const sheetColumnIndex = selectedColumns[columnIndex];
+
+            // Collecting data for the trend chart (Y values)
+            const trendData = [];
+            const validDates = [];
+
+            sheetData.forEach(row => {
+                let rawValue = row[sheetColumnIndex];
+                if (rawValue) {
+                    rawValue = rawValue.replace(/[^0-9.-]/g, ''); // Remove "$", "," or any non-numeric characters
+                }
+
+                const value = parseFloat(rawValue);
+
+                if (!isNaN(value)) {
+                    trendData.push(value);
+                    validDates.push(row[0]); // Corresponding date for the valid value
+                }
+            });
 
             if (trendData.length === 0) {
                 alert("No valid data for this column.");
