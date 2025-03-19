@@ -243,6 +243,42 @@
             object-fit: contain; /* Ensure the image fits within its container */
         }
 
+        /* Left image container for Page 3 */
+        #Page3 .image-container-left {
+            display: flex;         /* Flexbox layout */
+            flex-direction: column; /* Stack images vertically */
+            justify-content: flex-start; /* Align items to the top */
+            gap: 20px;             /* Add space between images */
+            flex: 2;               /* Increase the flex to make the right container bigger */
+            max-width: 600px;      /* Increase the maximum width */
+            align-items: stretch;
+        }
+
+        /* Each image in the left container for Page 3 */
+        #Page3 .image-container-left img {
+            width: 100%;  /* Ensure the images take up the full width of their container */
+            height: 100%; /* Increase the height to ensure they grow with the container */
+            object-fit: contain; /* Ensure the image fits within its container */
+        }
+
+        /* Right image container for Page 3 */
+        #Page3 .image-container-right {
+            display: flex;         /* Flexbox layout */
+            flex-direction: column; /* Stack images vertically */
+            justify-content: flex-start; /* Align items to the top */
+            gap: 20px;             /* Add space between images */
+            flex: 2;               /* Increase the flex to make the right container bigger */
+            max-width: 600px;      /* Increase the maximum width */
+            align-items: stretch;
+        }
+        
+        /* Each image in the right container for Page 3 */
+        #Page3 .image-container-right img {
+            width: 100%;  /* Ensure the images take up the full width of their container */
+            height: 100%; /* Increase the height to ensure they grow with the container */
+            object-fit: contain; /* Ensure the image fits within its container */
+        }
+
         /* Filter and Date Inputs */
         .filter-container {
             margin-top: 30px;
@@ -473,7 +509,8 @@
         <div class="container">
             <!-- Left Image Container -->
             <div class="image-container-left">
-                <img src="https://drive.google.com/thumbnail?id=..." alt="Image Left">
+                <img src="https://drive.google.com/thumbnail?id=1BAWdgWGydab-NJaZyuW_2KVbP7aVrWnj" alt="Image Left 1">
+                <img src="https://drive.google.com/thumbnail?id=1YyQWMk48LlvnRvwAiSUUGqJgYBpLDxNP" alt="Image Left 2">
             </div>
 
             <!-- Value Container in the Center -->
@@ -511,10 +548,10 @@
             <!-- Right Image Containers -->
             <div class="image-container-right">
                 <div>
-                    <img src="https://drive.google.com/thumbnail?id=..." alt="Image Right 1">
+                    <img src="https://drive.google.com/thumbnail?id=1W3iKNT0vfGEG7iXI3Hbcqhnp0NM8hO2u" alt="Image Right 1">
                 </div>
                 <div>
-                    <img src="https://drive.google.com/thumbnail?id=..." alt="Image Right 2">
+                    <img src="https://drive.google.com/thumbnail?id=1w3ior2JNdcBWcmUPlEXUuHOfYIed_76z" alt="Image Right 2">
                 </div>
             </div>
         </div>
