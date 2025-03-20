@@ -1341,10 +1341,6 @@
         });
 
         window.onload = function() {
-            loadPage('Page1');  // Automatically load Page 1 by default
-            fetchValueBoxDataPage1();
-            fetchTableDataPage1();
-
             // Load Page 2
             loadPage('Page2');
             fetchValueBoxDataPage2(); // For Page 2
@@ -1359,6 +1355,10 @@
             loadPage('Page4');
             fetchValueBoxDataPage4(); // For Page 4
             fetchTableDataPage4();  // For Page 4
+
+            loadPage('Page1');  // Automatically load Page 1 by default
+            fetchValueBoxDataPage1();
+            fetchTableDataPage1();
         };
     </script>
 </body>
