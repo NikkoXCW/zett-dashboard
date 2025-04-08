@@ -833,10 +833,11 @@
             document.getElementById('cellA3').innerText = row[0] || '';
             document.getElementById('cellJ3').innerText = row[9] || '';
             document.getElementById('cellK3').innerText = row[10] || '';
-            document.getElementById('cellP3').innerText = row[15] || '';
+            document.getElementById('cellL3').innerText = row[11] || '';
             document.getElementById('cellQ3').innerText = row[16] || '';
             document.getElementById('cellR3').innerText = row[17] || '';
             document.getElementById('cellS3').innerText = row[18] || '';
+            document.getElementById('cellT3').innerText = row[19] || '';
         }
 
         // Populate value boxes for Page 2
@@ -884,10 +885,10 @@
             }
 
             // Define the columns you want to show (indexes are based on Google Sheet columns)
-            const selectedColumns = [0, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]; // Example columns to display (A, J, K, L, M, N, O, P, Q, R, S)
+            const selectedColumns = [0, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]; // Example columns to display (A, J, K, L, M, N, O, P, Q, R, S, T)
 
             // Table header and rendering logic for Page 1
-            const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "Energy Efficiency 2 ($/Km)", "CO2 Reduction (Kg)"];
+            const columnNames = ["Date", "Idling Time (h:mm:ss)", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "Energy Efficiency 2 ($/Km)", "CO2 Reduction (Kg)"];
          
             // Create table headers based on selected columns
             columnNames.forEach((col, index) => {
@@ -897,23 +898,23 @@
                 tableHeader.appendChild(th);
             });
 
-            // Log the data to debug the values in column K
+            // Log the data to debug the values in column L
             console.log('Data:', data);
         
-            // Filter the data to only include rows where column K (index 10) has a non-empty value
+            // Filter the data to only include rows where column L (index 11) has a non-empty value
             const filteredDataPage1 = data.filter(row => {
-                if (!row || !row[10]) {
+                if (!row || !row[11]) {
                     console.log('Skipping row due to missing data:', row); // Log rows that are skipped
                     return false;
                 }
         
-                const columnKValuePage1 = row[10];
-                console.log(`Column K Value: ${columnKValuePage1}`); // Log the value of column K for each row
+                const columnLValuePage1 = row[11];
+                console.log(`Column L Value: ${columnLValuePage1}`); // Log the value of column L for each row
         
-                const cleanedValue = columnKValuePage1.replace(/[^0-9.-]/g, ''); // Remove non-numeric characters
+                const cleanedValue = columnLValuePage1.replace(/[^0-9.-]/g, ''); // Remove non-numeric characters
                 const isValid = cleanedValue && !isNaN(cleanedValue);
                 if (!isValid) {
-                    console.log('Row skipped due to invalid column K:', row); // Log rows that are skipped
+                    console.log('Row skipped due to invalid column L:', row); // Log rows that are skipped
                 }
                 return isValid;
             });
@@ -1186,7 +1187,7 @@
             switch (pageIndex) {
                 case 1:
                     sheetData = sheetDataPage1;
-                    columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "Energy Efficiency 2 ($/Km)", "CO2 Reduction (Kg)"];
+                    columnNames = ["Date", "Idling Time (h:mm:ss)", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "Energy Efficiency 2 ($/Km)", "CO2 Reduction (Kg)"];
                     break;
                 case 2:
                     sheetData = sheetDataPage2;
