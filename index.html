@@ -190,6 +190,24 @@
             width: 100%;
         }
 
+         /* Left image container for Page 1 */
+        #Page1 .image-container-left {
+            display: flex;         /* Flexbox layout */
+            flex-direction: column; /* Stack images vertically */
+            justify-content: flex-start; /* Align items to the top */
+            gap: 20px;             /* Add space between images */
+            flex: 2;               /* Increase the flex to make the right container bigger */
+            max-width: 600px;      /* Increase the maximum width */
+            align-items: stretch;
+        }
+                
+        /* Each image in the left container for Page 1 */
+        #Page1 .image-container-left img {
+            width: 100%;  /* Ensure the images take up the full width of their container */
+            height: 100%; /* Increase the height to ensure they grow with the container */
+            object-fit: contain; /* Ensure the image fits within its container */
+        }
+
         /* Right image container for Page 1 */
         #Page1 .image-container-right {
             display: flex;         /* Flexbox layout */
@@ -357,12 +375,8 @@
         <div class="container">
             <!-- Left Image Container -->
             <div class="image-container-left">
-                <div>
-                    <img src="https://drive.google.com/thumbnail?id=1q2q-6c4mJbOdYS4WvpH-waOlMGdOzTmp" alt="Image Left 1">
-                </div>
-                <div>
-                    <img src="https://drive.google.com/thumbnail?id=1EO8Of8mKHqXF7FKWQdLJQBh2V4uaAflq" alt="Image left 2">
-                </div>
+                <img src="https://drive.google.com/thumbnail?id=1q2q-6c4mJbOdYS4WvpH-waOlMGdOzTmp" alt="Image Left 1">
+                <img src="https://drive.google.com/thumbnail?id=1EO8Of8mKHqXF7FKWQdLJQBh2V4uaAflq" alt="Image left 2">
             </div>
 
             <!-- Value Container in the Center -->
