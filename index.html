@@ -1203,6 +1203,13 @@
         function showTrend(columnIndex, pageIndex, selectedColumns) {
             const chartContainer = document.getElementById("chartPopup");
             const chartCanvas = document.getElementById("trendChart");
+
+            // Move chartPopup into the correct page container
+            const currentPageContainer = document.getElementById(`Page${pageIndex}`);
+            if (currentPageContainer && chartContainer.parentNode !== currentPageContainer) {
+                currentPageContainer.appendChild(chartContainer);
+            }
+            
             chartContainer.style.display = "block";
         
             // Dynamically select the correct dataset based on pageIndex
@@ -1366,21 +1373,6 @@
         });
 
         window.onload = function() {
-            // Load Page 2
-            loadPage('Page2');
-            fetchValueBoxDataPage2(); // For Page 2
-            fetchTableDataPage2();  // For Page 2
-
-            // Load Page 3
-            loadPage('Page3');
-            fetchValueBoxDataPage3(); // For Page 3
-            fetchTableDataPage3();  // For Page 3
-
-            // Load Page 4
-            loadPage('Page4');
-            fetchValueBoxDataPage4(); // For Page 4
-            fetchTableDataPage4();  // For Page 4
-
             loadPage('Page1');  // Automatically load Page 1 by default
             fetchValueBoxDataPage1();
             fetchTableDataPage1();
