@@ -1353,6 +1353,7 @@
         
        const chartContainer = document.getElementById("chartPopup");
 
+       if (chartContainer) {
         chartContainer.addEventListener("mousedown", (event) => {
             isDragging = true;
             offsetX = event.clientX - chartContainer.getBoundingClientRect().left;
@@ -1371,6 +1372,12 @@
             isDragging = false;
             document.body.style.cursor = ''; // Reset cursor style
         });
+
+       document.addEventListener("mouseleave", () => {
+            isDragging = false;
+            document.body.style.cursor = '';
+        });
+       }
 
         window.onload = function() {
             // Load Page 2
