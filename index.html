@@ -446,9 +446,9 @@
         </table>
 
         <!-- Trend Chart Popup -->
-        <div class="chart-container" id="chartPopupPage1">
-            <span class="close-btn" onclick="closeChart('Page1')">&times;</span>
-            <canvas id="trendChartPage1"></canvas>
+        <div class="chart-container" id="chartPopup">
+            <span class="close-btn" onclick="closeChart()">&times;</span>
+            <canvas id="trendChart"></canvas>
         </div>
     </div>
 
@@ -521,9 +521,9 @@
         </table>
 
         <!-- Trend Chart Popup -->
-        <div class="chart-container" id="chartPopupPage2">
-            <span class="close-btn" onclick="closeChart('Page2')">&times;</span>
-            <canvas id="trendChartPage2"></canvas>
+        <div class="chart-container" id="chartPopup">
+            <span class="close-btn" onclick="closeChart()">&times;</span>
+            <canvas id="trendChart"></canvas>
         </div>
     </div>
 
@@ -596,9 +596,9 @@
         </table>
 
         <!-- Trend Chart Popup -->
-        <div class="chart-container" id="chartPopupPage3">
-            <span class="close-btn" onclick="closeChart('Page3')">&times;</span>
-            <canvas id="trendChartPage3"></canvas>
+        <div class="chart-container" id="chartPopup">
+            <span class="close-btn" onclick="closeChart()">&times;</span>
+            <canvas id="trendChart"></canvas>
         </div>
     </div>
 
@@ -670,9 +670,9 @@
         </table>
 
         <!-- Trend Chart Popup -->
-        <div class="chart-container" id="chartPopupPage4">
-            <span class="close-btn" onclick="closeChart('Page4')">&times;</span>
-            <canvas id="trendChartPage4"></canvas>
+        <div class="chart-container" id="chartPopup">
+            <span class="close-btn" onclick="closeChart()">&times;</span>
+            <canvas id="trendChart"></canvas>
         </div>
     </div>
 
@@ -1201,10 +1201,9 @@
         
         // Function to show the trend chart when a column header is clicked
         function showTrend(columnIndex, pageIndex, selectedColumns) {
-            const chartContainer = document.getElementById("chartPopup" + pageIndex);
-            const chartCanvas = document.getElementById("trendChart" + pageIndex);
-
-             chartContainer.style.display = "block";
+            const chartContainer = document.getElementById("chartPopup");
+            const chartCanvas = document.getElementById("trendChart");
+            chartContainer.style.display = "block";
         
             // Dynamically select the correct dataset based on pageIndex
             let sheetData, columnNames;
@@ -1334,16 +1333,11 @@
         }
         
         // Function to close the chart and hide the chart container
-        function closeChart(page) {
-            const chartContainer = document.getElementById("chartPopup" + page);
+        function closeChart() {
+            const chartContainer = document.getElementById("chartPopup");
             chartContainer.style.display = "none"; // Hide the chart
-
-            const trendChartCanvas = document.getElementById("trendChart" + page);
-            if (trendChartCanvas) {
-                const chart = Chart.getChart(trendChartCanvas); // Get the chart instance
-                if (chart) {
-                    chart.destroy(); // Destroy the chart to clear memory
-                }
+            if (trendChart) {
+                trendChart.destroy(); // Destroy the chart to clear memory
             }
         }
 
@@ -1352,7 +1346,6 @@
         
        const chartContainer = document.getElementById("chartPopup");
 
-       if (chartContainer) {
         chartContainer.addEventListener("mousedown", (event) => {
             isDragging = true;
             offsetX = event.clientX - chartContainer.getBoundingClientRect().left;
@@ -1371,12 +1364,6 @@
             isDragging = false;
             document.body.style.cursor = ''; // Reset cursor style
         });
-
-       document.addEventListener("mouseleave", () => {
-            isDragging = false;
-            document.body.style.cursor = '';
-        });
-       }
 
         window.onload = function() {
             // Load Page 2
