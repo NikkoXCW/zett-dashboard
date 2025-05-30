@@ -949,11 +949,11 @@
                     const td = document.createElement("td");
                    // td.innerText = row[colIndex] || ''; // Display the data from the selected columns
 
-                   // Replace Charging Time column (index 12 in columnNames, index 36 in selectedColumns)
-                    if (i === 12) {
+                    if (colIndex === 35) {
                         const chargingTimeStr = row[35] || "00:00"; // AJ
                         const startTimeStr = row[33] || "N/A"; // Optional: AH
                         const endTimeStr = row[34] || "N/A";   // Optional: AI
+                        console.log("Rendering bar with:", chargingTimeStr, startTimeStr, endTimeStr);
         
                         const durationMinutes = parseChargingDurationToMinutes(chargingTimeStr);
                         const bar = renderChargingBar(durationMinutes, startTimeStr, endTimeStr);
@@ -971,6 +971,7 @@
 
         // Helper: Convert "hh:mm" to total minutes
         function parseChargingDurationToMinutes(timeStr) {
+            console.log('Charging time:', timeStr); // 
             const [hh, mm] = timeStr.split(":").map(num => parseInt(num.trim()) || 0);
             return hh * 60 + mm;
         }
