@@ -950,11 +950,11 @@
                     const td = document.createElement("td");
                    // td.innerText = row[colIndex] || ''; // Display the data from the selected columns
 
-                   // Replace Charging Time column (index 12 in columnNames, index 35 in selectedColumns)
+                   // Replace Charging Time column (index 12 in columnNames, index 36 in selectedColumns)
                     if (i === 12) {
-                        const chargingTimeStr = row[36] || "00:00"; // AJ
-                        const startTime = row[34] || "N/A"; // Optional: AH
-                        const endTime = row[35] || "N/A";   // Optional: AI
+                        const chargingTimeStr = row[35] || "00:00"; // AJ
+                        const startTime = row[33] || "N/A"; // Optional: AH
+                        const endTime = row[34] || "N/A";   // Optional: AI
         
                         const durationMinutes = parseChargingDurationToMinutes(chargingTimeStr);
                         const bar = renderChargingBar(durationMinutes, startTime, endTime, dateStr);
