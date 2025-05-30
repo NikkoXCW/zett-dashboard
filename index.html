@@ -863,8 +863,8 @@
             document.getElementById('cellR3').innerText = row[17] || '';
             document.getElementById('cellS3').innerText = row[18] || '';
             document.getElementById('cellT3').innerText = row[19] || '';
-            document.getElementById('cellAJ3').innerText = row[35] || '';
-            document.getElementById('cellAK3').innerText = row[36] || '';
+            document.getElementById('cellAJ3').innerText = row[36] || '';
+            document.getElementById('cellAK3').innerText = row[37] || '';
         }
 
         // Populate value boxes for Page 2
@@ -951,10 +951,10 @@
                    // td.innerText = row[colIndex] || ''; // Display the data from the selected columns
 
                    // Replace Charging Time column (index 12 in columnNames, index 35 in selectedColumns)
-                    if (i === 9) {
-                        const chargingTimeStr = row[35] || "00:00"; // AJ
-                        const startTime = row[33] || "N/A"; // Optional: AH
-                        const endTime = row[34] || "N/A";   // Optional: AI
+                    if (i === 12) {
+                        const chargingTimeStr = row[36] || "00:00"; // AJ
+                        const startTime = row[34] || "N/A"; // Optional: AH
+                        const endTime = row[35] || "N/A";   // Optional: AI
         
                         const durationMinutes = parseChargingDurationToMinutes(chargingTimeStr);
                         const bar = renderChargingBar(durationMinutes, startTime, endTime, dateStr);
