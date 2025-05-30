@@ -194,7 +194,6 @@
             height: 20px;
             background-color: #4CAF50;
             border-radius: 5px;
-            position: relative;
             transition: background-color 0.3s ease;
         }
         .charging-bar:hover {
@@ -953,11 +952,11 @@
                    // Replace Charging Time column (index 12 in columnNames, index 36 in selectedColumns)
                     if (i === 12) {
                         const chargingTimeStr = row[35] || "00:00"; // AJ
-                        const startTime = row[33] || "N/A"; // Optional: AH
-                        const endTime = row[34] || "N/A";   // Optional: AI
+                        const startTimeStr = row[33] || "N/A"; // Optional: AH
+                        const endTimeStr = row[34] || "N/A";   // Optional: AI
         
                         const durationMinutes = parseChargingDurationToMinutes(chargingTimeStr);
-                        const bar = renderChargingBar(durationMinutes, startTime, endTime, dateStr);
+                        const bar = renderChargingBar(durationMinutes, startTimeStr, endTimeStr);
         
                         td.appendChild(bar);
                     } else {
