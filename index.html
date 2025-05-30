@@ -190,6 +190,18 @@
             width: 100%;
         }
 
+       .charging-bar {
+            height: 20px;
+            background-color: #4CAF50;
+            border-radius: 5px;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+        .charging-bar:hover {
+            background-color: #45a049;
+            cursor: pointer;
+        }
+
          /* Left image container for Page 1 */
         #Page1 .image-container-left {
             display: flex;         /* Flexbox layout */
@@ -418,12 +430,12 @@
                     <span id="cellT3"></span>
                 </div>
                 <div class="value-box">
-                    <label for="cellAH3">Average Charging Time (hh:mm):</label>
-                    <span id="cellAH3"></span>
+                    <label for="cellAJ3">Average Charging Time (hh:mm):</label>
+                    <span id="cellAJ3"></span>
                 </div>
                 <div class="value-box">
-                    <label for="cellAI3">Average Energy Delivered (kWh):</label>
-                    <span id="cellAI3"></span>
+                    <label for="cellAK3">Average Energy Delivered (kWh):</label>
+                    <span id="cellAK3"></span>
                 </div>
             </div>
 
@@ -682,8 +694,8 @@
         const sheetId = '1Tw-3NfzRG7JhzLsjLBfrRF__Plo4BZS8RWRa-csbiH4';
         
         // Page 1 (VolvoBEV) range and Page 2 range
-        const valueBoxRangePage1 = 'VolvoBEV!A3:AI3'; 
-        const tableRangePage1 = 'VolvoBEV!A5:AI'; 
+        const valueBoxRangePage1 = 'VolvoBEV!A3:AK3'; 
+        const tableRangePage1 = 'VolvoBEV!A5:AK'; 
         
         const valueBoxRangePage2 = 'AZETECFCEV!A3:R3'; // New sheet range for Page 2
         const tableRangePage2 = 'AZETECFCEV!A5:R'; // New sheet range for Page 2
@@ -851,8 +863,8 @@
             document.getElementById('cellR3').innerText = row[17] || '';
             document.getElementById('cellS3').innerText = row[18] || '';
             document.getElementById('cellT3').innerText = row[19] || '';
-            document.getElementById('cellAH3').innerText = row[33] || '';
-            document.getElementById('cellAI3').innerText = row[34] || '';
+            document.getElementById('cellAJ3').innerText = row[35] || '';
+            document.getElementById('cellAK3').innerText = row[36] || '';
         }
 
         // Populate value boxes for Page 2
@@ -900,7 +912,7 @@
             }
 
             // Define the columns you want to show (indexes are based on Google Sheet columns)
-            const selectedColumns = [0, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 33, 34]; // Example columns to display (A, J, K, L, M, N, O, P, Q, R, S, T, AH, AI)
+            const selectedColumns = [0, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 35, 36]; // Example columns to display (A, J, K, L, M, N, O, P, Q, R, S, T, AJ, AK)
 
             // Table header and rendering logic for Page 1
             const columnNames = ["Date", "Idling Time (h:mm:ss)", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "Energy Efficiency 2 ($/Km)", "CO2 Reduction (Kg)", "Charging Time (hh:mm)", "Energy Delivered (kWh)"];
@@ -913,9 +925,6 @@
                 tableHeader.appendChild(th);
             });
 
-            // Log the data to debug the values in column L
-            console.log('Data:', data);
-        
             // Filter the data to only include rows where column L (index 11) has a non-empty value
             const filteredDataPage1 = data.filter(row => {
                 if (!row || !row[11]) {
@@ -934,19 +943,49 @@
                 return isValid;
             });
         
-            // Log the filtered data to debug
-            console.log('Filtered Data:', filteredDataPage1);
-
             // Render table rows with only the selected columns
             filteredDataPage1.forEach(row => {
                 const tr = document.createElement("tr");
                 selectedColumns.forEach(colIndex => {
                     const td = document.createElement("td");
-                    td.innerText = row[colIndex] || ''; // Display the data from the selected columns
+                   // td.innerText = row[colIndex] || ''; // Display the data from the selected columns
+
+                   // Replace Charging Time column (index 12 in columnNames, index 33 in selectedColumns)
+                    if (i === 12) {
+                        const chargingTimeStr = row[35] || "00:00"; // AJ
+                        const startTime = row[33] || "N/A"; // Optional: AH
+                        const endTime = row[34] || "N/A";   // Optional: AI
+        
+                        const durationMinutes = parseChargingDurationToMinutes(chargingTimeStr);
+                        const bar = renderChargingBar(durationMinutes, startTime, endTime, dateStr);
+        
+                        td.appendChild(bar);
+                    } else {
+                        td.innerText = row[colIndex] || '';
+                    }
+                    
                     tr.appendChild(td);
                 });
                 tableBody.appendChild(tr);
             });
+        }
+
+        // Helper: Convert "hh:mm" to total minutes
+        function parseChargingDurationToMinutes(timeStr) {
+            const [hh, mm] = timeStr.split(":").map(num => parseInt(num.trim()) || 0);
+            return hh * 60 + mm;
+        }
+        
+        // Render horizontal bar with tooltip
+        function renderChargingBar(durationMinutes, startTimestamp, endTimestamp) {
+            const maxDuration = 240; // 4 hours
+            const widthPercent = Math.min((durationMinutes / maxDuration) * 100, 100);
+        
+            const bar = document.createElement("div");
+            bar.className = "charging-bar";
+            bar.style.width = `${widthPercent}%`;
+            bar.title = `Start: ${startTimestamp}\nEnd: ${endTimestamp}`;
+            return bar;
         }
 
         // Render the table for Page 2
@@ -1189,6 +1228,18 @@
             renderTable(pageIndex, filteredData);
         }
 
+        function renderChargingBar(durationMinutes, startTimeStr, endTimeStr, dateStr) {
+            const maxDuration = 240; // Define your expected max charging duration (e.g., 4 hours)
+            const barWidthPercent = Math.min((durationMinutes / maxDuration) * 100, 100);
+        
+            const bar = document.createElement('div');
+            bar.className = 'charging-bar';
+            bar.style.width = barWidthPercent + '%';
+            bar.title = `Start: ${startTimeStr} on ${dateStr}\nEnd: ${endTimeStr} on ${dateStr}`;
+        
+            return bar;
+        }
+
         let trendChart;
         
         // Function to show the trend chart when a column header is clicked
@@ -1202,7 +1253,7 @@
             switch (pageIndex) {
                 case 1:
                     sheetData = sheetDataPage1;
-                    columnNames = ["Date", "Idling Time (h:mm:ss)", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "Energy Efficiency 2 ($/Km)", "CO2 Reduction (Kg)"];
+                    columnNames = ["Date", "Idling Time (h:mm:ss)", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "Energy Efficiency 2 ($/Km)", "CO2 Reduction (Kg)", "Charging Time (hh:mm)", "Energy Delivered (kWh)"];
                     break;
                 case 2:
                     sheetData = sheetDataPage2;
