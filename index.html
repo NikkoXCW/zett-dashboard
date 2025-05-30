@@ -417,6 +417,14 @@
                     <label for="cellT3">CO2 Emission Reduction (Kg):</label>
                     <span id="cellT3"></span>
                 </div>
+                <div class="value-box">
+                    <label for="cellAH3">Average Charging Time (hh:mm):</label>
+                    <span id="cellAH3"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellAI3">Average Energy Delivered (kWh):</label>
+                    <span id="cellAI3"></span>
+                </div>
             </div>
 
             <!-- Right Image Containers -->
@@ -890,10 +898,10 @@
             }
 
             // Define the columns you want to show (indexes are based on Google Sheet columns)
-            const selectedColumns = [0, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]; // Example columns to display (A, J, K, L, M, N, O, P, Q, R, S, T)
+            const selectedColumns = [0, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 33, 34]; // Example columns to display (A, J, K, L, M, N, O, P, Q, R, S, T, AH, AI)
 
             // Table header and rendering logic for Page 1
-            const columnNames = ["Date", "Idling Time (h:mm:ss)", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "Energy Efficiency 2 ($/Km)", "CO2 Reduction (Kg)"];
+            const columnNames = ["Date", "Idling Time (h:mm:ss)", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "Battery SoC (Trip Start)", "Battery SoC (Trip End)", "Fuel Consumption (kWh/Km)", "Energy Efficiency 1 ($/Km)", "Energy Efficiency 2 ($/Km)", "CO2 Reduction (Kg)", "Charging Time (hh:mm)", "Energy Delivered (kWh)"];
          
             // Create table headers based on selected columns
             columnNames.forEach((col, index) => {
