@@ -1011,22 +1011,20 @@
         
         // Render horizontal bar with tooltip
         function renderChargingBar(startStr, endStr, durationText) {
+            // Parse start and end for tooltip only
             const start = parse24HourDate(startStr);
             const end = parse24HourDate(endStr);
         
-            if (!start || !end || !durationText) {
-                console.warn("Invalid input to renderChargingBar:", { startTimeStr, endTimeStr, durationText });
-                return document.createTextNode(durationText || "Invalid");
-            }
+            // Parse duration text (HH:MM:SS) → total minutes
+            const [h, m, s] = durationText.split(':').map(Number);
+            const durationMinutes = h * 60 + m + (s / 60);
         
-            let durationMinutes = (end - start) / (1000 * 60);
-            if (durationMinutes < 0) durationMinutes += 1440;
-        
+            // Calculate width as % of 24 hours
             const widthPercent = Math.min((durationMinutes / 1440) * 100, 100);
             const barColor = getBarColor(widthPercent);
         
+            // Create bar
             const bar = document.createElement("div");
-            bar.className = "charging-bar";
             bar.style.position = "relative";
             bar.style.width = `${widthPercent}%`;
             bar.style.backgroundColor = barColor;
@@ -1037,10 +1035,14 @@
             bar.style.fontSize = "12px";
             bar.style.overflow = "hidden";
             bar.style.whiteSpace = "nowrap";
-            bar.title = `Start: ${formatDateForTooltip(start)}\nEnd: ${formatDateForTooltip(end)}`;
         
+            // Tooltip (only start and end time)
+            bar.title = (start && end)
+                ? `Start: ${formatDateForTooltip(start)}\nEnd: ${formatDateForTooltip(end)}`
+                : "Time info unavailable";
+        
+            // Label with duration text inside bar
             const label = document.createElement("span");
-            label.className = "charging-bar-label";
             label.innerText = durationText;
             label.style.position = "absolute";
             label.style.left = "50%";
