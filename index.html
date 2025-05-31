@@ -992,7 +992,7 @@
             const bar = document.createElement("div");
             bar.className = "charging-bar";
         
-            const widthPercent = Math.min(100, Math.max(10, durationMinutes / 4)); // e.g., 4 min = 1%
+            const widthPercent = Math.min(100, Math.max(10, durationMinutes / 1440)); // e.g., 4 min = 1%
             const color = getBarColor(durationMinutes);
         
             bar.style.width = `${widthPercent}%`;
