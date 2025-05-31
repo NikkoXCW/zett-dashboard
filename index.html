@@ -191,20 +191,21 @@
         }
 
         .charging-bar {
-            height: 18px;
+            height: 20px;
             border-radius: 6px;
             margin: 4px 0;
+            background: #4CAF50;
             box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-            position: relative;
-            cursor: help;
             display: flex;
             align-items: center;
-            padding-left: 6px;
-            overflow: hidden;
+            padding: 0 6px;
             color: white;
             font-size: 12px;
             font-weight: bold;
             white-space: nowrap;
+            overflow: hidden;
+            max-width: 100%;
+            cursor: help;
         }
         
         .charging-bar-label {
@@ -978,39 +979,49 @@
         }
 
         // Helper: Convert "hh:mm" to total minutes
-        function parseChargingDurationToMinutes(timeStr) {
-            console.log('Charging time:', timeStr); // 
-            const [hh, mm] = timeStr.split(":").map(num => parseInt(num.trim()) || 0);
-            return hh * 60 + mm;
+        function parse24HourDate(str) {
+            // Expected format: "MM/DD/YYYY HH:MM:SS"
+            const [datePart, timePart] = str.split(' ');
+            if (!datePart || !timePart) return null;
+        
+            const [month, day, year] = datePart.split('/');
+            return new Date(`${year}-${month}-${day}T${timePart}`);
         }
         
         // Render horizontal bar with tooltip
-        function renderChargingBar(startTimeStr, endTimeStr, labelText = "") {
-            const start = new Date(startTimeStr);
-            const end = new Date(endTimeStr);
+        function renderChargingBar(startStr, endStr, labelText) {
+            const start = parse24HourDate(startStr);
+            const end = parse24HourDate(endStr);
         
-            if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-                console.warn("Invalid date:", startTimeStr, endTimeStr);
-                return document.createTextNode(labelText || "Invalid time");
+            if (!start || !end) {
+                console.warn("Invalid time strings:", startStr, endStr);
+                return document.createTextNode(labelText || "Invalid");
             }
         
             let durationMinutes = (end - start) / (1000 * 60);
-            if (durationMinutes < 0) durationMinutes += 1440;
+            if (durationMinutes < 0) durationMinutes += 1440; // Handle midnight wrap
         
-            const percentOfDay = (durationMinutes / 1440) * 100;
+            const percentWidth = Math.min((durationMinutes / 1440) * 100, 100);
         
             const bar = document.createElement("div");
             bar.className = "charging-bar";
-            bar.style.width = `${percentOfDay}%`;
+            bar.style.width = `${percentWidth}%`;
             bar.style.background = getBarColor(durationMinutes);
-            bar.title = `Start: ${startTimeStr}\nEnd: ${endTimeStr}\nDuration: ${labelText}`;
+            bar.title = `Start: ${startStr}\nEnd: ${endStr}\nDuration: ${labelText}`;
         
             const label = document.createElement("span");
-            label.textContent = labelText || `${durationMinutes.toFixed(0)} min`;
             label.className = "charging-bar-label";
+            label.innerText = labelText;
             bar.appendChild(label);
         
             return bar;
+        }
+
+        function getBarColor(minutes) {
+            if (minutes < 30) return "#4CAF50";      // Green
+            if (minutes < 60) return "#FFC107";      // Yellow
+            if (minutes < 120) return "#FF9800";     // Orange
+            return "#F44336";                        // Red
         }
 
         // Render the table for Page 2
