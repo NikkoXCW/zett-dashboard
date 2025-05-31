@@ -298,9 +298,8 @@
           position: sticky;
           top: 0;
           background-color: #f9f9f9; /* Make sure it doesn't go transparent */
-          z-index: 2;
+          z-index: 10;
           border-bottom: 1px solid #ccc;
-          padding: 8px;
           text-align: left;
         }
         
@@ -565,15 +564,17 @@
         </div>
 
         <!-- Table for Data -->
-        <div id="tableContainerPage1" style="max-height: 500px; overflow-y: auto;">
-          <table id="tablePage1" style="width: 100%; border-collapse: collapse;">
-            <thead id="tableHeaderPage1">
-              <!-- headers will be inserted here -->
-            </thead>
-            <tbody id="tableBodyPage1">
-              <!-- data rows will be inserted here -->
-            </tbody>
-          </table>
+        <div style="overflow-x: auto;">
+          <div id="tableContainerPage1" style="max-height: 500px; overflow-y: auto; position: relative;">
+            <table id="tablePage1" style="width: 100%; border-collapse: collapse;">
+              <thead id="tableHeaderPage1">
+                <!-- headers will be inserted here -->
+              </thead>
+              <tbody id="tableBodyPage1">
+                <!-- data rows will be inserted here -->
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <!-- Modal for Charging Chart -->
