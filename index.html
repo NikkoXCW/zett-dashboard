@@ -1105,6 +1105,12 @@
                 }
                 return isValid;
             });
+
+            filteredDataPage1.sort((a, b) => {
+                const dateA = new Date(a[0]);
+                const dateB = new Date(b[0]);
+                return dateB - dateA;
+            });
         
             // Log the filtered data to debug
             console.log('Filtered Data:', filteredDataPage2);
@@ -1166,6 +1172,12 @@
                 }
                 return isValid;
             });
+
+            filteredDataPage1.sort((a, b) => {
+                const dateA = new Date(a[0]);
+                const dateB = new Date(b[0]);
+                return dateB - dateA;
+            });
         
             // Log the filtered data to debug
             console.log('Filtered Data:', filteredDataPage3);
@@ -1226,6 +1238,12 @@
                     console.log('Row skipped due to invalid column K:', row); // Log rows that are skipped
                 }
                 return isValid;
+            });
+
+            filteredDataPage1.sort((a, b) => {
+                const dateA = new Date(a[0]);
+                const dateB = new Date(b[0]);
+                return dateB - dateA;
             });
         
             // Log the filtered data to debug
