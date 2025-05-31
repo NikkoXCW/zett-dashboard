@@ -205,6 +205,8 @@
             overflow: hidden;
             max-width: 100%;
             cursor: help;
+            min-width: 40px;
+            box-shadown: 0 0 3px rgba(0, 0, 0, 0.3);
         }
         
         .charging-bar-label {
@@ -979,11 +981,12 @@
 
         // Helper: Convert "hh:mm" to total minutes
         function parse24HourDate(str) {
-            const [datePart, timePart] = str.split(' ');
+            const [datePart, timePart] = str.trim().split(' ');
             if (!datePart || !timePart) return null;
         
             const [month, day, year] = datePart.split('/');
-            return new Date(`${year}-${month}-${day}T${timePart}`);
+            const [hours, minutes, seconds] = timePart.split(':');
+            return new Date(year, month - 1, day, hours, minutes, seconds || 0);
         }
         
         function formatDateForTooltip(date) {
@@ -1016,27 +1019,33 @@
                 return document.createTextNode(durationText || "Invalid");
             }
         
-            // Duration in minutes
             let durationMinutes = (end - start) / (1000 * 60);
-            if (durationMinutes < 0) durationMinutes += 1440; // Handle overnight charging
+            if (durationMinutes < 0) durationMinutes += 1440;
         
-            // % of 24 hours
             const widthPercent = Math.min((durationMinutes / 1440) * 100, 100);
-            const barColor = getBarColor(widthPercent); // color based on percentage
+            const barColor = getBarColor(widthPercent);
         
-            // Create bar element
             const bar = document.createElement("div");
             bar.className = "charging-bar";
+            bar.style.position = "relative";
             bar.style.width = `${widthPercent}%`;
             bar.style.backgroundColor = barColor;
-        
-            // Tooltip only includes Start and End time
+            bar.style.height = "20px";
+            bar.style.borderRadius = "5px";
+            bar.style.textAlign = "center";
+            bar.style.color = "#fff";
+            bar.style.fontSize = "12px";
+            bar.style.overflow = "hidden";
+            bar.style.whiteSpace = "nowrap";
             bar.title = `Start: ${formatDateForTooltip(start)}\nEnd: ${formatDateForTooltip(end)}`;
         
-            // Label inside bar with the duration (HH:MM:SS)
             const label = document.createElement("span");
             label.className = "charging-bar-label";
             label.innerText = durationText;
+            label.style.position = "absolute";
+            label.style.left = "50%";
+            label.style.top = "50%";
+            label.style.transform = "translate(-50%, -50%)";
         
             bar.appendChild(label);
             return bar;
