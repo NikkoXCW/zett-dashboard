@@ -1293,18 +1293,6 @@
             renderTable(pageIndex, filteredData);
         }
 
-        function renderChargingBar(durationMinutes, startTimeStr, endTimeStr, dateStr) {
-            const maxDuration = 240; // Define your expected max charging duration (e.g., 4 hours)
-            const barWidthPercent = Math.min((durationMinutes / maxDuration) * 100, 100);
-        
-            const bar = document.createElement('div');
-            bar.className = 'charging-bar';
-            bar.style.width = barWidthPercent + '%';
-            bar.title = `Start: ${startTimeStr} on ${dateStr}\nEnd: ${endTimeStr} on ${dateStr}`;
-        
-            return bar;
-        }
-
         let trendChart;
         
         // Function to show the trend chart when a column header is clicked
