@@ -960,10 +960,11 @@
                     const td = document.createElement("td");
                    // td.innerText = row[colIndex] || ''; // Display the data from the selected columns
 
-                    if (colIndex === 35 && row [35]) {
-                        const timeRange = row[35];
-                        const [startStr, endStr] = timeRange.split(" - ");
-                        const bar = renderChargingBar(startStr, endStr);
+                    if (colIndex === 35 && row[33] && row[34]) {
+                        const startStr = row[33];
+                        const endStr = row[34];
+                        const chargingTimeStr = row[35]; // use this for bar label
+                        const bar = renderChargingBar(startStr, endStr, chargingTimeStr);
         
                         td.appendChild(bar);
                     } else {
@@ -984,36 +985,28 @@
         }
         
         // Render horizontal bar with tooltip
-        function renderChargingBar(startTimeStr, endTimeStr) {
-            // Parse strings like "mm/dd/yyyy hh:mm:ss am/pm"
+        function renderChargingBar(startTimeStr, endTimeStr, labelText = "") {
             const start = new Date(startTimeStr);
             const end = new Date(endTimeStr);
         
             if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-                console.warn("Invalid date format:", startTimeStr, endTimeStr);
-                return document.createTextNode("Invalid time");
+                console.warn("Invalid date:", startTimeStr, endTimeStr);
+                return document.createTextNode(labelText || "Invalid time");
             }
         
-            let durationMinutes = (end - start) / (1000 * 60); // ms → minutes
+            let durationMinutes = (end - start) / (1000 * 60);
+            if (durationMinutes < 0) durationMinutes += 1440;
         
-            // If end is before start (midnight crossover), add 24h
-            if (durationMinutes < 0) {
-                durationMinutes += 1440; // 24 hours
-            }
+            const percentOfDay = (durationMinutes / 1440) * 100;
         
-            const percentOfDay = (durationMinutes / 1440) * 100; // 1440 min in a day
-            const percentText = `${percentOfDay.toFixed(1)}%`;
-        
-            // Create the visual bar
             const bar = document.createElement("div");
             bar.className = "charging-bar";
             bar.style.width = `${percentOfDay}%`;
             bar.style.background = getBarColor(durationMinutes);
-            bar.title = `Start: ${startTimeStr}\nEnd: ${endTimeStr}\nDuration: ${durationMinutes.toFixed(1)} min`;
+            bar.title = `Start: ${startTimeStr}\nEnd: ${endTimeStr}\nDuration: ${labelText}`;
         
-            // Label inside the bar
             const label = document.createElement("span");
-            label.textContent = percentText;
+            label.textContent = labelText || `${durationMinutes.toFixed(0)} min`;
             label.className = "charging-bar-label";
             bar.appendChild(label);
         
