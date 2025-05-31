@@ -963,10 +963,10 @@
                    // td.innerText = row[colIndex] || ''; // Display the data from the selected columns
 
                     if (colIndex === 35 && row[33] && row[34] && row[35]) {
-                        const startTime = row[33].trim();
-                        const endTime = row[34].trim();
-                        const chargingDuration = row[35].trim(); // "HH:MM:SS"
-                        const bar = renderChargingBar(startTime, endTime, chargingDuration);
+                        const startTimeStr = row[33].trim();
+                        const endTimeStr = row[34].trim();
+                        const durationText = row[35].trim(); // "HH:MM:SS"
+                        const bar = renderChargingBar(startTimeStr, endTimeStr, durationText);
         
                         td.appendChild(bar);
                     } else {
@@ -1007,34 +1007,38 @@
             const end = parse24HourDate(endStr);
         
             if (!start || !end || !durationText) {
-                console.warn("Invalid input:", { startStr, endStr, durationText });
+                console.warn("Invalid input to renderChargingBar:", { startStr, endStr, durationText });
                 return document.createTextNode(durationText || "Invalid");
             }
         
+            // Calculate duration in minutes for bar width
             let durationMinutes = (end - start) / (1000 * 60);
-            if (durationMinutes < 0) durationMinutes += 1440; // Wrap midnight
+            if (durationMinutes < 0) durationMinutes += 1440; // Handle overnight charging
         
             const widthPercent = Math.min((durationMinutes / 1440) * 100, 100);
         
+            // Create the bar container
             const bar = document.createElement("div");
             bar.className = "charging-bar";
             bar.style.width = `${widthPercent}%`;
             bar.style.background = getBarColor(durationMinutes);
+        
+            // Correctly set the tooltip
             bar.title = `Start: ${formatDateForTooltip(start)}\nEnd: ${formatDateForTooltip(end)}\nDuration: ${durationText}`;
         
+            // Add the duration label inside the bar
             const label = document.createElement("span");
             label.className = "charging-bar-label";
             label.innerText = durationText;
-            bar.appendChild(label);
         
+            bar.appendChild(label);
             return bar;
         }
 
         function getBarColor(minutes) {
-            if (minutes < 30) return "#4CAF50";      // Green
-            if (minutes < 60) return "#FFC107";      // Yellow
-            if (minutes < 120) return "#FF9800";     // Orange
-            return "#F44336";                        // Red
+            if (minutes < 30) return "#4CAF50";
+            if (minutes < 90) return "#FFC107";
+            return "#F44336";
         }
 
         // Render the table for Page 2
