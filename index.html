@@ -539,10 +539,12 @@
         </div>
 
         <!-- Table for Data -->
-        <table id="tablePage1">
-            <thead id="tableHeaderPage1"></thead>
-            <tbody id="tableBodyPage1"></tbody>
-        </table>
+        <div id="tableContainerPage1" style="max-height: 500px; overflow-y: auto; border: 1px solid #ccc;">
+            <table id="tablePage1" style="width: 100%; border-collapse: collapse;">
+                <thead id="tableHeaderPage1"></thead>
+                <tbody id="tableBodyPage1"></tbody>
+            </table>
+        </div>
 
         <!-- Modal for Charging Chart -->
         <div id="chargingChartModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background-color:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center;">
