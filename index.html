@@ -361,22 +361,56 @@
         /* Responsiveness */
         @media screen and (max-width: 768px) {
             .container {
-                grid-template-columns: 1fr; /* Single column layout on small screens */
+                flex-direction: column;
+                align-items: center;
                 padding: 10px;
             }
-    
+        
+            .image-container-left,
+            .image-container-right,
+            .value-container {
+                flex: none;
+                max-width: 100%;
+                width: 100%;
+            }
+        
+            .image-container-left img,
+            .image-container-right img {
+                height: auto;
+            }
+        
+            .value-container {
+                margin: 20px 0;
+            }
+        
             .nav-buttons {
                 flex-direction: column;
                 gap: 10px;
             }
-    
-            .value-container {
-                margin: 20px;
-            }
-    
+        
             .chart-container {
                 width: 95%;
-                height: 50%;
+                height: 60%;
+                left: 2.5%;
+                top: 20%;
+            }
+        
+            .filter-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+        
+            .filter-container input,
+            .filter-container button {
+                width: 100%;
+                max-width: 300px;
+            }
+        
+            table {
+                font-size: 14px;
+                overflow-x: auto;
+                display: block;
             }
         }
 
