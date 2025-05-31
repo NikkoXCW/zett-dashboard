@@ -476,7 +476,20 @@
             <thead id="tableHeaderPage1"></thead>
             <tbody id="tableBodyPage1"></tbody>
         </table>
+
+        <!-- Modal for Charging Chart -->
+        <div id="chargingChartModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background-color:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center;">
+            <div style="background:white; padding:20px; border-radius:8px; max-width:800px; width:90%; position:relative;">
+                <button onclick="closeChargingChart()" style="position:absolute; top:10px; right:10px;">✖</button>
+                <h3>Charging Session</h3>
+                <div id="chargingChartContainer" style="position:relative; height:60px; border:1px solid #ccc; margin-top:20px; background:#f9f9f9;"></div>
+                <div style="display:flex; justify-content:space-between; font-size:12px; margin-top:8px;">
+                    <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span>
+                </div>
+            </div>
+        </div>      
     </div>
+
 
     <!-- Page 2 -->
     <div id="Page2" class="page-container">
@@ -1057,6 +1070,12 @@
             label.style.transform = "translate(-50%, -50%)";
         
             bar.appendChild(label);
+
+            // Add onclick to show the big chart
+            bar.onclick = () => {
+                showChargingChart(startStr, endStr);
+            };
+            
             return bar;
         }
 
@@ -1485,6 +1504,45 @@
             isDragging = false;
             document.body.style.cursor = ''; // Reset cursor style
         });
+
+        function showChargingChart(startStr, endStr) {
+            const container = document.getElementById("chargingChartContainer");
+            const modal = document.getElementById("chargingChartModal");
+        
+            // Clear previous chart
+            container.innerHTML = "";
+        
+            const start = parse24HourDate(startStr);
+            const end = parse24HourDate(endStr);
+        
+            if (!start || !end || end <= start) {
+                container.innerText = "Invalid time range.";
+                modal.style.display = "flex";
+                return;
+            }
+        
+            const totalMinutes = (end - start) / 60000; // ms to minutes
+            const startMinutes = start.getHours() * 60 + start.getMinutes();
+            const durationPercent = (totalMinutes / 1440) * 100;
+            const startPercent = (startMinutes / 1440) * 100;
+        
+            const bar = document.createElement("div");
+            bar.style.position = "absolute";
+            bar.style.left = `${startPercent}%`;
+            bar.style.width = `${durationPercent}%`;
+            bar.style.top = "10px";
+            bar.style.height = "40px";
+            bar.style.backgroundColor = getBarColor(durationPercent);
+            bar.style.borderRadius = "5px";
+            bar.title = `From ${formatDateForTooltip(start)} to ${formatDateForTooltip(end)}`;
+        
+            container.appendChild(bar);
+            modal.style.display = "flex";
+        }
+        
+        function closeChargingChart() {
+            document.getElementById("chargingChartModal").style.display = "none";
+        }
 
         window.onload = function() {
             // Load Page 2
