@@ -978,13 +978,25 @@
         
         // Render horizontal bar with tooltip
         function renderChargingBar(durationMinutes, startTimestamp, endTimestamp) {
-            const maxDuration = 240; // 4 hours
-            const widthPercent = Math.min((durationMinutes / maxDuration) * 100, 100);
-        
             const bar = document.createElement("div");
             bar.className = "charging-bar";
+        
+            const widthPercent = Math.min(100, Math.max(10, durationMinutes / 4)); // e.g., 4 min = 1%
+            const color = getBarColor(durationMinutes);
+        
             bar.style.width = `${widthPercent}%`;
-            bar.title = `Start: ${startTimestamp}\nEnd: ${endTimestamp}`;
+            bar.style.background = color;
+            bar.style.transition = "width 0.8s ease-in-out";
+        
+            // Tooltip on hover
+            bar.title = `Start: ${startTimeStr}\nEnd: ${endTimeStr}\nDuration: ${durationMinutes} min`;
+        
+            // Add duration text inside the bar
+            const label = document.createElement("span");
+            label.textContent = `${durationMinutes} min`;
+            label.className = "charging-bar-label";
+            bar.appendChild(label);
+        
             return bar;
         }
 
