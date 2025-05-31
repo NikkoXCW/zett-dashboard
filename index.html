@@ -483,9 +483,17 @@
                 <button onclick="closeChargingChart()" style="position:absolute; top:10px; right:10px;">✖</button>
                 <h3>Charging Session</h3>
                 <div id="chargingChartContainer" style="position:relative; height:60px; border:1px solid #ccc; margin-top:20px; background:#f9f9f9;"></div>
-                <div style="display:flex; justify-content:space-between; font-size:12px; margin-top:8px;">
-                    <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span>
-                </div>
+                    <div style="display:flex; justify-content:space-between; font-size:12px; margin-top:8px;">
+                        <span>Day 1<br>00:00</span>
+                        <span>06:00</span>
+                        <span>12:00</span>
+                        <span>18:00</span>
+                        <span>Day 2<br>00:00</span>
+                        <span>06:00</span>
+                        <span>12:00</span>
+                        <span>18:00</span>
+                        <span>Day 3<br>00:00</span>
+                    </div>
             </div>
         </div>      
     </div>
@@ -1522,9 +1530,13 @@
             }
         
             const totalMinutes = (end - start) / 60000; // ms to minutes
-            const startMinutes = start.getHours() * 60 + start.getMinutes();
-            const durationPercent = (totalMinutes / 1440) * 100;
-            const startPercent = (startMinutes / 1440) * 100;
+            const startMinutes = (start.getHours() + start.getDate() * 24) * 60 + start.getMinutes();
+            const timelineStart = new Date(start);
+            timelineStart.setHours(0, 0, 0, 0); // Beginning of day
+        
+            const minutesFromTimelineStart = (start - timelineStart) / 60000;
+            const startPercent = (minutesFromTimelineStart / (48 * 60)) * 100;
+            const durationPercent = (totalMinutes / (48 * 60)) * 100;
         
             const bar = document.createElement("div");
             bar.style.position = "absolute";
@@ -1536,7 +1548,18 @@
             bar.style.borderRadius = "5px";
             bar.title = `From ${formatDateForTooltip(start)} to ${formatDateForTooltip(end)}`;
         
+            // Add date label below the bar
+            const label = document.createElement("div");
+            label.innerText = `${start.toLocaleDateString()} → ${end.toLocaleDateString()}`;
+            label.style.position = "absolute";
+            label.style.top = "55px";
+            label.style.left = `${startPercent}%`;
+            label.style.fontSize = "12px";
+            label.style.whiteSpace = "nowrap";
+            label.style.color = "#333";
+        
             container.appendChild(bar);
+            container.appendChild(label);
             modal.style.display = "flex";
         }
         
