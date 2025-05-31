@@ -242,7 +242,7 @@
               #ddd,
               #ddd 1px,
               transparent 1px,
-              transparent calc((100% / 72) - 1px)
+              transparent calc((100% / 72))
             );
             background-size: calc(100% / 72) 100%;
           }
@@ -550,6 +550,17 @@
                 <button onclick="closeChargingChart()" style="position:absolute; top:10px; right:10px;">✖</button>
                 <h3>Charging Session</h3>
                 <div id="chargingChartContainer"></div>
+                <div style="display:flex; justify-content:space-between; font-size:12px; margin-top:8px;">
+                    <span>Day 1<br>00:00</span>
+                    <span>06:00</span>
+                    <span>12:00</span>
+                    <span>18:00</span>
+                    <span>Day 2<br>00:00</span>
+                    <span>06:00</span>
+                    <span>12:00</span>
+                    <span>18:00</span>
+                    <span>Day 3<br>00:00</span>
+                </div>
             </div>
         </div>      
     </div>
