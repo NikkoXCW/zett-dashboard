@@ -194,8 +194,6 @@
             height: 20px;
             border-radius: 6px;
             margin: 4px 0;
-            background: #4CAF50;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -981,7 +979,6 @@
 
         // Helper: Convert "hh:mm" to total minutes
         function parse24HourDate(str) {
-            // "MM/DD/YYYY HH:MM:SS"
             const [datePart, timePart] = str.split(' ');
             if (!datePart || !timePart) return null;
         
@@ -1001,6 +998,14 @@
             });
         }
         
+        function getBarColor(percentage) {
+            if (percentage <= 10) return "#4CAF50";    // green
+            if (percentage <= 30) return "#8BC34A";    // light green
+            if (percentage <= 60) return "#FFC107";    // amber
+            if (percentage <= 90) return "#FF9800";    // orange
+            return "#F44336";                          // red
+        }
+        
         // Render horizontal bar with tooltip
         function renderChargingBar(startStr, endStr, durationText) {
             const start = parse24HourDate(startStr);
@@ -1011,34 +1016,30 @@
                 return document.createTextNode(durationText || "Invalid");
             }
         
-            // Calculate duration in minutes for bar width
+            // Duration in minutes
             let durationMinutes = (end - start) / (1000 * 60);
             if (durationMinutes < 0) durationMinutes += 1440; // Handle overnight charging
         
+            // % of 24 hours
             const widthPercent = Math.min((durationMinutes / 1440) * 100, 100);
+            const barColor = getBarColor(widthPercent); // color based on percentage
         
-            // Create the bar container
+            // Create bar element
             const bar = document.createElement("div");
             bar.className = "charging-bar";
             bar.style.width = `${widthPercent}%`;
-            bar.style.background = getBarColor(durationMinutes);
+            bar.style.backgroundColor = barColor;
         
-            // Correctly set the tooltip
-            bar.title = `Start: ${formatDateForTooltip(start)}\nEnd: ${formatDateForTooltip(end)}\nDuration: ${durationText}`;
+            // Tooltip only includes Start and End time
+            bar.title = `Start: ${formatDateForTooltip(start)}\nEnd: ${formatDateForTooltip(end)}`;
         
-            // Add the duration label inside the bar
+            // Label inside bar with the duration (HH:MM:SS)
             const label = document.createElement("span");
             label.className = "charging-bar-label";
             label.innerText = durationText;
         
             bar.appendChild(label);
             return bar;
-        }
-
-        function getBarColor(minutes) {
-            if (minutes < 30) return "#4CAF50";
-            if (minutes < 90) return "#FFC107";
-            return "#F44336";
         }
 
         // Render the table for Page 2
