@@ -198,6 +198,7 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.2);
             display: flex;
             align-items: center;
+            justify-content: center;
             padding: 0 6px;
             color: white;
             font-size: 12px;
@@ -961,11 +962,11 @@
                     const td = document.createElement("td");
                    // td.innerText = row[colIndex] || ''; // Display the data from the selected columns
 
-                    if (colIndex === 35 && row[33] && row[34]) {
-                        const startStr = row[33];
-                        const endStr = row[34];
-                        const chargingTimeStr = row[35]; // use this for bar label
-                        const bar = renderChargingBar(startStr, endStr, chargingTimeStr);
+                    if (colIndex === 35 && row[33] && row[34] && row[35]) {
+                        const startTime = row[33].trim();
+                        const endTime = row[34].trim();
+                        const chargingDuration = row[35].trim(); // "HH:MM:SS"
+                        const bar = renderChargingBar(startTime, endTime, chargingDuration);
         
                         td.appendChild(bar);
                     } else {
@@ -980,7 +981,7 @@
 
         // Helper: Convert "hh:mm" to total minutes
         function parse24HourDate(str) {
-            // Expected format: "MM/DD/YYYY HH:MM:SS"
+            // "MM/DD/YYYY HH:MM:SS"
             const [datePart, timePart] = str.split(' ');
             if (!datePart || !timePart) return null;
         
@@ -988,30 +989,42 @@
             return new Date(`${year}-${month}-${day}T${timePart}`);
         }
         
+        function formatDateForTooltip(date) {
+            return date.toLocaleString(undefined, {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+        }
+        
         // Render horizontal bar with tooltip
-        function renderChargingBar(startStr, endStr, labelText) {
+        function renderChargingBar(startStr, endStr, durationText) {
             const start = parse24HourDate(startStr);
             const end = parse24HourDate(endStr);
         
-            if (!start || !end) {
-                console.warn("Invalid time strings:", startStr, endStr);
-                return document.createTextNode(labelText || "Invalid");
+            if (!start || !end || !durationText) {
+                console.warn("Invalid input:", { startStr, endStr, durationText });
+                return document.createTextNode(durationText || "Invalid");
             }
         
             let durationMinutes = (end - start) / (1000 * 60);
-            if (durationMinutes < 0) durationMinutes += 1440; // Handle midnight wrap
+            if (durationMinutes < 0) durationMinutes += 1440; // Wrap midnight
         
-            const percentWidth = Math.min((durationMinutes / 1440) * 100, 100);
+            const widthPercent = Math.min((durationMinutes / 1440) * 100, 100);
         
             const bar = document.createElement("div");
             bar.className = "charging-bar";
-            bar.style.width = `${percentWidth}%`;
+            bar.style.width = `${widthPercent}%`;
             bar.style.background = getBarColor(durationMinutes);
-            bar.title = `Start: ${startStr}\nEnd: ${endStr}\nDuration: ${labelText}`;
+            bar.title = `Start: ${formatDateForTooltip(start)}\nEnd: ${formatDateForTooltip(end)}\nDuration: ${durationText}`;
         
             const label = document.createElement("span");
             label.className = "charging-bar-label";
-            label.innerText = labelText;
+            label.innerText = durationText;
             bar.appendChild(label);
         
             return bar;
