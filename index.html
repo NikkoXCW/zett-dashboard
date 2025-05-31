@@ -283,12 +283,30 @@
             object-fit: contain; /* Ensure the image fits within its container */
         }
 
-        #tablePage1 thead th {
-            position: sticky;
-            top: 0;
-            background-color: #f9f9f9;
-            z-index: 1;
-            border-bottom: 1px solid #ccc;
+        #tableContainerPage1 {
+          max-height: 500px;
+          overflow-y: auto;
+          overflow-x: auto;
+        }
+        
+        #tablePage1 {
+          width: 100%;
+          border-collapse: collapse;
+        }
+        
+        #tableHeaderPage1 th {
+          position: sticky;
+          top: 0;
+          background-color: #f9f9f9; /* Make sure it doesn't go transparent */
+          z-index: 2;
+          border-bottom: 1px solid #ccc;
+          padding: 8px;
+          text-align: left;
+        }
+        
+        #tableBodyPage1 td {
+          padding: 8px;
+          border-bottom: 1px solid #eee;
         }
 
         /* Left image container for Page 2 */
