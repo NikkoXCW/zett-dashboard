@@ -480,6 +480,7 @@
     <!-- Navigation Buttons -->
     <div class="nav-buttons">
         <button onclick="loadPage('Page1')">Volvo BEV - Sutco</button>
+        <button onclick="loadPage('Page5')">AZETEC FCEV 98 - Bison</button>
         <button onclick="loadPage('Page2')">AZETEC FCEV 99 - Trimac</button>
         <button onclick="loadPage('Page3')">Nikola FCEV V13 - Bison</button>
         <button onclick="loadPage('Page4')">Nikola FCEV V14 - Arrow</button>
@@ -801,6 +802,76 @@
         </table>
     </div>
 
+    <!-- Page 5 -->
+    <div id="Page5" class="page-container">
+        <h3>AZETEC FCEV 98 - Bison</h3>
+        <div class="container">
+            <!-- Left Image Container -->
+            <div class="image-container-left">
+                <img src="https://drive.google.com/thumbnail?id=" alt="Image Left 1"> //add azetec 98 image
+                <img src="https://drive.google.com/thumbnail?id=" alt="Image Left 2"> //add azetec 98 image
+            </div>
+
+            <!-- Value Container in the Center -->
+            <div class="value-container">
+                <div class="value-box">
+                    <label for="trialStartDate">Trial Operation Start Date:</label>
+                    <span id="trialStartDate">July 01, 2025</span>
+                </div>
+                <div class="value-box">
+                    <label for="cellA3Page5">Operating Days:</label>
+                    <span id="cellA3Page5"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellJ3Page5">Average Net Loads (Kg):</label>
+                    <span id="cellJ3Page5"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellK3Page5">Total Operating Mileage (Km):</label>
+                    <span id="cellK3Page5"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellP3Page5">Average H2 Consumption Rate (Kg/Km):</label>
+                    <span id="cellP3Page5"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellQ3Page5">Average Energy Efficiency (CAD$/Km):</label>
+                    <span id="cellQ3Page5"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellR3Page5">CO2 Emission Reduction (Kg):</label>
+                    <span id="cellR3Page5"></span>
+                </div>
+            </div>
+
+            <!-- Right Image Containers -->
+            <div class="image-container-right">
+                <div>
+                    <img src="https://drive.google.com/thumbnail?id=" alt="Image Right 1">
+                </div>
+                <div>
+                    <img src="https://drive.google.com/thumbnail?id=" alt="Image Right 2">
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Container for Date -->
+        <div class="filter-container">
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate">
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate">
+            <button onclick="filterData()">Filter</button>
+        </div>
+
+        <!-- Table for Data -->       
+        <table id="tablePage5">
+            <thead id="tableHeaderPage5"></thead>
+            <tbody id="tableBodyPage5"></tbody>
+        </table>
+    </div>
+
+    
     <!-- Trend Chart Popup -->
     <div class="chart-container" id="chartPopup">
         <span class="close-btn" onclick="closeChart()">&times;</span>
@@ -822,18 +893,20 @@
         const apiKey = 'AIzaSyC8f4hfYHPD8ZjffE2BlmCbEAmkgVJQsOQ';
         const sheetId = '1Tw-3NfzRG7JhzLsjLBfrRF__Plo4BZS8RWRa-csbiH4';
         
-        // Page 1 (VolvoBEV) range and Page 2 range
         const valueBoxRangePage1 = 'VolvoBEV!A3:AK3'; 
         const tableRangePage1 = 'VolvoBEV!A5:AK'; 
         
-        const valueBoxRangePage2 = 'AZETECFCEV!A3:R3'; // New sheet range for Page 2
-        const tableRangePage2 = 'AZETECFCEV!A5:R'; // New sheet range for Page 2
+        const valueBoxRangePage2 = 'AZETEC99!A3:R3'; // New sheet range for Page 2
+        const tableRangePage2 = 'AZETEC99!A5:R'; // New sheet range for Page 2
 
         const valueBoxRangePage3 = 'NikolaV13!A3:R3'; // New sheet range for Page 3
         const tableRangePage3 = 'NikolaV13!A5:R'; // New sheet range for Page 3
 
         const valueBoxRangePage4 = 'NikolaV14!A3:R3'; // New sheet range for Page 4
         const tableRangePage4 = 'NikolaV14!A5:R'; // New sheet range for Page 4
+
+        const valueBoxRangePage5 = 'AZETEC98!A3:R3'; // New sheet range for Page 5
+        const tableRangePage5 = 'AZETEC98!A5:R'; // New sheet range for Page 5
 
         let sheetDataPage1 = [];
         let valueBoxDataPage1 = [];
@@ -846,6 +919,9 @@
                 
         let sheetDataPage4 = [];
         let valueBoxDataPage4 = [];
+                        
+        let sheetDataPage5 = [];
+        let valueBoxDataPage5 = [];
 
         // Fetch value box data for Page 1
         async function fetchValueBoxDataPage1() {
@@ -981,6 +1057,39 @@
                 console.error('Error fetching table data for Page 4:', error);
             }
         }
+
+        // Fetch value box data for Page 5
+        async function fetchValueBoxDataPage5() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${valueBoxRangePage5}?key=${apiKey}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data.values) {
+                    valueBoxDataPage5 = data.values;
+                    populateValueBoxesPage5(valueBoxDataPage5[0]);
+                }
+            } catch (error) {
+                console.error('Error fetching value box data for Page 5:', error);
+            }
+        }
+
+        // Fetch table data for Page 5
+        async function fetchTableDataPage5() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${tableRangePage5}?key=${apiKey}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                console.log("Page 5 Table Data:", data);
+                
+                if (data.values) {
+                    sheetDataPage5 = data.values;
+                    renderTablePage5(sheetDataPage5);
+                }
+            } catch (error) {
+                console.error('Error fetching table data for Page 5:', error);
+            }
+        }
         
         // Populate value boxes for Page 1
         function populateValueBoxesPage1(row) {
@@ -1023,6 +1132,16 @@
             document.getElementById('cellP3Page4').innerText = row[15] || '';
             document.getElementById('cellQ3Page4').innerText = row[16] || '';
             document.getElementById('cellR3Page4').innerText = row[17] || '';
+        }
+
+        // Populate value boxes for Page 5
+        function populateValueBoxesPage5(row) {
+            document.getElementById('cellA3Page5').innerText = row[0] || '';
+            document.getElementById('cellJ3Page5').innerText = row[9] || '';
+            document.getElementById('cellK3Page5').innerText = row[10] || '';
+            document.getElementById('cellP3Page5').innerText = row[15] || '';
+            document.getElementById('cellQ3Page5').innerText = row[16] || '';
+            document.getElementById('cellR3Page5').innerText = row[17] || '';
         }
         
         // Render the table for Page 1
@@ -1379,6 +1498,73 @@
             });
         }
 
+        // Render the table for Page 5
+        function renderTablePage5(data) {
+            const tableHeader = document.getElementById("tableHeaderPage5");
+            const tableBody = document.getElementById("tableBodyPage5");
+            
+            tableHeader.innerHTML = '';
+            tableBody.innerHTML = '';
+
+            // Check if data is not empty
+            if (!data || data.length === 0) {
+                console.error('No data available for Page 5');
+                return;
+            }
+
+            // Define the columns you want to show (indexes are based on Google Sheet columns)
+            const selectedColumns = [0, 9, 10, 11, 12, 13, 14, 15, 16, 17]; // Example columns to display (A, J, K, L, M, N, O, P, Q, R)
+
+
+            // Table header and rendering logic for Page 5
+            const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
+            
+            columnNames.forEach((col, index)  => {
+                const th = document.createElement("th");
+                th.innerText = col;
+                th.onclick = () => showTrend(index, 2, selectedColumns);
+                tableHeader.appendChild(th);
+            });
+
+            // Filter the data to only include rows where column K (index 10) has a non-empty value
+            const filteredDataPage5 = data.filter(row => {
+                if (!row || !row[10]) {
+                    console.log('Skipping row due to missing data:', row); // Log rows that are skipped
+                    return false;
+                }
+        
+                const columnKValuePage5 = row[10];
+                console.log(`Column K Value: ${columnKValuePage2}`); // Log the value of column K for each row
+        
+                const cleanedValue = columnKValuePage5.replace(/[^0-9.-]/g, ''); // Remove non-numeric characters
+                const isValid = cleanedValue && !isNaN(cleanedValue);
+                if (!isValid) {
+                    console.log('Row skipped due to invalid column K:', row); // Log rows that are skipped
+                }
+                return isValid;
+            });
+
+            filteredDataPage5.sort((a, b) => {
+                const dateA = new Date(a[0]);
+                const dateB = new Date(b[0]);
+                return dateB - dateA;
+            });
+        
+            // Log the filtered data to debug
+            console.log('Filtered Data:', filteredDataPage5);
+
+            // Render table rows with only the selected columns
+            filteredDataPage5.forEach(row => {
+                const tr = document.createElement("tr");
+                selectedColumns.forEach(colIndex => {
+                    const td = document.createElement("td");
+                    td.innerText = row[colIndex] || ''; // Display the data from the selected columns
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            });
+        }
+
         // Function to filter the data based on date range
         function filterData(pageIndex) {
             const startDate = document.getElementById('startDate').value;
@@ -1413,6 +1599,9 @@
                     break;
                 case 4:
                     sheetData = sheetDataPage4;
+                    break;
+                case 5:
+                    sheetData = sheetDataPage5;
                     break;
                 default:
                     console.error('Invalid page index.');
@@ -1462,6 +1651,10 @@
                 case 4:
                     sheetData = sheetDataPage4;
                     columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Kg (Trip Start)", "H2 Kg (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
+                    break;
+                case 5:
+                    sheetData = sheetDataPage5;
+                    columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
                     break;
                 default:
                     alert("Invalid page index.");
@@ -1686,6 +1879,11 @@
             loadPage('Page4');
             fetchValueBoxDataPage4(); // For Page 4
             fetchTableDataPage4();  // For Page 4
+
+            // Load Page 5
+            loadPage('Page5');
+            fetchValueBoxDataPage5(); // For Page 5
+            fetchTableDataPage5();  // For Page 5
 
             loadPage('Page1');  // Automatically load Page 1 by default
             fetchValueBoxDataPage1();
