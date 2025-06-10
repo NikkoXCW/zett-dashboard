@@ -625,16 +625,16 @@
                     <span id="cellK3Page2"></span>
                 </div>
                 <div class="value-box">
-                    <label for="cellP3Page2">Average H2 Consumption Rate (Kg/Km):</label>
-                    <span id="cellP3Page2"></span>
+                    <label for="cellU3Page2">Average H2 Consumption Rate (Kg/Km):</label>
+                    <span id="cellU3Page2"></span>
                 </div>
                 <div class="value-box">
-                    <label for="cellQ3Page2">Average Energy Efficiency (CAD$/Km):</label>
-                    <span id="cellQ3Page2"></span>
+                    <label for="cellV3Page2">Average Energy Efficiency (CAD$/Km):</label>
+                    <span id="cellV3Page2"></span>
                 </div>
                 <div class="value-box">
-                    <label for="cellR3Page2">CO2 Emission Reduction (Kg):</label>
-                    <span id="cellR3Page2"></span>
+                    <label for="cellW3Page2">CO2 Emission Reduction (Kg):</label>
+                    <span id="cellW3Page2"></span>
                 </div>
             </div>
 
@@ -808,8 +808,8 @@
         <div class="container">
             <!-- Left Image Container -->
             <div class="image-container-left">
-                <img src="https://drive.google.com/thumbnail?id=" alt="Image Left 1"> //add azetec 98 image
-                <img src="https://drive.google.com/thumbnail?id=" alt="Image Left 2"> //add azetec 98 image
+                <img src="https://drive.google.com/thumbnail?id=" alt="Image Left 1"> 
+                <img src="https://drive.google.com/thumbnail?id=" alt="Image Left 2"> 
             </div>
 
             <!-- Value Container in the Center -->
@@ -831,16 +831,16 @@
                     <span id="cellK3Page5"></span>
                 </div>
                 <div class="value-box">
-                    <label for="cellP3Page5">Average H2 Consumption Rate (Kg/Km):</label>
-                    <span id="cellP3Page5"></span>
+                    <label for="cellU3Page5">Average H2 Consumption Rate (Kg/Km):</label>
+                    <span id="cellU3Page5"></span>
                 </div>
                 <div class="value-box">
-                    <label for="cellQ3Page5">Average Energy Efficiency (CAD$/Km):</label>
-                    <span id="cellQ3Page5"></span>
+                    <label for="cellV3Page5">Average Energy Efficiency (CAD$/Km):</label>
+                    <span id="cellV3Page5"></span>
                 </div>
                 <div class="value-box">
-                    <label for="cellR3Page5">CO2 Emission Reduction (Kg):</label>
-                    <span id="cellR3Page5"></span>
+                    <label for="cellW3Page5">CO2 Emission Reduction (Kg):</label>
+                    <span id="cellW3Page5"></span>
                 </div>
             </div>
 
@@ -897,7 +897,7 @@
         const tableRangePage1 = 'VolvoBEV!A5:AK'; 
         
         const valueBoxRangePage2 = 'AZETEC99!A3:R3'; // New sheet range for Page 2
-        const tableRangePage2 = 'AZETEC99!A5:R'; // New sheet range for Page 2
+        const tableRangePage2 = 'AZETEC99!A5:W'; // New sheet range for Page 2
 
         const valueBoxRangePage3 = 'NikolaV13!A3:R3'; // New sheet range for Page 3
         const tableRangePage3 = 'NikolaV13!A5:R'; // New sheet range for Page 3
@@ -906,7 +906,7 @@
         const tableRangePage4 = 'NikolaV14!A5:R'; // New sheet range for Page 4
 
         const valueBoxRangePage5 = 'AZETEC98!A3:R3'; // New sheet range for Page 5
-        const tableRangePage5 = 'AZETEC98!A5:R'; // New sheet range for Page 5
+        const tableRangePage5 = 'AZETEC98!A5:W'; // New sheet range for Page 5
 
         let sheetDataPage1 = [];
         let valueBoxDataPage1 = [];
@@ -1109,9 +1109,9 @@
             document.getElementById('cellA3Page2').innerText = row[0] || '';
             document.getElementById('cellJ3Page2').innerText = row[9] || '';
             document.getElementById('cellK3Page2').innerText = row[10] || '';
-            document.getElementById('cellP3Page2').innerText = row[15] || '';
-            document.getElementById('cellQ3Page2').innerText = row[16] || '';
-            document.getElementById('cellR3Page2').innerText = row[17] || '';
+            document.getElementById('cellU3Page2').innerText = row[20] || '';
+            document.getElementById('cellV3Page2').innerText = row[21] || '';
+            document.getElementById('cellW3Page2').innerText = row[22] || '';
         }
 
         // Populate value boxes for Page 3
@@ -1139,9 +1139,9 @@
             document.getElementById('cellA3Page5').innerText = row[0] || '';
             document.getElementById('cellJ3Page5').innerText = row[9] || '';
             document.getElementById('cellK3Page5').innerText = row[10] || '';
-            document.getElementById('cellP3Page5').innerText = row[15] || '';
-            document.getElementById('cellQ3Page5').innerText = row[16] || '';
-            document.getElementById('cellR3Page5').innerText = row[17] || '';
+            document.getElementById('cellU3Page5').innerText = row[20] || '';
+            document.getElementById('cellV3Page5').innerText = row[21] || '';
+            document.getElementById('cellW3Page5').innerText = row[22] || '';
         }
         
         // Render the table for Page 1
@@ -1312,11 +1312,11 @@
             }
 
             // Define the columns you want to show (indexes are based on Google Sheet columns)
-            const selectedColumns = [0, 9, 10, 11, 12, 13, 14, 15, 16, 17]; // Example columns to display (A, J, K, L, M, N, O, P, Q, R)
+            const selectedColumns = [0, 9, 10, 11, 12, 13, 15, 18, 20, 21, 22]; // Example columns to display (A, J, K, L, M, N, P, S, U, V, W)
 
 
             // Table header and rendering logic for Page 2
-            const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
+            const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Idling Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
             
             columnNames.forEach((col, index)  => {
                 const th = document.createElement("th");
@@ -1513,11 +1513,11 @@
             }
 
             // Define the columns you want to show (indexes are based on Google Sheet columns)
-            const selectedColumns = [0, 9, 10, 11, 12, 13, 14, 15, 16, 17]; // Example columns to display (A, J, K, L, M, N, O, P, Q, R)
+            const selectedColumns = [0, 9, 10, 11, 12, 13, 15, 18, 20, 21, 22]; // Example columns to display (A, J, K, L, M, N, P, S, U, V, W)
 
 
             // Table header and rendering logic for Page 5
-            const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
+            const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Idling Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
             
             columnNames.forEach((col, index)  => {
                 const th = document.createElement("th");
@@ -1642,7 +1642,7 @@
                     break;
                 case 2:
                     sheetData = sheetDataPage2;
-                    columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
+                    columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Idling TIme (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
                     break;
                 case 3:
                     sheetData = sheetDataPage3;
@@ -1654,7 +1654,7 @@
                     break;
                 case 5:
                     sheetData = sheetDataPage5;
-                    columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
+                    columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Idling TIme (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
                     break;
                 default:
                     alert("Invalid page index.");
