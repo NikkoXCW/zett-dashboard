@@ -234,6 +234,7 @@
           #chargingChartContainer {
             position: relative;
             height: 60px;
+            width: 100%;
             border: 1px solid #ccc;
             margin-top: 20px;
             background-color: #ffffff;
@@ -579,6 +580,10 @@
             <div style="background:white; padding:20px; border-radius:8px; max-width:800px; width:90%; position:relative; overflow:auto;">
                 <button onclick="closeChargingChart()" style="position:absolute; top:10px; right:10px;">✖</button>
                 <h3>Charging Session</h3>
+                <p style="font-size:14px; margin-bottom:10px;">
+                  <strong>Start:</strong> <span id="chargingStartTime"></span><br>
+                  <strong>End:</strong> <span id="chargingEndTime"></span>
+                </p>
                 <div id="chargingChartContainer"></div>
                 <div style="display:flex; justify-content:space-between; font-size:12px; margin-top:8px; width:100%;">
                     <span>Day 1<br>00:00</span>
@@ -1819,6 +1824,10 @@
         
             const start = parse24HourDate(startStr);
             const end = parse24HourDate(endStr);
+
+            // Show start/end times
+            document.getElementById("chargingStartTime").textContent = formatDateForTooltip(start);
+            document.getElementById("chargingEndTime").textContent = formatDateForTooltip(end);
         
             if (!start || !end || end <= start) {
                 container.innerText = "Invalid time range.";
