@@ -481,6 +481,8 @@
     <!-- Navigation Buttons -->
     <div class="nav-buttons">
         <button onclick="loadPage('Page1')">Volvo BEV - Sutco</button>
+        <button onclick="loadPage('Page6')">Hyundai XCIENT #1 - BC</button>
+        <button onclick="loadPage('Page7')">Hyundai XCIENT #2 - AB</button>
         <button onclick="loadPage('Page5')">AZETEC FCEV 98 - Bison</button>
         <button onclick="loadPage('Page2')">AZETEC FCEV 99 - Trimac</button>
         <button onclick="loadPage('Page3')">Nikola FCEV V13 - Bison</button>
@@ -876,6 +878,143 @@
         </table>
     </div>
 
+        <!-- Page 6 -->
+    <div id="Page6" class="page-container">
+        <h3>Hyundai XCIENT #1 - BC</h3>
+        <div class="container">
+            <!-- Left Image Container -->
+            <div class="image-container-left">
+                <img src="https://drive.google.com/thumbnail?id=" alt="Image Left 1"> 
+                <img src="https://drive.google.com/thumbnail?id=" alt="Image Left 2"> 
+            </div>
+
+            <!-- Value Container in the Center -->
+            <div class="value-container">
+                <div class="value-box">
+                    <label for="trialStartDate">Trial Operation Start Date:</label>
+                    <span id="trialStartDate">Oct 12, 2025</span>
+                </div>
+                <div class="value-box">
+                    <label for="cellA3Page6">Operating Days:</label>
+                    <span id="cellA3Page6"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellJ3Page6">Average Net Loads (Kg):</label>
+                    <span id="cellJ3Page6"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellK3Page6">Total Operating Mileage (Km):</label>
+                    <span id="cellK3Page6"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellU3Page6">Average H2 Consumption Rate (Kg/Km):</label>
+                    <span id="cellU3Page6"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellV3Page6">Average Energy Efficiency (CAD$/Km):</label>
+                    <span id="cellV3Page6"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellW3Page6">CO2 Emission Reduction (Kg):</label>
+                    <span id="cellW3Page6"></span>
+                </div>
+            </div>
+
+            <!-- Right Image Containers -->
+            <div class="image-container-right">
+                <div>
+                    <img src="https://drive.google.com/thumbnail?id=" alt="Image Right 1">
+                </div>
+                <div>
+                    <img src="https://drive.google.com/thumbnail?id=" alt="Image Right 2">
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Container for Date -->
+        <div class="filter-container">
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate">
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate">
+            <button onclick="filterData(6)">Filter</button>
+        </div>
+
+        <!-- Table for Data -->       
+        <table id="tablePage6">
+            <thead id="tableHeaderPage6"></thead>
+            <tbody id="tableBodyPage6"></tbody>
+        </table>
+    </div>
+
+    <!-- Page 7 -->
+    <div id="Page7" class="page-container">
+        <h3>Hyundai XCIENT #2 - AB</h3>
+        <div class="container">
+            <!-- Left Image Container -->
+            <div class="image-container-left">
+                <img src="https://drive.google.com/thumbnail?id=" alt="Image Left 1"> 
+                <img src="https://drive.google.com/thumbnail?id=" alt="Image Left 2"> 
+            </div>
+
+            <!-- Value Container in the Center -->
+            <div class="value-container">
+                <div class="value-box">
+                    <label for="trialStartDate">Trial Operation Start Date:</label>
+                    <span id="trialStartDate">Oct 20, 2025</span>
+                </div>
+                <div class="value-box">
+                    <label for="cellA3Page7">Operating Days:</label>
+                    <span id="cellA3Page7"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellJ3Page7">Average Net Loads (Kg):</label>
+                    <span id="cellJ3Page7"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellK3Page7">Total Operating Mileage (Km):</label>
+                    <span id="cellK3Page7"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellU3Page7">Average H2 Consumption Rate (Kg/Km):</label>
+                    <span id="cellU3Page7"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellV3Page7">Average Energy Efficiency (CAD$/Km):</label>
+                    <span id="cellV3Page7"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellW3Page7">CO2 Emission Reduction (Kg):</label>
+                    <span id="cellW3Page7"></span>
+                </div>
+            </div>
+
+            <!-- Right Image Containers -->
+            <div class="image-container-right">
+                <div>
+                    <img src="https://drive.google.com/thumbnail?id=" alt="Image Right 1">
+                </div>
+                <div>
+                    <img src="https://drive.google.com/thumbnail?id=" alt="Image Right 2">
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Container for Date -->
+        <div class="filter-container">
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate">
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate">
+            <button onclick="filterData(7)">Filter</button>
+        </div>
+
+        <!-- Table for Data -->       
+        <table id="tablePage7">
+            <thead id="tableHeaderPage7"></thead>
+            <tbody id="tableBodyPage7"></tbody>
+        </table>
+    </div>
     
     <!-- Trend Chart Popup -->
     <div class="chart-container" id="chartPopup">
@@ -913,6 +1052,12 @@
         const valueBoxRangePage5 = 'AZETEC98!A3:W3'; // New sheet range for Page 5
         const tableRangePage5 = 'AZETEC98!A5:W'; // New sheet range for Page 5
 
+        const valueBoxRangePage6 = 'Hyundai#1!A3:W3'; // New sheet range for Page 6
+        const tableRangePage6 = 'Hyundai#1!A5:W'; // New sheet range for Page 6
+
+        const valueBoxRangePage7 = 'Hyundai#2!A3:W3'; // New sheet range for Page 7
+        const tableRangePage7 = 'Hyundai#2!A5:W'; // New sheet range for Page 7
+
         let sheetDataPage1 = [];
         let valueBoxDataPage1 = [];
         
@@ -927,6 +1072,12 @@
                         
         let sheetDataPage5 = [];
         let valueBoxDataPage5 = [];
+        
+        let sheetDataPage6 = [];
+        let valueBoxDataPage6 = [];
+
+        let sheetDataPage7 = [];
+        let valueBoxDataPage7 = [];
 
         // Fetch value box data for Page 1
         async function fetchValueBoxDataPage1() {
@@ -1095,6 +1246,72 @@
                 console.error('Error fetching table data for Page 5:', error);
             }
         }
+
+        // Fetch value box data for Page 6
+        async function fetchValueBoxDataPage6() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${valueBoxRangePage6}?key=${apiKey}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data.values) {
+                    valueBoxDataPage6 = data.values;
+                    populateValueBoxesPage6(valueBoxDataPage6[0]);
+                }
+            } catch (error) {
+                console.error('Error fetching value box data for Page 6:', error);
+            }
+        }
+
+        // Fetch table data for Page 6
+        async function fetchTableDataPage6() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${tableRangePage6}?key=${apiKey}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                console.log("Page 6 Table Data:", data);
+                
+                if (data.values) {
+                    sheetDataPage6 = data.values;
+                    renderTablePage6(sheetDataPage6);
+                }
+            } catch (error) {
+                console.error('Error fetching table data for Page 6:', error);
+            }
+        }
+
+        // Fetch value box data for Page 7
+        async function fetchValueBoxDataPage7() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${valueBoxRangePage7}?key=${apiKey}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data.values) {
+                    valueBoxDataPage7 = data.values;
+                    populateValueBoxesPage7(valueBoxDataPage7[0]);
+                }
+            } catch (error) {
+                console.error('Error fetching value box data for Page 7:', error);
+            }
+        }
+
+        // Fetch table data for Page 7
+        async function fetchTableDataPage7() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${tableRangePage7}?key=${apiKey}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                console.log("Page 7 Table Data:", data);
+                
+                if (data.values) {
+                    sheetDataPage7 = data.values;
+                    renderTablePage7(sheetDataPage7);
+                }
+            } catch (error) {
+                console.error('Error fetching table data for Page 7:', error);
+            }
+        }
         
         // Populate value boxes for Page 1
         function populateValueBoxesPage1(row) {
@@ -1147,6 +1364,26 @@
             document.getElementById('cellU3Page5').innerText = row[20] || '';
             document.getElementById('cellV3Page5').innerText = row[21] || '';
             document.getElementById('cellW3Page5').innerText = row[22] || '';
+        }
+
+        // Populate value boxes for Page 6
+        function populateValueBoxesPage6(row) {
+            document.getElementById('cellA3Page6').innerText = row[0] || '';
+            document.getElementById('cellJ3Page6').innerText = row[9] || '';
+            document.getElementById('cellK3Page6').innerText = row[10] || '';
+            document.getElementById('cellU3Page6').innerText = row[20] || '';
+            document.getElementById('cellV3Page6').innerText = row[21] || '';
+            document.getElementById('cellW3Page6').innerText = row[22] || '';
+        }
+
+        // Populate value boxes for Page 7
+        function populateValueBoxesPage7(row) {
+            document.getElementById('cellA3Page7').innerText = row[0] || '';
+            document.getElementById('cellJ3Page7').innerText = row[9] || '';
+            document.getElementById('cellK3Page7').innerText = row[10] || '';
+            document.getElementById('cellU3Page7').innerText = row[20] || '';
+            document.getElementById('cellV3Page7').innerText = row[21] || '';
+            document.getElementById('cellW3Page7').innerText = row[22] || '';
         }
         
         // Render the table for Page 1
@@ -1570,6 +1807,140 @@
             });
         }
 
+        // Render the table for Page 6
+        function renderTablePage6(data) {
+            const tableHeader = document.getElementById("tableHeaderPage6");
+            const tableBody = document.getElementById("tableBodyPage6");
+            
+            tableHeader.innerHTML = '';
+            tableBody.innerHTML = '';
+
+            // Check if data is not empty
+            if (!data || data.length === 0) {
+                console.error('No data available for Page 6');
+                return;
+            }
+
+            // Define the columns you want to show (indexes are based on Google Sheet columns)
+            const selectedColumns = [0, 9, 10, 11, 12, 13, 15, 18, 20, 21, 22]; // Example columns to display (A, J, K, L, M, N, P, S, U, V, W)
+
+
+            // Table header and rendering logic for Page 6
+            const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Idling Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
+            
+            columnNames.forEach((col, index)  => {
+                const th = document.createElement("th");
+                th.innerText = col;
+                th.onclick = () => showTrend(index, 6, selectedColumns);
+                tableHeader.appendChild(th);
+            });
+
+            // Filter the data to only include rows where column K (index 10) has a non-empty value
+            const filteredDataPage6 = data.filter(row => {
+                if (!row || !row[10]) {
+                    console.log('Skipping row due to missing data:', row); // Log rows that are skipped
+                    return false;
+                }
+        
+                const columnKValuePage6 = row[10];
+                console.log(`Column K Value: ${columnKValuePage6}`); // Log the value of column K for each row
+        
+                const cleanedValue = columnKValuePage6.replace(/[^0-9.-]/g, ''); // Remove non-numeric characters
+                const isValid = cleanedValue && !isNaN(cleanedValue);
+                if (!isValid) {
+                    console.log('Row skipped due to invalid column K:', row); // Log rows that are skipped
+                }
+                return isValid;
+            });
+
+            filteredDataPage6.sort((a, b) => {
+                const dateA = new Date(a[0]);
+                const dateB = new Date(b[0]);
+                return dateB - dateA;
+            });
+        
+            // Log the filtered data to debug
+            console.log('Filtered Data:', filteredDataPage6);
+
+            // Render table rows with only the selected columns
+            filteredDataPage6.forEach(row => {
+                const tr = document.createElement("tr");
+                selectedColumns.forEach(colIndex => {
+                    const td = document.createElement("td");
+                    td.innerText = row[colIndex] || ''; // Display the data from the selected columns
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            });
+        }
+
+        // Render the table for Page 7
+        function renderTablePage7(data) {
+            const tableHeader = document.getElementById("tableHeaderPage7");
+            const tableBody = document.getElementById("tableBodyPage7");
+            
+            tableHeader.innerHTML = '';
+            tableBody.innerHTML = '';
+
+            // Check if data is not empty
+            if (!data || data.length === 0) {
+                console.error('No data available for Page 7');
+                return;
+            }
+
+            // Define the columns you want to show (indexes are based on Google Sheet columns)
+            const selectedColumns = [0, 9, 10, 11, 12, 13, 15, 18, 20, 21, 22]; // Example columns to display (A, J, K, L, M, N, P, S, U, V, W)
+
+
+            // Table header and rendering logic for Page 7
+            const columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Idling Time (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
+            
+            columnNames.forEach((col, index)  => {
+                const th = document.createElement("th");
+                th.innerText = col;
+                th.onclick = () => showTrend(index, 7, selectedColumns);
+                tableHeader.appendChild(th);
+            });
+
+            // Filter the data to only include rows where column K (index 10) has a non-empty value
+            const filteredDataPage7 = data.filter(row => {
+                if (!row || !row[10]) {
+                    console.log('Skipping row due to missing data:', row); // Log rows that are skipped
+                    return false;
+                }
+        
+                const columnKValuePage7 = row[10];
+                console.log(`Column K Value: ${columnKValuePage7}`); // Log the value of column K for each row
+        
+                const cleanedValue = columnKValuePage7.replace(/[^0-9.-]/g, ''); // Remove non-numeric characters
+                const isValid = cleanedValue && !isNaN(cleanedValue);
+                if (!isValid) {
+                    console.log('Row skipped due to invalid column K:', row); // Log rows that are skipped
+                }
+                return isValid;
+            });
+
+            filteredDataPage7.sort((a, b) => {
+                const dateA = new Date(a[0]);
+                const dateB = new Date(b[0]);
+                return dateB - dateA;
+            });
+        
+            // Log the filtered data to debug
+            console.log('Filtered Data:', filteredDataPage7);
+
+            // Render table rows with only the selected columns
+            filteredDataPage7.forEach(row => {
+                const tr = document.createElement("tr");
+                selectedColumns.forEach(colIndex => {
+                    const td = document.createElement("td");
+                    td.innerText = row[colIndex] || ''; // Display the data from the selected columns
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            });
+        }
+
         // Function to filter the data based on date range
         function filterData(pageIndex) {
             const startDate = document.getElementById('startDate').value;
@@ -1607,6 +1978,12 @@
                     break;
                 case 5:
                     sheetData = sheetDataPage5;
+                    break;
+                case 6:
+                    sheetData = sheetDataPage6;
+                    break;
+                case 7:
+                    sheetData = sheetDataPage7;
                     break;
                 default:
                     console.error('Invalid page index.');
@@ -1659,6 +2036,14 @@
                     break;
                 case 5:
                     sheetData = sheetDataPage5;
+                    columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Idling TIme (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
+                    break;
+                case 6:
+                    sheetData = sheetDataPage6;
+                    columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Idling TIme (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
+                    break;
+                case 7:
+                    sheetData = sheetDataPage7;
                     columnNames = ["Date", "Cargo Loads Net (Kg)", "Mileage (Km)", "Operating Time (h:mm:ss)", "Idling TIme (h:mm:ss)", "Average Speed (Km/h)", "H2 Pressure (Trip Start)", "H2 Pressure (Trip End)", "H2 Fuel Consumption (Kg/Km)", "Energy Efficiency ($/Km)", "CO2 Reduction (Kg)"];
                     break;
                 default:
@@ -1893,6 +2278,16 @@
             loadPage('Page5');
             fetchValueBoxDataPage5(); // For Page 5
             fetchTableDataPage5();  // For Page 5
+
+            // Load Page 6
+            loadPage('Page6');
+            fetchValueBoxDataPage6(); // For Page 6
+            fetchTableDataPage6();  // For Page 6
+
+            // Load Page 7
+            loadPage('Page7');
+            fetchValueBoxDataPage7(); // For Page 7
+            fetchTableDataPage7();  // For Page 7
 
             loadPage('Page1');  // Automatically load Page 1 by default
             fetchValueBoxDataPage1();
