@@ -582,12 +582,12 @@
                     <span id="cellA3"></span>
                 </div>
                 <div class="value-box">
-                    <label for="cellJ3">Average Idling Time (H:mm:ss):</label>
-                    <span id="cellJ3"></span>
-                </div>
-                <div class="value-box">
                     <label for="cellK3">Average Net Loads (Kg):</label>
                     <span id="cellK3"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellJ3">Average Idling Time (H:mm:ss):</label>
+                    <span id="cellJ3"></span>
                 </div>
                 <div class="value-box">
                     <label for="cellL3">Total Operating Mileage (Km):</label>
@@ -964,7 +964,7 @@
             <div class="value-container">
                 <div class="value-box">
                     <label for="trialStartDate">Trial Operation Start Date:</label>
-                    <span id="trialStartDate">Oct 12, 2025</span>
+                    <span id="trialStartDate">Oct 16, 2025</span>
                 </div>
                 <div class="value-box">
                     <label for="cellA3Page6">Operating Days:</label>
@@ -973,6 +973,10 @@
                 <div class="value-box">
                     <label for="cellJ3Page6">Average Net Loads (Kg):</label>
                     <span id="cellJ3Page6"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellM3Page6">Average Idling Time (H:mm:ss):</label>
+                    <span id="cellM3Page6"></span>
                 </div>
                 <div class="value-box">
                     <label for="cellK3Page6">Total Operating Mileage (Km):</label>
@@ -1033,7 +1037,7 @@
             <div class="value-container">
                 <div class="value-box">
                     <label for="trialStartDate">Trial Operation Start Date:</label>
-                    <span id="trialStartDate">Oct 20, 2025</span>
+                    <span id="trialStartDate">Oct 27, 2025</span>
                 </div>
                 <div class="value-box">
                     <label for="cellA3Page7">Operating Days:</label>
@@ -1042,6 +1046,10 @@
                 <div class="value-box">
                     <label for="cellJ3Page7">Average Net Loads (Kg):</label>
                     <span id="cellJ3Page7"></span>
+                </div>
+                <div class="value-box">
+                    <label for="cellM3Page7">Average Idling Time (H:mm:ss):</label>
+                    <span id="cellM3Page7"></span>
                 </div>
                 <div class="value-box">
                     <label for="cellK3Page7">Total Operating Mileage (Km):</label>
@@ -1442,6 +1450,7 @@
         function populateValueBoxesPage6(row) {
             document.getElementById('cellA3Page6').innerText = row[0] || '';
             document.getElementById('cellJ3Page6').innerText = row[9] || '';
+            document.getElementById('cellM3Page6').innerText = row[9] || '';
             document.getElementById('cellK3Page6').innerText = row[10] || '';
             document.getElementById('cellU3Page6').innerText = row[20] || '';
             document.getElementById('cellV3Page6').innerText = row[21] || '';
@@ -1452,6 +1461,7 @@
         function populateValueBoxesPage7(row) {
             document.getElementById('cellA3Page7').innerText = row[0] || '';
             document.getElementById('cellJ3Page7').innerText = row[9] || '';
+            document.getElementById('cellM3Page7').innerText = row[9] || '';
             document.getElementById('cellK3Page7').innerText = row[10] || '';
             document.getElementById('cellU3Page7').innerText = row[20] || '';
             document.getElementById('cellV3Page7').innerText = row[21] || '';
