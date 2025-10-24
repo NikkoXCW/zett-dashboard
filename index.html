@@ -106,19 +106,6 @@
       .chart-container{ width:95%; height:60%; left:2.5%; top:20%; }
       table{ font-size:14px; display:block; overflow-x:auto; }
     }
-    /* --- Make left and right image containers equal width; value column slimmer --- */
-    .container > .image-container-left,
-    .container > .image-container-right {
-      flex: 1.5 !important;         /* equal width for both image columns */
-      max-width: 500px !important;
-    }
-    
-    .container > .value-container {
-      flex: 2 !important;         /* narrower center column */
-      margin: 30px !important;    /* tighten margin a bit */
-    }
-    
-    /* Optional: prevent the center column from growing too wide on very wide screens */
     @media (min-width: 1400px) {
       .container > .image-container-left,
       .container > .image-container-right {
@@ -127,6 +114,37 @@
       .container > .value-container {
         max-width: 700px !important;
       }
+    } 
+
+    .container > .image-container-left,
+    .container > .image-container-right {
+      flex: 1.5 !important;
+      max-width: 500px !important;
+    }
+    .container > .value-container {
+      flex: 2 !important;
+      margin: 30px !important;
+    }
+    
+    /* Page 1: bigger left image, smaller right image */
+    #Page1 .image-container-left {
+      flex: 2.4 !important;          /* larger left */
+      max-width: 700px !important;
+      display: grid !important;
+      grid-template-rows: 1fr 1fr;
+    }
+    #Page1 .image-container-left img {
+      height: 100%;
+      object-fit: cover;  /* or 'contain' if you prefer letterboxing */
+    }
+    #Page1 .value-container {
+      flex: 1.8 !important;          /* comfy center */
+      margin: 28px !important;       /* slightly tighter */
+    }
+    #Page1 .image-container-right {
+      flex: 0.9 !important;          /* smaller right */
+      max-width: 360px !important;
+      min-width: 280px;              /* prevents over-collapse on narrow desktops */
     }
   </style>
 </head>
