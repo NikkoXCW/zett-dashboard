@@ -106,6 +106,22 @@
       .chart-container{ width:95%; height:60%; left:2.5%; top:20%; }
       table{ font-size:14px; display:block; overflow-x:auto; }
     }
+    /* --- Make left and right image containers equal width; value column slimmer --- */
+    .container > .image-container-left,
+    .container > .image-container-right {
+      flex: 2 !important;         /* equal width for both image columns */
+      max-width: 600px !important;
+    }
+    
+    .container > .value-container {
+      flex: 1 !important;         /* narrower center column */
+      margin: 20px !important;    /* tighten margin a bit */
+    }
+    
+    /* Optional: prevent the center column from growing too wide on very wide screens */
+    @media (min-width: 1400px) {
+      .container > .value-container { max-width: 520px; }
+    }    
   </style>
 </head>
 <body>
