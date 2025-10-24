@@ -109,19 +109,25 @@
     /* --- Make left and right image containers equal width; value column slimmer --- */
     .container > .image-container-left,
     .container > .image-container-right {
-      flex: 2 !important;         /* equal width for both image columns */
-      max-width: 600px !important;
+      flex: 1.5 !important;         /* equal width for both image columns */
+      max-width: 500px !important;
     }
     
     .container > .value-container {
-      flex: 1 !important;         /* narrower center column */
-      margin: 20px !important;    /* tighten margin a bit */
+      flex: 2 !important;         /* narrower center column */
+      margin: 30px !important;    /* tighten margin a bit */
     }
     
     /* Optional: prevent the center column from growing too wide on very wide screens */
     @media (min-width: 1400px) {
-      .container > .value-container { max-width: 520px; }
-    }    
+      .container > .image-container-left,
+      .container > .image-container-right {
+        max-width: 550px !important;
+      }
+      .container > .value-container {
+        max-width: 700px !important;
+      }
+    }
   </style>
 </head>
 <body>
