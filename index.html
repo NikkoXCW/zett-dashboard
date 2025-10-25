@@ -703,52 +703,122 @@
       renderTable(pageIndex, filtered);
     }
 
+    // Turn various cell formats into a number
+    function toNumeric(value) {
+      if (value == null) return NaN;
+      const s = String(value).trim();
+      if (!s) return NaN;
+    
+      // Time like "H:MM" or "HH:MM:SS" -> seconds
+      if (/^\d{1,2}:\d{2}(:\d{2})?$/.test(s)) {
+        const [hh, mm, ss = '0'] = s.split(':').map(Number);
+        return (hh * 3600) + (mm * 60) + Number(ss);
+      }
+    
+      // Percent like "72%" -> 0.72
+      if (/%$/.test(s)) {
+        const n = parseFloat(s.replace('%', '').replace(/,/g, ''));
+        return isNaN(n) ? NaN : n / 100;
+      }
+    
+      // General numbers with units/symbols (e.g., "$1,234.5", "0.9 kWh/Km")
+      const cleaned = s.replace(/[^0-9+.\-Ee,]/g, '')  // drop letters & symbols
+                       .replace(/,/g, '');             // remove thousands sep
+      const n = parseFloat(cleaned);
+      return isNaN(n) ? NaN : n;
+    }
     // --- Trend chart ---
     let trendChart;
-    function showTrend(columnIndex, pageIndex, selectedColumns){
+    function showTrend(columnIndex, pageIndex, selectedColumns) {
+      // Prevent trying to plot the Date column as numeric
+      if (columnIndex === 0) {
+        alert("Pick a numeric column (not the Date).");
+        return;
+      }
+    
       const chartContainer = document.getElementById("chartPopup");
       const chartCanvas = document.getElementById("trendChart");
       chartContainer.style.display = "block";
-
-      let sheetData=[], columnNames=[];
-      switch(pageIndex){
-        case 1: sheetData=sheetDataPage1; columnNames=["Date","Idling Time (h:mm:ss)","Cargo Loads Net (Kg)","Mileage (Km)","Operating Time (h:mm:ss)","Average Speed (Km/h)","Battery SoC (Start)","Battery SoC (End)","Fuel (kWh/Km)","Energy Eff. 1 ($/Km)","Energy Eff. 2 ($/Km)","CO2 Reduction (Kg)","Charging Time (hh:mm)","Energy Delivered (kWh)"]; break;
-        case 2: sheetData=sheetDataPage2; columnNames=["Date","Cargo Loads Net (Kg)","Mileage (Km)","Operating Time (h:mm:ss)","Idling TIme (h:mm:ss)","Average Speed (Km/h)","H2 Pressure (Start)","H2 Pressure (End)","H2 Fuel (Kg/Km)","Energy Efficiency ($/Km)","CO2 Reduction (Kg)"]; break;
-        case 3: sheetData=sheetDataPage3; columnNames=["Date","Cargo Loads Net (Kg)","Mileage (Km)","Operating Time (h:mm:ss)","Average Speed (Km/h)","H2 Pressure (Start)","H2 Pressure (End)","H2 Fuel (Kg/Km)","Energy Efficiency ($/Km)","CO2 Reduction (Kg)"]; break;
-        case 4: sheetData=sheetDataPage4; columnNames=["Date","Cargo Loads Net (Kg)","Mileage (Km)","Operating Time (h:mm:ss)","Average Speed (Km/h)","H2 Kg (Start)","H2 Kg (End)","H2 Fuel (Kg/Km)","Energy Efficiency ($/Km)","CO2 Reduction (Kg)"]; break;
-        case 5: sheetData=sheetDataPage5; columnNames=["Date","Cargo Loads Net (Kg)","Mileage (Km)","Operating Time (h:mm:ss)","Idling TIme (h:mm:ss)","Average Speed (Km/h)","H2 Pressure (Start)","H2 Pressure (End)","H2 Fuel (Kg/Km)","Energy Efficiency ($/Km)","CO2 Reduction (Kg)"]; break;
-        case 6: sheetData=sheetDataPage6; columnNames=["Date","Cargo Loads Net (Kg)","Mileage (Km)","Operating Time (h:mm:ss)","Idling TIme (h:mm:ss)","Average Speed (Km/h)","H2 Pressure (Start)","H2 Pressure (End)","H2 Fuel (Kg/Km)","Energy Efficiency ($/Km)","CO2 Reduction (Kg)"]; break;
-        case 7: sheetData=sheetDataPage7; columnNames=["Date","Cargo Loads Net (Kg)","Mileage (Km)","Operating Time (h:mm:ss)","Idling TIme (h:mm:ss)","Average Speed (Km/h)","H2 Pressure (Start)","H2 Pressure (End)","H2 Fuel (Kg/Km)","Energy Efficiency ($/Km)","CO2 Reduction (Kg)"]; break;
-        default: alert("Invalid page index."); closeChart(); return;
+    
+      // Page datasets & labels
+      let sheetData = [], columnNames = [];
+      switch (pageIndex) {
+        case 1:
+          sheetData = sheetDataPage1;
+          columnNames = ["Date","Idling Time (h:mm:ss)","Cargo Loads Net (Kg)","Mileage (Km)","Operating Time (h:mm:ss)","Average Speed (Km/h)","Battery SoC (Start)","Battery SoC (End)","Fuel (kWh/Km)","Energy Eff. 1 ($/Km)","Energy Eff. 2 ($/Km)","CO2 Reduction (Kg)","Charging Time (hh:mm)","Energy Delivered (kWh)"];
+          break;
+        case 2:
+          sheetData = sheetDataPage2;
+          columnNames = ["Date","Cargo Loads Net (Kg)","Mileage (Km)","Operating Time (h:mm:ss)","Idling TIme (h:mm:ss)","Average Speed (Km/h)","H2 Pressure (Start)","H2 Pressure (End)","H2 Fuel (Kg/Km)","Energy Efficiency ($/Km)","CO2 Reduction (Kg)"];
+          break;
+        case 3:
+          sheetData = sheetDataPage3;
+          columnNames = ["Date","Cargo Loads Net (Kg)","Mileage (Km)","Operating Time (h:mm:ss)","Average Speed (Km/h)","H2 Pressure (Start)","H2 Pressure (End)","H2 Fuel (Kg/Km)","Energy Efficiency ($/Km)","CO2 Reduction (Kg)"];
+          break;
+        case 4:
+          sheetData = sheetDataPage4;
+          columnNames = ["Date","Cargo Loads Net (Kg)","Mileage (Km)","Operating Time (h:mm:ss)","Average Speed (Km/h)","H2 Kg (Start)","H2 Kg (End)","H2 Fuel (Kg/Km)","Energy Efficiency ($/Km)","CO2 Reduction (Kg)"];
+          break;
+        case 5:
+          sheetData = sheetDataPage5;
+          columnNames = ["Date","Cargo Loads Net (Kg)","Mileage (Km)","Operating Time (h:mm:ss)","Idling TIme (h:mm:ss)","Average Speed (Km/h)","H2 Pressure (Start)","H2 Pressure (End)","H2 Fuel (Kg/Km)","Energy Efficiency ($/Km)","CO2 Reduction (Kg)"];
+          break;
+        case 6:
+          sheetData = sheetDataPage6;
+          columnNames = ["Date","Cargo Loads Net (Kg)","Mileage (Km)","Operating Time (h:mm:ss)","Idling TIme (h:mm:ss)","Average Speed (Km/h)","H2 Pressure (Start)","H2 Pressure (End)","H2 Fuel (Kg/Km)","Energy Efficiency ($/Km)","CO2 Reduction (Kg)"];
+          break;
+        case 7:
+          sheetData = sheetDataPage7;
+          columnNames = ["Date","Cargo Loads Net (Kg)","Mileage (Km)","Operating Time (h:mm:ss)","Idling TIme (h:mm:ss)","Average Speed (Km/h)","H2 Pressure (Start)","H2 Pressure (End)","H2 Fuel (Kg/Km)","Energy Efficiency ($/Km)","CO2 Reduction (Kg)"];
+          break;
+        default:
+          alert("Invalid page index."); closeChart(); return;
       }
-
-      if(!sheetData?.length){ alert("No data available for this page."); closeChart(); return; }
-      if(!Array.isArray(selectedColumns) || columnIndex>=selectedColumns.length){ console.error('Bad selectedColumns/columnIndex'); closeChart(); return; }
-
-      const trendData=[], labels=[];
-      sheetData.forEach(row=>{
-        let raw = row[selectedColumns[columnIndex]];
-        if(raw){ raw = String(raw).replace(/[^0-9.-]/g,''); }
-        const v = parseFloat(raw);
-        if(!isNaN(v)){ trendData.push(v); labels.push(row[0]); }
-      });
-      if(!trendData.length){ alert("No valid data for this column."); closeChart(); return; }
-
-      const minV=Math.min(...trendData), maxV=Math.max(...trendData);
-      if(trendChart) trendChart.destroy();
-
-      const label = columnNames[columnIndex] || 'Value';
+    
+      if (!sheetData?.length) { alert("No data available for this page."); closeChart(); return; }
+      if (!Array.isArray(selectedColumns) || columnIndex >= selectedColumns.length) { console.error('Bad selectedColumns/columnIndex'); closeChart(); return; }
+    
+      const colIdx = selectedColumns[columnIndex];
+      // Build [date,value] pairs and keep only numeric values
+      const points = sheetData.map(row => {
+        const date = new Date(row[0]);
+        const val  = toNumeric(row[colIdx]);
+        return (!isNaN(date) && !isNaN(val)) ? { date, val, label: row[0] } : null;
+      }).filter(Boolean);
+    
+      if (!points.length) { alert("No numeric data found for this column."); closeChart(); return; }
+    
+      // Sort by date ascending for a clean time series
+      points.sort((a, b) => a.date - b.date);
+    
+      const labels = points.map(p => p.label);
+      const data   = points.map(p => p.val);
+      const minV   = Math.min(...data);
+      const maxV   = Math.max(...data);
+      const label  = columnNames[columnIndex] || 'Value';
+    
+      if (trendChart) trendChart.destroy();
       trendChart = new Chart(chartCanvas, {
-        type:'line',
-        data:{ labels, datasets:[{ label, data:trendData, borderColor:'rgba(75,192,192,1)', fill:false }]},
-        options:{
-          responsive:true,
-          scales:{
-            x:{ type:'category' },
-            y:{ beginAtZero:false, min:minV*0.95, max:maxV*1.05,
-                ticks:{ suggestedMin:minV*0.95, suggestedMax:maxV*1.05 } }
+        type: 'line',
+        data: { labels, datasets: [{ label, data, borderColor: 'rgba(75, 192, 192, 1)', fill: false }] },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { type: 'category' },
+            y: {
+              beginAtZero: false,
+              min: isFinite(minV) ? minV * 0.95 : undefined,
+              max: isFinite(maxV) ? maxV * 1.05 : undefined,
+            }
           },
-          plugins:{ tooltip:{ callbacks:{ label:(ctx)=>`${ctx.dataset.label}: ${ctx.raw?.toFixed?.(2) ?? ctx.raw} (${ctx.label})` } } }
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: (ctx) => `${ctx.dataset.label}: ${typeof ctx.raw === 'number' ? ctx.raw.toFixed(2) : ctx.raw} (${ctx.label})`
+              }
+            }
+          }
         }
       });
     }
