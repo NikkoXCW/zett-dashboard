@@ -592,8 +592,8 @@
       tableHeader.innerHTML=''; tableBody.innerHTML='';
       if(!data?.length){ console.error('No data P1'); return; }
 
-      const selectedColumns = [0,9,10,11,12,13,14,15,16,17,18,19,35,36];
-      const columnNames = ["Date","Idling Time (h:mm:ss)","Cargo Loads Net (Kg)","Mileage (Km)","Operating Time (h:mm:ss)","Average Speed (Km/h)","Battery SoC (Start)","Battery SoC (End)","Fuel (kWh/Km)","Energy Eff. 1 ($/Km)","Energy Eff. 2 ($/Km)","CO2 Reduction (Kg)","Charging Time (hh:mm)","Energy Delivered (kWh)"];
+      const selectedColumns = [0,7,9,10,11,12,13,14,15,16,17,18,19,35,36];
+      const columnNames = ["Date","Ambient Temperature (°C)","Idling Time (h:mm:ss)","Cargo Loads Net (Kg)","Mileage (Km)","Operating Time (h:mm:ss)","Average Speed (Km/h)","Battery SoC (Start)","Battery SoC (End)","Fuel (kWh/Km)","Energy Eff. 1 ($/Km)","Energy Eff. 2 ($/Km)","CO2 Reduction (Kg)","Charging Time (hh:mm)","Energy Delivered (kWh)"];
 
       columnNames.forEach((col, idx)=>{
         const th=document.createElement('th'); th.innerText=col;
